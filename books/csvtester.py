@@ -9,8 +9,9 @@ action = input("Action? 'books' or 'authors' ")
 
 #sets the dialect to unix, dialect is just rules for separating entries 
 unix_dialect = csv.get_dialect("unix")
-#with statement means we don't have to use .close? I think
-with open(input_file, newline='') as csvfile:
+#with statement means we don't have to use .close? I think.
+#NOTE: The argument 'encoding="UTF-8"' means 
+with open(input_file, newline='', encoding="UTF-8") as csvfile:
     #book_reader is our iterable over the books.csv file
     book_reader = csv.reader(csvfile, dialect="unix")
     
