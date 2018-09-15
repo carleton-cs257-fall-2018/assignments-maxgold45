@@ -6,27 +6,36 @@ import csv
 import sys
 import os.path
 
-input_file = sys.argv[1]
-action = sys.argv[2]
-#if there is a sort direction:
-if len(sys.argv) == 4:
-        sort_direction = sys.argv[3]
+issue = False 
+
+input_file=""
+action=""
+sort_direction=""
+#Error checks to make sure there are 3 or 4 command ine inputs
+if len(sys.argv) == 3 or len(sys.argv) == 4:
+        input_file = sys.argv[1]
+        action = sys.argv[2]
+        #if there is a sort direction:
+        if len(sys.argv) == 4:
+                sort_direction = sys.argv[3]
+        else:
+                sort_direction = "forward"
+
+        # check for errors among inputs: (3 ifs so it'll print each issue)
+        if not (os.path.isfile(input_file)):
+                print ("Your filename (arg1) is incorrect", file=sys.stderr)
+                issue = True
+        if not ((action == 'books') or (action == 'authors')):
+                print ("Your action (arg2) is incorrect", file=sys.stderr)
+                issue = True
+        if not ((sort_direction == 'forward') or (sort_direction == 'reverse')):
+                print ("Your direction arg(3) is incorrect", file=sys.stderr)
+                issue = True
 else:
-        sort_direction = "forward"
+        issue=True
+        print("Too many arguments: must have 3 or 4 command line arguments", file=sys.stderr)
 
-issue = False
-# check for errors among inputs: (3 ifs so it'll print each issue)
-if not (os.path.isfile(input_file)):
-	print ("Your filename (arg1) is incorrect", file=sys.stderr)
-	issue = True
-if not ((action == 'books') or (action == 'authors')):
-	print ("Your action (arg2) is incorrect", file=sys.stderr)
-	issue = True
-if not ((sort_direction == 'forward') or (sort_direction == 'reverse')):
-	print ("Your direction arg(3) is incorrect", file=sys.stderr)
-	issue = True
-
-if issue == True:
+if issue:
 	print("Incorrect Usage: python3 books1.py input-file action [sort-direction]\ninput-file = the file you would like to read\naction = \"books\" or authors\"\n[sort-direction] = reverse or forward (defaults to forward).", file=sys.stderr)
 
 	sys.exit(1)
