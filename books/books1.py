@@ -1,8 +1,6 @@
 #!!! note: current issues:
 #does not sort by last name (use sort key = with a custom function getLastNameFirstLetter)
 #does not get rid of 'and' before Terry Pratchett's name (need to do that manually)
-#will cause error if file does not exist
-#If the command-line syntax is incorrect, your program should print a usage statement that briefly describes the correct command-line syntax. print to stderr
 
 import csv
 import sys
