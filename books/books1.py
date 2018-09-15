@@ -1,21 +1,34 @@
 #!!! note: current issues:
 #does not sort by last name (use sort key = with a custom function getLastNameFirstLetter)
-#does not allow special characters (use a better data structure than strings? or maybe the print function is confused?)
 #does not get rid of 'and' before Terry Pratchett's name (need to do that manually)
 #will cause error if file does not exist
+#If the command-line syntax is incorrect, your program should print a usage statement that briefly describes the correct command-line syntax. print to stderr
 
 import csv
 import sys
+import os.path
 
 input_file = sys.argv[1]
-if len(sys.argv) == 4:
-	sort_direction = sys.argv[3]
-else:
-	sort_direction = "forward"
 action = sys.argv[2]
+#if there is a sort direction:
+if len(sys.argv) == 4:
+        sort_direction = sys.argv[3]
+else:
+        sort_direction = "forward"
 
-#these inputs would normally come from the command line, using normal python input for now
-#also needs error checking and failure statement as described in instructions
+issue = False
+# check for errors among inputs:
+if not (os.path.isfile(input_file)):
+	issue = True
+elif not ((action == 'books') or (action == 'authors')):
+	issue = True
+elif not ((sort_direction == 'forward') or (sort_direction == 'reverse')):
+	issue = True
+
+if issue == True:
+	print("Incorrect Usage: python3 books1.py input-file action [sort-direction]\ninput-file = the file you wild like to read\naction = \"books\" or authors\"\n[sort-direction] = reverse or forward.", file=sys.stderr)
+
+	sys.exit(1)
 
 #sets the dialect to unix, dialect is just rules for separating entries 
 unix_dialect = csv.get_dialect("unix")
