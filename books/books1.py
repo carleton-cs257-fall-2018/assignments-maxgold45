@@ -1,3 +1,9 @@
+#!!! note: current issues:
+#does not sort by last name (use sort key = with a custom function getLastNameFirstLetter)
+#does not allow special characters (use a better data structure than strings? or maybe the print function is confused?)
+#does not get rid of 'and' before Terry Pratchett's name (need to do that manually)
+#will cause error if file does not exist
+
 import csv
 import sys
 
@@ -41,11 +47,6 @@ with open(input_file, newline='') as csvfile:
                     if name not in author_list: #and it's not already in the list
                         author_list.append(name) #add it to the list
 
-        #!!! note: current issues: 
-        #does not sort by last name (use sort key = with a custom function getLastNameFirstLetter)
-        #does not allow special characters (use a better data structure than strings? or maybe the print function is confused?)
-        #does not get rid of 'and' before Terry Pratchett's name (need to do that manually)
-        
         author_list.sort() #sorts the list
         if sort_direction == "reverse": #if it needs to be reversed
             author_list.reverse() #reverse it
