@@ -27,11 +27,7 @@ if not ((sort_direction == 'forward') or (sort_direction == 'reverse')):
 	issue = True
 
 if issue == True:
-<<<<<<< HEAD
 	print("Incorrect Usage: python3 books1.py input-file action [sort-direction]\ninput-file = the file you wild like to read\naction = \"books\" or authors\"\n[sort-direction] = reverse or forward.", file=sys.stderr)
-=======
-	print("***Usage: python3 books1.py input-file action [sort-direction]\narg1: input-file = the file you wild like to read\narg2: action = \"books\" or authors\"\narg3: [sort-direction] = reverse or forward.", file=sys.stderr)
->>>>>>> 8f81ce65a5c370ecbf65fad315cb0fd5341c3265
 
 	sys.exit(1)
 
