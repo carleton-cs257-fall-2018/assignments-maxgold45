@@ -1,10 +1,20 @@
 #!!! note: current issues:
-#does not sort by last name (use sort key = with a custom function getLastNameFirstLetter)
+#Sorts accented 'a' after other letters, when it should probably come before?
+#^Above could be fixed by having the get_last_name function replace
+# special characters with their normal counterparts.
 #does not get rid of 'and' before Terry Pratchett's name (need to do that manually)
 
 import csv
 import sys
 import os.path
+
+def get_last_name(name_string):
+        '''Returns the final word of a string,
+        with words being separated by spaces,
+        followed by the rest of the name (for tie-breaking).
+        '''
+        final_space = name_string.rfind(' ')
+        return (name_string[final_space+1:]+name_string[:final_space+1])
 
 issue = False 
 
@@ -70,11 +80,12 @@ with open(input_file, newline='', encoding='UTF-8') as csvfile:
                     if name not in author_list: #and it's not already in the list
                         author_list.append(name) #add it to the list
 
-        author_list.sort() #sorts the list
+        author_list.sort(key = get_last_name) #sorts the list by last name
         if sort_direction == "reverse": #if it needs to be reversed
             author_list.reverse() #reverse it
         for author in author_list: #print the authors
             print(author)
 
-    else: #fail statement (should be better)
+    else: #fail statement (Should now never occur)
         print("you didn't write 'books' or 'authors'!")
+
