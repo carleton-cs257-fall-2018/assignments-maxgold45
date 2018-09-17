@@ -2,7 +2,6 @@
 #Sorts accented 'a' after other letters, when it should probably come before?
 #^Above could be fixed by having the get_last_name function replace
 # special characters with their normal counterparts.
-#does not get rid of 'and' before Terry Pratchett's name (need to do that manually)
 
 import csv
 import sys
@@ -75,7 +74,8 @@ with open(input_file, newline='', encoding='UTF-8') as csvfile:
             new_names = entry[2].split(")") # Split it up by close parens
             for name in new_names: # for each of the split up names:
                 name = name.split("(")[0] # Get rid of the date
-                name = name.strip() # Get rid of whitespace
+                name = name.strip()
+                name = name.strip("and ") # Delete and before a name
                 if name != "": # if the name isn't blank
                     if name not in author_list: # And it's not already in the list
                         author_list.append(name) # Add it to the list
