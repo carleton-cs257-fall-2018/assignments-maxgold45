@@ -1,8 +1,3 @@
-#!!! note: current issues:
-#Sorts accented 'a' after other letters, when it should probably come before?
-#^Above could be fixed by having the get_last_name function replace
-# special characters with their normal counterparts.
-
 import csv
 import sys
 import os.path
