@@ -75,7 +75,7 @@ with open(input_file, newline='', encoding='UTF-8') as csvfile:
             for name in new_names: # for each of the split up names:
                 name = name.split("(")[0] # Get rid of the date
                 name = name.strip()
-                name = name.strip("and ") # Delete and before a name
+                name = name.replace("and ","") # Delete and before a name
                 if name != "": # if the name isn't blank
                     if name not in author_list: # And it's not already in the list
                         author_list.append(name) # Add it to the list
