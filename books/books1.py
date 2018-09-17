@@ -1,3 +1,5 @@
+#Max Goldberg and Daniel Busis
+
 import csv
 import sys
 import os.path
