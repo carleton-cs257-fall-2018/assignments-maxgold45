@@ -5,7 +5,6 @@
 
 # TODO: Implement a thorough collection of unit tests for the non-constructor methods in BooksDataSource.
 # TODO: Include all the CSV files containing your test data books directory.
-# TODO: Put a Makefile in your books directory, and include in it a test target
 # TODO: Tag your repo with the tag books_phase2.
 
 import booksdatasource
