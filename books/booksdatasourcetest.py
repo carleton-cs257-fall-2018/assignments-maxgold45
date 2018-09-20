@@ -22,7 +22,7 @@ class BooksDataSourceTest(unittest.TestCase):
         pass
     
     def test_book_string(self):
-        self.assertRaises(ValueError, self.data_source.book, "This should not fail")
+        self.assertRaises(TypeError, self.data_source.book, "This should not fail")
 
     def test_book_negative(self):
         self.assertRaises(ValueError, self.data_source.book, -5)
