@@ -11,6 +11,10 @@ import booksdatasource
 import unittest
 
 class BooksDataSourceTest(unittest.TestCase):
+    '''
+        Test class for the provided books.csv test file
+    '''
+
     def setUp(self):
         self.data_source = booksdatasource.BooksDataSource("books.csv", "authors.csv", "books_authors.csv")
 
@@ -23,11 +27,20 @@ class BooksDataSourceTest(unittest.TestCase):
     def test_book_negative(self):
         self.assertRaises(ValueError, self.data_source.book, -5)
 
-    def test_something(self):
+    def test_book_overly_large(self):
+        self.assertRaises(ValueError, self.data_source.book, 9999)
+        #self.assertEqual(self.data_source.book(9999), {})
+    
+    def test_data_source_exists(self):
         self.assertTrue(self.data_source is not None)
 
-    def test_something(self):
-        self.assertTrue(self.data_source is not None)	
+    def test_book_0(self):
+        book_0 = {'id': 0, 'title': 'All Clear', 'publication_year': 2010}
+        self.assertEqual(self.data_source.book(0), book_0)
+
+    def test_book_37(self):
+        book_37 = {'id': 37, 'title': 'The Fifth Season', 'publication_year': 2015}
+        self.assertEqual(self.data_source.book(37), book_37)
 
 if __name__ == '__main__':
     unittest.main()
