@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+
+import csv
+
 '''
     booksdatasource.py
     Jeff Ondich, 18 September 2018
@@ -73,7 +76,20 @@ class BooksDataSource:
             NOTE TO STUDENTS: I have not specified how you will store the books/authors
             data in a BooksDataSource object. That will be up to you, in Phase 3.
         '''
-        pass
+
+        self.books_filename = books_filename
+        self.authors_filename = authors_filename
+        self.books_authors_link_filename = books_authors_link_filename
+
+        set_up_csv(self.books_filename)        
+        set_up_csv(self.authors_filename)        
+        set_up_csv(self.books_authors_link_filename)        
+        
+    def set_up_csv(self, input_file):
+        unix_dialect = csv.get_dialect("unix")
+        with open(input_file, newline='', encoding='UTF-8') as csvfile:
+            # book_reader is our iterable over the books.csv file
+            book_reader = csv.reader(csvfile, dialect="unix")
 
     def book(self, book_id):
         ''' Returns the book with the specified ID. (See the BooksDataSource comment
