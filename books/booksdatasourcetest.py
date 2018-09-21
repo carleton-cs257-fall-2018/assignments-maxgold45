@@ -3,9 +3,6 @@
     Daniel Busis and Max Goldberg, Sept. 19
 '''
 
-# TODO: Finish implementing tests below (labeled with TODO)
-# TODO: Tag your repo with the tag books_phase2.
-
 import booksdatasource
 import unittest
 
@@ -149,9 +146,9 @@ class BooksDataSourceTest(unittest.TestCase):
         authors_jerome = [{'id': 21, 'last_name': 'Jerome', 'first_name': 'Jerome K.','birth_year': 1859, 'death_year': 1927}]
         self.assertEqual(self.data_source.authors(search_text = "jErOmE"), authors_jerome)
 
-    # Test books for random author_id
+    # Test author for random book_id
     def test_authors_text_nonexistent(self):
-        self.assertEqual(self.data_source.authors(author_id = "Dr Pepper"), [] )
+        self.assertEqual(self.data_source.authors(book_id = "Dr Pepper"), [] )
 
 
 ### authors_for_book tests:
@@ -178,7 +175,7 @@ class BooksDataSourceTest(unittest.TestCase):
         authors_5_6 = [{'id': 5, 'last_name': 'Gaiman', 'first_name': 'Neil', 'birth_year': 1960, 'death_year': None},{'id': 6, 'last_name': 'Pratchett', 'first_name': 'Terry', 'birth_year': 1948, 'death_year': 2015}]
         self.assertEqual(self.data_source.authors_for_book(6), books_11_24)
 
-### books_for_author tests: TODO
+### books_for_author tests:
 
     def test_books_for_author_21(self):
         books_21 = ({'id': 40, 'title': 'Three Men in a Boat (to Say Nothing of the Dog)', 'publication_year': 1889})
