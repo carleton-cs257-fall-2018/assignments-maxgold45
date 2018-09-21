@@ -21,18 +21,18 @@ class BooksDataSourceTest(unittest.TestCase):
     def tearDown(self):
         pass
 
+### general tests:
+
     def test_data_source_exists(self):
         self.assertTrue(self.data_source is not None)
+
+### book tests:
     
     def test_book_string(self):
         self.assertRaises(TypeError, self.data_source.book, "This should not fail")
 
     def test_book_negative(self):
         self.assertRaises(ValueError, self.data_source.book, -5)
-
-##    def test_book_zero(self):
-##        self.assertRaises(ValueError, self.data_source.book, 0)
-## Since book id's start at 0, pretty sure the test_book_0 method is correct implementation
 
     def test_book_overly_large(self):
         self.assertRaises(ValueError, self.data_source.book, 9999)
@@ -45,6 +45,8 @@ class BooksDataSourceTest(unittest.TestCase):
     def test_book_37(self):
         book_37 = {'id': 37, 'title': 'The Fifth Season', 'publication_year': 2015}
         self.assertEqual(self.data_source.book(37), book_37)
+
+### books tests:
 
     def test_authors_text_jerome_lowercase(self):
         authors_jerome = [{'id': 21, 'last_name': 'Jerome', 'first_name': 'Jerome K.','birth_year': 1859, 'death_year': 1927}]
@@ -65,15 +67,17 @@ class BooksDataSourceTest(unittest.TestCase):
     def test_authors_text_nonexistent(self):
         self.assertEqual(self.data_source.books(author_id = "Dr Pepper"), [] )
 
-    def test_books_for_author_21(self):
-        books_21 = ({'id': 40, 'title': 'Three Men in a Boat (to Say Nothing of the Dog)', 'publication_year': 1889})
-        self.assertEqual(self.data_source.books_for_author(21), books_21)
-
     def test_books_author_id_21(self):
         books_21 = ({'id': 40, 'title': 'Three Men in a Boat (to Say Nothing of the Dog)', 'publication_year': 1889})
         self.assertEqual(self.data_source.books(author_id=21), books_21)
 
-# Max added the following:
+### author tests: TODO
+
+
+
+
+
+### authors tests:
 
     # Test authors for a one-author book
     def test_authors_book_id_0(self):
@@ -95,9 +99,15 @@ class BooksDataSourceTest(unittest.TestCase):
         authors_4_23 = ({'id': 4, 'last_name': 'Austen', 'first_name': 'Jane', 'birth_year': 1775, 'death_year': 1817}, {'id': 23, 'last_name': 'Dickens', 'first_name': 'Charles', 'birth_year': 1812, 'death_year': 1870})
         self.assertEqual(self.data_source.authors(start_year=1815), authors_4_23)
 
-    #TODO test books
-    #TODO test authors_for_book
+### authors_for book tests: TODO
 
+
+
+### books_for_author tests: TODO
+
+    def test_books_for_author_21(self):
+        books_21 = ({'id': 40, 'title': 'Three Men in a Boat (to Say Nothing of the Dog)', 'publication_year': 1889})
+        self.assertEqual(self.data_source.books_for_author(21), books_21)
 
 
 if __name__ == '__main__':
