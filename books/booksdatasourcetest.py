@@ -51,30 +51,30 @@ class BooksDataSourceTest(unittest.TestCase):
 ### books tests:
 
     # Test books for several search_texts:
-    def test_authors_text_jerome_lowercase(self):
-        authors_jerome = [{'id': 21, 'last_name': 'Jerome', 'first_name': 'Jerome K.','birth_year': 1859, 'death_year': 1927}]
-        self.assertEqual(self.data_source.books(search_text = "jerome"), authors_jerome)
+    def test_books_text_woosters_lowercase(self):
+        books_woosters = {'id': 23, 'title': 'The Code of the Woosters', 'publication_year': 1938}
+        self.assertEqual(self.data_source.books(search_text = "woosters"), books_woosters)
 
-    def test_authors_text_jerome_uppercase(self):
-        authors_jerome = [{'id': 21, 'last_name': 'Jerome', 'first_name': 'Jerome K.','birth_year': 1859, 'death_year': 1927}]
-        self.assertEqual(self.data_source.books(search_text = "JEROME"), authors_jerome)
+    def test_books_text_woosters_uppercase(self):
+        books_woosters = {'id': 23, 'title': 'The Code of the Woosters', 'publication_year': 1938}
+        self.assertEqual(self.data_source.books(search_text = "WOOSTERS"), books_woosters)
 
-    def test_authors_text_jerome_propercase(self):
-        authors_jerome = [{'id': 21, 'last_name': 'Jerome', 'first_name': 'Jerome K.','birth_year': 1859, 'death_year': 1927}]
-        self.assertEqual(self.data_source.books(search_text = "Jerome"), authors_jerome)
+    def test_books_text_woosters_propercase(self):
+        books_woosters = {'id': 23, 'title': 'The Code of the Woosters', 'publication_year': 1938}
+        self.assertEqual(self.data_source.books(search_text = "Woosters"), books_woosters)
 
-    def test_authors_text_jerome_weirdcase(self):
-        authors_jerome = [{'id': 21, 'last_name': 'Jerome', 'first_name': 'Jerome K.','birth_year': 1859, 'death_year': 1927}]
-        self.assertEqual(self.data_source.books(search_text = "jErOmE"), authors_jerome)
+    def test_books_text_woosters_weirdcase(self):
+        books_woosters = {'id': 23, 'title': 'The Code of the Woosters', 'publication_year': 1938}
+        self.assertEqual(self.data_source.books(search_text = "wOoStErS"), books_woosters)
 
     # Test books for random author_id
     def test_authors_text_nonexistent(self):
-        self.assertEqual(self.data_source.books(author_id = "Dr Pepper"), [] )
+        self.assertEqual(self.data_source.books(author_id = "Dr Pepper and the Heart Club Band"), [] )
 
     # Test books for correct answer
     def test_books_author_id_21(self):
-        books_21 = ({'id': 40, 'title': 'Three Men in a Boat (to Say Nothing of the Dog)', 'publication_year': 1889})
-        self.assertEqual(self.data_source.books(author_id=21), books_21)
+        books_21 = [{'id': 40, 'title': 'Three Men in a Boat (to Say Nothing of the Dog)', 'publication_year': 1889}]
+        self.assertEqual(self.data_source.books(author_id=21), books_40)
 
 ### author tests:
 
@@ -97,12 +97,12 @@ class BooksDataSourceTest(unittest.TestCase):
 
     # Test author for id=0
     def test_author_0(self):
-        author_0 = ({'id': 0, 'last_name': 'Willis', 'first_name': 'Connie', 'birth_year': 1945, 'death_year': 'none'})
+        author_0 = [{'id': 0, 'last_name': 'Willis', 'first_name': 'Connie', 'birth_year': 1945, 'death_year': 'none'}]
         self.assertEqual(self.data_source.author(0), author_0)
 
     # Test author for id=23
     def test_author_23(self):
-        author_23 = ({'id': 23, 'last_name': 'Dickens', 'first_name': 'Charles', 'birth_year': 1812, 'death_year': 1870})
+        author_23 = [{'id': 23, 'last_name': 'Dickens', 'first_name': 'Charles', 'birth_year': 1812, 'death_year': 1870}]
         self.assertEqual(self.data_source.author(37), author_23)
 
 
@@ -110,30 +110,51 @@ class BooksDataSourceTest(unittest.TestCase):
 
     # Test authors for a one-author book
     def test_authors_book_id_0(self):
-        authors_0 = ({'id': 0, 'last_name': 'Willis', 'first_name': 'Connie', 'birth_year': 1945, 'death_year': 'none'})
+        authors_0 = [{'id': 0, 'last_name': 'Willis', 'first_name': 'Connie', 'birth_year': 1945, 'death_year': 'none'}]
         self.assertEqual(self.data_source.authors(book_id=0), authors_0)
 
     # Test authors for a two-author book
     def test_authors_book_id_6(self):
-        authors_5_and_6 = ({'id': 5, 'last_name': 'Gaiman', 'first_name': 'Neil', 'birth_year': 1960, 'death_year': 'none'},{'id': 6, 'last_name': 'Pratchett', 'first_name': 'Terry', 'birth_year': 1948, 'death_year': 2015} )
+        authors_5_and_6 = [{'id': 5, 'last_name': 'Gaiman', 'first_name': 'Neil', 'birth_year': 1960, 'death_year': 'none'},{'id': 6, 'last_name': 'Pratchett', 'first_name': 'Terry', 'birth_year': 1948, 'death_year': 2015} ]
         self.assertEqual(self.data_source.authors(book_id=6), authors_5_and_6)
 
     # Test authors for random author_id
-    def test_books_text_nonexistent(self):
+    def test_authors_text_nonexistent(self):
         self.assertEqual(self.data_source.authors(book_id = "Dr Pepper"), [] )
 
     # Test authors for start year
     def test_authors_start_year(self):
-        authors_18_20 = ({'id': 18, 'last_name': 'Alderman', 'first_name': 'Naomi', 'birth_year': 1974, 'death_year': 'none'}, {'id': 20, 'last_name': 'Jemisen', 'first_name': 'N.K.', 'birth_year': 1972, 'death_year': 'none'})
+        authors_18_20 = [{'id': 18, 'last_name': 'Alderman', 'first_name': 'Naomi', 'birth_year': 1974, 'death_year': 'none'}, {'id': 20, 'last_name': 'Jemisen', 'first_name': 'N.K.', 'birth_year': 1972, 'death_year': 'none'}]
         self.assertEqual(self.data_source.authors(start_year=1965), authors_18_20)
 
     # Test authors for end year
     def test_authors_end_year(self):
-        authors_4_23 = ({'id': 4, 'last_name': 'Austen', 'first_name': 'Jane', 'birth_year': 1775, 'death_year': 1817}, {'id': 23, 'last_name': 'Dickens', 'first_name': 'Charles', 'birth_year': 1812, 'death_year': 1870})
+        authors_4_23 = [{'id': 4, 'last_name': 'Austen', 'first_name': 'Jane', 'birth_year': 1775, 'death_year': 1817}, {'id': 23, 'last_name': 'Dickens', 'first_name': 'Charles', 'birth_year': 1812, 'death_year': 1870}]
         self.assertEqual(self.data_source.authors(start_year=1815), authors_4_23)
 
+    # Test authors for several search_texts:
+    def test_authors_text_jerome_lowercase(self):
+        authors_jerome = [{'id': 21, 'last_name': 'Jerome', 'first_name': 'Jerome K.','birth_year': 1859, 'death_year': 1927}]
+        self.assertEqual(self.data_source.authors(search_text = "jerome"), authors_jerome)
 
-### authors_for book tests:
+    def test_authors_text_jerome_uppercase(self):
+        authors_jerome = [{'id': 21, 'last_name': 'Jerome', 'first_name': 'Jerome K.','birth_year': 1859, 'death_year': 1927}]
+        self.assertEqual(self.data_source.authors(search_text = "JEROME"), authors_jerome)
+
+    def test_authors_text_jerome_propercase(self):
+        authors_jerome = [{'id': 21, 'last_name': 'Jerome', 'first_name': 'Jerome K.','birth_year': 1859, 'death_year': 1927}]
+        self.assertEqual(self.data_source.authors(search_text = "Jerome"), authors_jerome)
+
+    def test_authors_text_jerome_weirdcase(self):
+        authors_jerome = [{'id': 21, 'last_name': 'Jerome', 'first_name': 'Jerome K.','birth_year': 1859, 'death_year': 1927}]
+        self.assertEqual(self.data_source.authors(search_text = "jErOmE"), authors_jerome)
+
+    # Test books for random author_id
+    def test_authors_text_nonexistent(self):
+        self.assertEqual(self.data_source.authors(author_id = "Dr Pepper"), [] )
+
+
+### authors_for_book tests:
 
     def test_authors_for_book_string(self):
         self.assertRaises(TypeError, self.data_source.authors_for_book, "This should not fail")
@@ -147,21 +168,43 @@ class BooksDataSourceTest(unittest.TestCase):
     def test_authors_for_book_overly_large(self):
         self.assertRaises(ValueError, self.data_source.authors_for_book, 9999)
 
-    # Test one-book author
+    # Test one-author book
     def test_authors_for_book_10(self):
-        book_10 = ({'id': 10, 'title': 'Main Street', 'publication_year': 1920})
-        self.assertEqual(self.data_source.authors_for_book(10), book_10)
+        author_10 = [{'id': 10, 'last_name': 'Lewis', 'first_name': 'Sinclair', 'birth_year': 1885, 'death_year': 1951}]
+        self.assertEqual(self.data_source.authors_for_book(10), author_10)
 
-    # Test two-book author
-    def test_authors_for_book(self):
-        books_11_24 = ({'id': 11, 'title': 'Midnight\'s Children', 'publication_year': 1981}, {'id': 24, 'title': 'The Satanic Verses', 'publication_year': 1988})
-        self.assertEqual(self.data_source.authors_for_book(11), books_11_24)
+    # Test two-author book
+    def test_authors_for_book_6(self):
+        authors_5_6 = [{'id': 5, 'last_name': 'Gaiman', 'first_name': 'Neil', 'birth_year': 1960, 'death_year': None},{'id': 6, 'last_name': 'Pratchett', 'first_name': 'Terry', 'birth_year': 1948, 'death_year': 2015}]
+        self.assertEqual(self.data_source.authors_for_book(6), books_11_24)
 
 ### books_for_author tests: TODO
 
     def test_books_for_author_21(self):
         books_21 = ({'id': 40, 'title': 'Three Men in a Boat (to Say Nothing of the Dog)', 'publication_year': 1889})
         self.assertEqual(self.data_source.books_for_author(21), books_21)
+    
+    def test_books_for_author_string(self):
+        self.assertRaises(TypeError, self.data_source.books_for_author, "Penny the Dog")
+
+    def test_books_for_author_negative(self):
+        self.assertRaises(ValueError, self.data_source.books_for_author, -1)
+
+    def test_books_for_author_float(self):
+        self.assertRaises(TypeError, self.data_source.books_for_author, -7.3)
+
+    def test_books_for_author_overly_large(self):
+        self.assertRaises(ValueError, self.data_source.books_for_author, 9999)
+
+    #Test one-book author
+    def test_books_for_author_7(self):
+        book_10 = [{'id': 10, 'title': 'Main Street', 'publication_year': 1920}]
+        self.assertEqual(self.data_source.books_for_author(10), book_10)
+
+    #Test two-book author
+    def test_authors_for_book(self):
+        books_11_24 = ({'id': 11, 'title': 'Midnight\'s Children', 'publication_year': 1981}, {'id': 24, 'title': 'The Satanic Verses', 'publication_year': 1988})
+        self.assertEqual(self.data_source.books_for_author(11), books_11_24)
 
 
 if __name__ == '__main__':
