@@ -71,7 +71,7 @@ class BooksDataSourceTest(unittest.TestCase):
     # Test books for correct answer
     def test_books_author_id_21(self):
         books_21 = [{'id': 40, 'title': 'Three Men in a Boat (to Say Nothing of the Dog)', 'publication_year': 1889}]
-        self.assertEqual(self.data_source.books(author_id=21), books_40)
+        self.assertEqual(self.data_source.books(author_id=21), books_21)
 
 ### author tests:
 
@@ -173,7 +173,7 @@ class BooksDataSourceTest(unittest.TestCase):
     # Test two-author book
     def test_authors_for_book_6(self):
         authors_5_6 = [{'id': 5, 'last_name': 'Gaiman', 'first_name': 'Neil', 'birth_year': 1960, 'death_year': None},{'id': 6, 'last_name': 'Pratchett', 'first_name': 'Terry', 'birth_year': 1948, 'death_year': 2015}]
-        self.assertEqual(self.data_source.authors_for_book(6), books_11_24)
+        self.assertEqual(self.data_source.authors_for_book(6), authors_5_6)
 
 ### books_for_author tests:
 
