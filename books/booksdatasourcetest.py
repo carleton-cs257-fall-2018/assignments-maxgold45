@@ -143,10 +143,15 @@ class BooksDataSourceTest(unittest.TestCase):
         authors_18_20 = [{'id': 18, 'last_name': 'Alderman', 'first_name': 'Naomi', 'birth_year': 1974, 'death_year': 'none'}, {'id': 20, 'last_name': 'Jemisen', 'first_name': 'N.K.', 'birth_year': 1972, 'death_year': 'none'}]
         self.assertEqual(self.data_source.authors(start_year=1965), authors_18_20)
 
+    # Test authors for start year, sorting by birth year
+    def test_authors_start_year(self):
+        authors_18_20 = [{'id': 20, 'last_name': 'Jemisen', 'first_name': 'N.K.', 'birth_year': 1972, 'death_year': 'none'}, {'id': 18, 'last_name': 'Alderman', 'first_name': 'Naomi', 'birth_year': 1974, 'death_year': 'none'}]
+        self.assertEqual(self.data_source.authors(start_year=1965, sort_by='birth_year'), authors_18_20)
+
     # Test authors for end year
     def test_authors_end_year(self):
         authors_4_23 = [{'id': 4, 'last_name': 'Austen', 'first_name': 'Jane', 'birth_year': 1775, 'death_year': 1817}, {'id': 23, 'last_name': 'Dickens', 'first_name': 'Charles', 'birth_year': 1812, 'death_year': 1870}]
-        self.assertEqual(self.data_source.authors(start_year=1815), authors_4_23)
+        self.assertEqual(self.data_source.authors(end_year=1815), authors_4_23)
 
     # Test authors for several search_texts:
     def test_authors_text_jerome_lowercase(self):
