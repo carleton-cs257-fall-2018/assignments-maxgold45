@@ -85,7 +85,8 @@ class BooksDataSource:
         set_up_csv(self.authors_filename)        
         set_up_csv(self.books_authors_link_filename)        
         
-    def set_up_csv(self, input_file):
+# The underscore makes it private according to Jeff.
+    def _set_up_csv(self, input_file):
         unix_dialect = csv.get_dialect("unix")
         with open(input_file, newline='', encoding='UTF-8') as csvfile:
             # book_reader is our iterable over the books.csv file
