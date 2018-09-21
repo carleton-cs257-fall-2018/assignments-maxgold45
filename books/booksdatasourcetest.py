@@ -133,9 +133,29 @@ class BooksDataSourceTest(unittest.TestCase):
         self.assertEqual(self.data_source.authors(start_year=1815), authors_4_23)
 
 
-### authors_for book tests: TODO
+### authors_for book tests:
 
+    def test_authors_for_book_string(self):
+        self.assertRaises(TypeError, self.data_source.authors_for_book, "This should not fail")
 
+    def test_authors_for_book_negative(self):
+        self.assertRaises(ValueError, self.data_source.authors_for_book, -5)
+
+    def test_authors_for_book_float(self):
+        self.assertRaises(TypeError, self.data_source.authors_for_book, 5.2)
+
+    def test_authors_for_book_overly_large(self):
+        self.assertRaises(ValueError, self.data_source.authors_for_book, 9999)
+
+    # Test one-book author
+    def test_authors_for_book_10(self):
+        book_10 = ({'id': 10, 'title': 'Main Street', 'publication_year': 1920})
+        self.assertEqual(self.data_source.authors_for_book(10), book_10)
+
+    # Test two-book author
+    def test_authors_for_book(self):
+        books_11_24 = ({'id': 11, 'title': 'Midnight\'s Children', 'publication_year': 1981}, {'id': 24, 'title': 'The Satanic Verses', 'publication_year': 1988})
+        self.assertEqual(self.data_source.authors_for_book(11), books_11_24)
 
 ### books_for_author tests: TODO
 
