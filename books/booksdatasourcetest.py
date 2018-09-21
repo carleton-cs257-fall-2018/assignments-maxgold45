@@ -66,7 +66,7 @@ class BooksDataSourceTest(unittest.TestCase):
 
     # Test books for random author_id
     def test_authors_text_nonexistent(self):
-        self.assertEqual(self.data_source.books(author_id = "Dr Pepper and the Heart Club Band"), [] )
+        self.assertRaises(ValueError, self.data_source.books, author_id = 9999 )
 
     # Test books for correct answer
     def test_books_author_id_21(self):

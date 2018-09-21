@@ -77,7 +77,10 @@ class BooksDataSource:
 
     def book(self, book_id):
         ''' Returns the book with the specified ID. (See the BooksDataSource comment
-            for a description of how a book is represented.) '''
+            for a description of how a book is represented.)
+        
+            Raises ValueError if book_id is not a valid book ID.
+        '''
         return {}
 
     def books(self, *, author_id=None, search_text=None, start_year=None, end_year=None, sort_by='title'):
@@ -99,12 +102,22 @@ class BooksDataSource:
                 default -- sorts by (case-insensitive) title, breaking ties with publication_year
                 
             See the BooksDataSource comment for a description of how a book is represented.
+
+            QUESTION: Should Python interfaces specify TypeError?
+            Raises TypeError if author_id, start_year, or end_year is non-None but not an integer.
+            Raises TypeError if search_text or sort_by is non-None, but not a string.
+
+            QUESTION: How about ValueError? And if so, for which parameters?
+            Raises ValueError if author_id is non-None but is not a valid author ID.
         '''
         return []
 
     def author(self, author_id):
         ''' Returns the author with the specified ID. (See the BooksDataSource comment for a
-            description of how an author is represented.) '''
+            description of how an author is represented.)
+        
+            Raises ValueError if author_id is not a valid author ID.
+        '''
         return {}
 
     def authors(self, *, book_id=None, search_text=None, start_year=None, end_year=None, sort_by='birth_year'):
@@ -152,4 +165,3 @@ class BooksDataSource:
         ''' Returns a list of all the authors of the book with the specified book ID.
             See the BooksDataSource comment for a description of how an author is represented. '''
         return self.authors(book_id=book_id)
-
