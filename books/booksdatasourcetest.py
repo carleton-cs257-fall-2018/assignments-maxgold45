@@ -27,6 +27,9 @@ class BooksDataSourceTest(unittest.TestCase):
     def test_book_negative(self):
         self.assertRaises(ValueError, self.data_source.book, -5)
 
+    def test_book_zero(self):
+        self.assertRaises(ValueError, self.data_source.book, 0)
+
     def test_book_overly_large(self):
         self.assertRaises(ValueError, self.data_source.book, 9999)
         #self.assertEqual(self.data_source.book(9999), {})
@@ -41,6 +44,14 @@ class BooksDataSourceTest(unittest.TestCase):
     def test_book_37(self):
         book_37 = {'id': 37, 'title': 'The Fifth Season', 'publication_year': 2015}
         self.assertEqual(self.data_source.book(37), book_37)
+
+    #TODO test books
+    #TODO test author
+    #TODO test authors
+    #TODO test books_for_author
+    #TODO test authors_for_book
+
+
 
 if __name__ == '__main__':
     unittest.main()
