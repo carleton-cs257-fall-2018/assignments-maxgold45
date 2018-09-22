@@ -77,20 +77,22 @@ class BooksDataSource:
             data in a BooksDataSource object. That will be up to you, in Phase 3.
         '''
 
-        self.books_filename = books_filename
-        self.authors_filename = authors_filename
-        self.books_authors_link_filename = books_authors_link_filename
+        self.max_book_id = 46
+        self.max_author_id = 24
 
-        set_up_csv(self.books_filename)        
-        set_up_csv(self.authors_filename)        
-        set_up_csv(self.books_authors_link_filename)        
+        self.books_list = self._set_up_csv(books_filename)        
+        self.authors_list = self._set_up_csv(authors_filename)        
+        self.books_authors_list = self._set_up_csv(books_authors_link_filename)
         
-# The underscore makes it private according to Jeff.
+    
     def _set_up_csv(self, input_file):
         unix_dialect = csv.get_dialect("unix")
         with open(input_file, newline='', encoding='UTF-8') as csvfile:
-            # book_reader is our iterable over the books.csv file
-            book_reader = csv.reader(csvfile, dialect="unix")
+            reader = csv.reader(csvfile, dialect="unix")
+            output_array = []
+            for entry in reader:
+                output_array.append(entry)
+        return output_array
 
     def book(self, book_id):
         ''' Returns the book with the specified ID. (See the BooksDataSource comment
@@ -98,7 +100,14 @@ class BooksDataSource:
         
             Raises ValueError if book_id is not a valid book ID.
         '''
-        return {}
+        
+        if self._is_not_valid(book_id):
+            raise ValueError
+        else:
+            return self.books_list[book_id]
+
+    def _is_not_valid(self, book_id):
+        return (book_id < 0) or (book_id > self.max_book_id) or (not type(book_id) == type(int))
 
     def books(self, *, author_id=None, search_text=None, start_year=None, end_year=None, sort_by='title'):
         ''' Returns a list of all the books in this data source matching all of
@@ -135,7 +144,13 @@ class BooksDataSource:
         
             Raises ValueError if author_id is not a valid author ID.
         '''
-        return {}
+        if self._is_not_valid(author_id):
+            raise ValueError
+        else:
+            return self.authors_list[author_id]
+
+    def _is_not_valid(self, author_id):
+         return (author_id < 0) or (author_id > self.max_author_id) or (not type(author_id) == type(int))
 
     def authors(self, *, book_id=None, search_text=None, start_year=None, end_year=None, sort_by='birth_year'):
         ''' Returns a list of all the authors in this data source matching all of the
