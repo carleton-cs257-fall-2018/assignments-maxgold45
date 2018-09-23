@@ -1,4 +1,4 @@
-# assignments-maxgold45
+# books
 
 This was a homework project I worked on with Daniel Busis @mydan123 for CS257.
 We utilized PyUnit to test a small database of books and authors in a csv format.
