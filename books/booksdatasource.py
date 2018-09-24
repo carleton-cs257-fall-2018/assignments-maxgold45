@@ -83,9 +83,9 @@ class BooksDataSource:
         self.authors_list = self._set_up_csv_authors(authors_filename)        
         self.books_authors_list = self._set_up_csv_books_authors(books_authors_link_filename)
 
-        self.max_book_id = len(self.books_list)
-        self.max_author_id = len(self.authors_list)
-    
+        self.max_book_id = len(self.books_list) - 1
+        self.max_author_id = len(self.authors_list) - 1
+        
     def _set_up_csv_books(self, books_input_file):
         ''' Turns the books_input_file into an output_array of dictionaries.
         '''
@@ -134,6 +134,7 @@ class BooksDataSource:
             for entry in reader:
                 next_book_author_link = self._convert_csv_line_to_book_author_link(entry)
                 books_authors_array.append(next_book_author_link)
+        return books_authors_array
 
     def _convert_csv_line_to_book_author_link(self, book_author_line):
         return {'book_id': int(book_author_line[0]), 'author_id': int(book_author_line[1])}
@@ -146,10 +147,15 @@ class BooksDataSource:
             Raises ValueError if book_id is not a valid book ID.
         '''
         
-        if self._is_not_valid(book_id):
-            raise ValueError
+        list_of_books_with_id = [book for book in self.books_list if book['id']==book_id]
+        if len(list_of_books_with_id) == 0:
+            raise ValueError("Book ID requested does not exist! ID requested: "+str(book_id))
         else:
-            return self.books_list[book_id]
+            return list_of_books_with_id[0]
+    #NOTE: I haven't error-checked for if there are multiple books with the same ID. Might be worth implementing?
+    #      But if we do implement something about that, it's probably better off in the initial data input section.
+    #This comment should be deleted before turn-in.
+    
 
     def _is_not_valid(self, book_id):
         return (book_id < 0) or (book_id > self.max_book_id) or (not type(book_id) == type(int))
@@ -195,13 +201,16 @@ class BooksDataSource:
         
             Raises ValueError if author_id is not a valid author ID.
         '''
-        if self._is_not_valid(author_id):
-            raise ValueError
+        list_of_authors_with_id = [author for author in self.books_list if author['id']==author_id]
+        if len(list_of_authors_with_id) == 0:
+            raise ValueError("Author ID requested does not exist! ID requested: "+str(author_id))
         else:
-            return self.authors_list[author_id]
+            return list_of_authors_with_id[0]
 
-    def _is_not_valid(self, author_id):
-         return (author_id < 0) or (author_id > self.max_author_id) or (not type(author_id) == type(int))
+    #def _is_not_valid(self, author_id):
+    #     return (author_id < 0) or (author_id > self.max_author_id) or (not type(author_id) == type(int))
+    #NOTE: Pretty sure this method has become redundant, along with max and min author id.
+    #They, along with this method, should probably be deleted before turn-in.
 
     def authors(self, *, book_id=None, search_text=None, start_year=None, end_year=None, sort_by='birth_year'):
         ''' Returns a list of all the authors in this data source matching all of the
