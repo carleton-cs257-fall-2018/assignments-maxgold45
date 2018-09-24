@@ -136,7 +136,13 @@ class BooksDataSource:
             QUESTION: How about ValueError? And if so, for which parameters?
             Raises ValueError if author_id is non-None but is not a valid author ID.
         '''
-        return []
+
+        searched_books = self.books_list
+        
+        # Algorithm: Add books to a list based on the not-None params and then fill it in.
+        
+
+        return searched_books
 
     def author(self, author_id):
         ''' Returns the author with the specified ID. (See the BooksDataSource comment for a
