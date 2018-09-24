@@ -79,28 +79,65 @@ class BooksDataSource:
             data in a BooksDataSource object. That will be up to you, in Phase 3.
         '''
 
-        self.books_list = self._set_up_csv(books_filename)        
-        self.authors_list = self._set_up_csv(authors_filename)        
-        self.books_authors_list = self._set_up_csv(books_authors_link_filename)
+        self.books_list = self._set_up_csv_books(books_filename)        
+        self.authors_list = self._set_up_csv_authors(authors_filename)        
+        self.books_authors_list = self._set_up_csv_books_authors(books_authors_link_filename)
 
         self.max_book_id = len(self.books_list)
         self.max_author_id = len(self.authors_list)
     
-    def _set_up_csv(self, input_file):
-        ''' Turns the input_file into an output_array of dictionaries.
+    def _set_up_csv_books(self, books_input_file):
+        ''' Turns the books_input_file into an output_array of dictionaries.
         '''
         
-        # TODO: Turn entry into dict
-        
         unix_dialect = csv.get_dialect("unix")
-        with open(input_file, newline='', encoding='UTF-8') as csvfile:
+        with open(books_input_file, newline='', encoding='UTF-8') as csvfile:
             reader = csv.reader(csvfile, dialect="unix")
-            output_array = [] # Array of dictionaries
+            books_array = [] 
             for entry in reader:
-                print(entry)
-                next_book = {'id': entry[0], 'title': entry[1], 'publication_year': entry[2]}
-                output_array.append(next_book)
-        return output_array
+                next_book = self._convert_csv_line_to_book(entry)
+                if next_book is not None:
+                    books_array.append(next_book)
+        return books_array
+
+    #NOTE: Currently, I'm handling non-existent publish year by throwing out the entry
+    #This comment should be deleted before turn-in
+    def _convert_csv_line_to_book(self, book_line):
+        for book_property in book_line:
+            if book_property == '':
+                return None
+        return {'id': int(book_line[0]), 'title': book_line[1], 'publication_year': int(book_line[2])}
+
+    def _set_up_csv_authors(self, authors_input_file):        
+        unix_dialect = csv.get_dialect("unix")
+        with open(authors_input_file, newline='', encoding='UTF-8') as csvfile:
+            reader = csv.reader(csvfile, dialect="unix")
+            authors_array = [] 
+            for entry in reader:
+                next_author = self._convert_csv_line_to_author(entry)
+                authors_array.append(next_author)
+        return authors_array
+
+    def _convert_csv_line_to_author(self, author_line):
+        author_death_year = author_line[4]
+        if author_line[4] == "NULL":
+            author_death_year = None
+        else:
+            author_death_year = int(author_death_year)
+        return {'id': int(author_line[0]), 'last_name': author_line[1], 'first_name': author_line[2], 'birth_year': int(author_line[3]), 'death_year': author_death_year}
+
+    def _set_up_csv_books_authors(self, books_authors_input_file):
+        unix_dialect = csv.get_dialect("unix")
+        with open(books_authors_input_file, newline='', encoding='UTF-8') as csvfile:
+            reader = csv.reader(csvfile, dialect="unix")
+            books_authors_array = []
+            for entry in reader:
+                next_book_author_link = self._convert_csv_line_to_book_author_link(entry)
+                books_authors_array.append(next_book_author_link)
+
+    def _convert_csv_line_to_book_author_link(self, book_author_line):
+        return {'book_id': int(book_author_line[0]), 'author_id': int(book_author_line[1])}
+
 
     def book(self, book_id):
         ''' Returns the book with the specified ID. (See the BooksDataSource comment
