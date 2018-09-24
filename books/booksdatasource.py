@@ -97,7 +97,9 @@ class BooksDataSource:
             reader = csv.reader(csvfile, dialect="unix")
             output_array = [] # Array of dictionaries
             for entry in reader:
-                output_array.append(entry)
+                print(entry)
+                next_book = {'id': entry[0], 'title': entry[1], 'publication_year': entry[2]}
+                output_array.append(next_book)
         return output_array
 
     def book(self, book_id):
