@@ -8,6 +8,8 @@ import csv
 
     For use in some assignments at the beginning of Carleton's
     CS 257 Software Design class, Fall 2018.
+
+    Max Goldberg and Daniel Busis
 '''
 
 class BooksDataSource:
@@ -77,19 +79,23 @@ class BooksDataSource:
             data in a BooksDataSource object. That will be up to you, in Phase 3.
         '''
 
-        self.max_book_id = 46
-        self.max_author_id = 24
-
         self.books_list = self._set_up_csv(books_filename)        
         self.authors_list = self._set_up_csv(authors_filename)        
         self.books_authors_list = self._set_up_csv(books_authors_link_filename)
-        
+
+        self.max_book_id = len(self.books_list)
+        self.max_author_id = len(self.authors_list)
     
     def _set_up_csv(self, input_file):
+        ''' Turns the input_file into an output_array of dictionaries.
+        '''
+        
+        # TODO: Turn entry into dict
+        
         unix_dialect = csv.get_dialect("unix")
         with open(input_file, newline='', encoding='UTF-8') as csvfile:
             reader = csv.reader(csvfile, dialect="unix")
-            output_array = []
+            output_array = [] # Array of dictionaries
             for entry in reader:
                 output_array.append(entry)
         return output_array
