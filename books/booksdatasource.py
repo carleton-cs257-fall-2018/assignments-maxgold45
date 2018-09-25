@@ -282,26 +282,15 @@ class BooksDataSource:
         elif author_id < 0 or author_id > len(self.authors_list):
             raise ValueError("author_id out of range")
         else:
-            book_ids = self._book_ids_for_author(author_id)
-            return [self.book(book_id) for book_id in book_ids]
-
-    def _book_ids_for_author(self, author_id):
-        return [book_author_link['book_id'] for book_author_link in self.books_authors_list
-                    if book_author_link['author_id'] == author_id]
+            return self.books(author_id=author_id)
 
     def authors_for_book(self, book_id):
         ''' Returns a list of all the authors of the book with the specified book ID.
             See the BooksDataSource comment for a description of how an author is represented. '''
+
         if type(book_id) != int:
             raise ValueError("book_id type must be an int!")
         elif book_id < 0 or book_id > len(self.books_list):
             raise ValueError("book_id out of range")
         else:
-            author_ids = self._author_ids_for_book(book_id)
-            return [self.author(author_id) for author_id in author_ids]
-
-    def _author_ids_for_book(self, book_id):
-        return [book_author_link['author_id'] for book_author_link in self.books_authors_list
-                    if book_author_link['book_id'] == book_id]    
-
-    #NOTE/TODO: The authors_for_book() and vice versa method could be simplified to call books() and authors()
+            return self.authors(book_id=book_id)
