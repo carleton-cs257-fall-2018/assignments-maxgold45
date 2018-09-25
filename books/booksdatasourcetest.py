@@ -25,13 +25,13 @@ class BooksDataSourceTest(unittest.TestCase):
 ### book tests:
     
     def test_book_string(self):
-        self.assertRaises(TypeError, self.data_source.book, "This should not fail")
+        self.assertRaises(ValueError, self.data_source.book, "This should not fail")
 
     def test_book_negative(self):
         self.assertRaises(ValueError, self.data_source.book, -5)
 
     def test_book_float(self):
-        self.assertRaises(TypeError, self.data_source.book, 5.2)
+        self.assertRaises(ValueError, self.data_source.book, 5.2)
 
     def test_book_overly_large(self):
         self.assertRaises(ValueError, self.data_source.book, 9999)
@@ -96,7 +96,7 @@ class BooksDataSourceTest(unittest.TestCase):
 
     # Test author for random string
     def test_author_string(self):
-        self.assertRaises(TypeError, self.data_source.author, "This should not fail")
+        self.assertRaises(ValueError, self.data_source.author, "This should not fail")
 
     # Test author for negative
     def test_author_negative(self):
@@ -104,7 +104,7 @@ class BooksDataSourceTest(unittest.TestCase):
 
     # Test author for float id
     def test_author_float(self):
-        self.assertRaises(TypeError, self.data_source.author, 5.2)
+        self.assertRaises(ValueError, self.data_source.author, 5.2)
 
     # Test author for huge id
     def test_author_overly_large(self):
@@ -178,13 +178,13 @@ class BooksDataSourceTest(unittest.TestCase):
 ### authors_for_book tests:
 
     def test_authors_for_book_string(self):
-        self.assertRaises(TypeError, self.data_source.authors_for_book, "This should not fail")
+        self.assertRaises(ValueError, self.data_source.authors_for_book, "This should not fail")
 
     def test_authors_for_book_negative(self):
         self.assertRaises(ValueError, self.data_source.authors_for_book, -5)
 
     def test_authors_for_book_float(self):
-        self.assertRaises(TypeError, self.data_source.authors_for_book, 5.2)
+        self.assertRaises(ValueError, self.data_source.authors_for_book, 5.2)
 
     def test_authors_for_book_overly_large(self):
         self.assertRaises(ValueError, self.data_source.authors_for_book, 9999)
@@ -206,13 +206,13 @@ class BooksDataSourceTest(unittest.TestCase):
         self.assertEqual(self.data_source.books_for_author(21), books_21)
     
     def test_books_for_author_string(self):
-        self.assertRaises(TypeError, self.data_source.books_for_author, "Penny the Dog")
+        self.assertRaises(ValueError, self.data_source.books_for_author, "Penny the Dog")
 
     def test_books_for_author_negative(self):
         self.assertRaises(ValueError, self.data_source.books_for_author, -1)
 
     def test_books_for_author_float(self):
-        self.assertRaises(TypeError, self.data_source.books_for_author, -7.3)
+        self.assertRaises(ValueError, self.data_source.books_for_author, -7.3)
 
     def test_books_for_author_overly_large(self):
         self.assertRaises(ValueError, self.data_source.books_for_author, 9999)
