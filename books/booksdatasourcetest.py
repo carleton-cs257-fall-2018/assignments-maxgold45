@@ -119,7 +119,7 @@ class BooksDataSourceTest(unittest.TestCase):
     # Test author for id=23
     def test_author_23(self):
         author_23 = [{'id': 23, 'last_name': 'Dickens', 'first_name': 'Charles', 'birth_year': 1812, 'death_year': 1870}]
-        self.assertEqual(self.data_source.author(37), author_23)
+        self.assertEqual(self.data_source.author(23), author_23)
 
 
 ### authors tests:
