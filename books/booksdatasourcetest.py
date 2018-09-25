@@ -65,7 +65,7 @@ class BooksDataSourceTest(unittest.TestCase):
         self.assertEqual(self.data_source.books(search_text = "wOoStErS"), books_woosters)
 
     # Test books for random author_id
-    def test_authors_text_nonexistent(self):
+    def test_authors_id_nonexistent(self):
         self.assertRaises(ValueError, self.data_source.books, author_id = 9999 )
 
     # Test books for correct answer
@@ -134,9 +134,9 @@ class BooksDataSourceTest(unittest.TestCase):
         authors_5_and_6 = [{'id': 6, 'last_name': 'Pratchett', 'first_name': 'Terry', 'birth_year': 1948, 'death_year': 2015},{'id': 5, 'last_name': 'Gaiman', 'first_name': 'Neil', 'birth_year': 1960, 'death_year': None}]
         self.assertEqual(self.data_source.authors(book_id=6), authors_5_and_6)
 
-    # Test authors for random author_id
+    # Test authors for text that is not in any author's name
     def test_authors_text_nonexistent(self):
-        self.assertEqual(self.data_source.authors(book_id = "Dr Pepper"), [] )
+        self.assertEqual(self.data_source.authors(search_text = "Dr Pepper"), [] )
 
     # Test authors for start year
 #    def test_authors_start_year(self):
@@ -169,11 +169,6 @@ class BooksDataSourceTest(unittest.TestCase):
     def test_authors_text_jerome_weirdcase(self):
         authors_jerome = [{'id': 21, 'last_name': 'Jerome', 'first_name': 'Jerome K.','birth_year': 1859, 'death_year': 1927}]
         self.assertEqual(self.data_source.authors(search_text = "jErOmE"), authors_jerome)
-
-    # Test author for random book_id
-    def test_authors_text_nonexistent(self):
-        self.assertEqual(self.data_source.authors(book_id = "Dr Pepper"), [] )
-
 
 ### authors_for_book tests:
 

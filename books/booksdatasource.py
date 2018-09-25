@@ -148,8 +148,6 @@ class BooksDataSource:
         list_of_books_with_id = [book for book in self.books_list if book['id']==book_id]
         if type(book_id) != int:
             raise ValueError("book_id type must be an int!")
-        elif book_id < 0 or book_id > len(self.books_list):
-            raise ValueError("book_id out of range")
         elif len(list_of_books_with_id) == 0:
             raise ValueError("Book ID requested does not exist! ID requested: " + str(book_id))
         else:
@@ -186,6 +184,9 @@ class BooksDataSource:
             QUESTION: How about ValueError? And if so, for which parameters?
             Raises ValueError if author_id is non-None but is not a valid author ID.
         '''
+
+        if author_id is not None:
+            self._validate_author_id(author_id)
 
         searched_books = [book for book in self.books_list if
                           (author_id is None or author_id in self._author_ids_for_book(book['id']))
@@ -225,8 +226,6 @@ class BooksDataSource:
 
         if type(author_id) != int:
             raise ValueError("author_id type must be an int!")
-        elif author_id < 0 or author_id >= len(self.authors_list):
-            raise ValueError("author_id out of range")
         elif len(list_of_authors_with_id) == 0:
             raise ValueError("Author ID requested does not exist! ID requested: "+str(author_id))
         else:
@@ -257,8 +256,11 @@ class BooksDataSource:
         
             See the BooksDataSource comment for a description of how an author is represented.
         '''
+        if book_id is not None:
+            self._validate_book_id(book_id)
+        
         if start_year is not None and start_year>datetime.datetime.now().year:
-            raise ValueError("start_year given in the future! Year given: "+str(start_year))
+            raise ValueError("start_year is in the future! Year given: "+str(start_year))
         
         searched_authors = [author for author in self.authors_list if
                             (book_id is None or book_id in self._book_ids_for_author(author['id']))
@@ -268,10 +270,11 @@ class BooksDataSource:
                                  or author['death_year'] >= start_year)
                             and (end_year is None or author['birth_year'] <= end_year)
                             ]
+        
         if sort_by == 'birth_year':
-            searched_authors.sort(key=self._author_birth_year_sort_string)
+            searched_authors.sort(key = self._author_birth_year_sort_string)
         else:
-            searched_authors.sort(key=self._author_default_sort_string)
+            searched_authors.sort(key = self._author_default_sort_string)
 
         return searched_authors
 
@@ -302,13 +305,13 @@ class BooksDataSource:
     def books_for_author(self, author_id):
         ''' Returns a list of all the books written by the author with the specified author ID.
             See the BooksDataSource comment for a description of how an book is represented. '''
+        return self.books(author_id=author_id)
 
-        if type(author_id) != int:
-            raise ValueError("author_id type must be an int!")
-        elif author_id < 0 or author_id >= len(self.authors_list):
-            raise ValueError("author_id out of range")
-        else:
-            return self.books(author_id=author_id)
+    def _validate_author_id(self, author_id):
+        self.author(author_id)
+
+    def _validate_book_id(self, book_id):
+        self.book(book_id)
 
     def _book_ids_for_author(self, author_id):
         return [book_author_link['book_id'] for book_author_link in self.books_authors_list
@@ -317,13 +320,7 @@ class BooksDataSource:
     def authors_for_book(self, book_id):
         ''' Returns a list of all the authors of the book with the specified book ID.
             See the BooksDataSource comment for a description of how an author is represented. '''
-
-        if type(book_id) != int:
-            raise ValueError("book_id type must be an int!")
-        elif book_id < 0 or book_id >= len(self.books_list):
-            raise ValueError("book_id out of range")
-        else:
-            return self.authors(book_id=book_id)
+        return self.authors(book_id=book_id)
         
     def _author_ids_for_book(self, book_id):
         return [book_author_link['author_id'] for book_author_link in self.books_authors_list
