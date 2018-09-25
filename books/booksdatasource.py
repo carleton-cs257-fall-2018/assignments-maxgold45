@@ -146,7 +146,7 @@ class BooksDataSource:
         
             Raises ValueError if book_id is not a valid book ID.
         '''
-        
+
         list_of_books_with_id = [book for book in self.books_list if book['id']==book_id]
         if len(list_of_books_with_id) == 0:
             raise ValueError("Book ID requested does not exist! ID requested: "+str(book_id))
@@ -205,7 +205,7 @@ class BooksDataSource:
         if len(list_of_authors_with_id) == 0:
             raise ValueError("Author ID requested does not exist! ID requested: "+str(author_id))
         else:
-            return [list_of_authors_with_id[0]]
+            return list_of_authors_with_id[0]
 
     #def _is_not_valid(self, author_id):
     #     return (author_id < 0) or (author_id > self.max_author_id) or (not type(author_id) == type(int))
