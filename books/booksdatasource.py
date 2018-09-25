@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import csv
+import datetime
 
 '''
     booksdatasource.py
@@ -102,11 +103,8 @@ class BooksDataSource:
 
     #NOTE: Currently, I'm handling non-existent publish year by throwing out the entry
     #This comment should be deleted before turn-in
-    def _convert_csv_line_to_book(self, book_line):
-        for book_property in book_line:
-            if book_property == '':
-                return None
-        return {'id': int(book_line[0]), 'title': book_line[1], 'publication_year': int(book_line[2])}
+    def _convert_csv_line_to_book(self, book_csv_line):
+        return {'id': int(book_csv_line[0]), 'title': book_csv_line[1], 'publication_year': int(book_csv_line[2])}
 
     def _set_up_csv_authors(self, authors_input_file):        
         unix_dialect = csv.get_dialect("unix")
@@ -118,13 +116,13 @@ class BooksDataSource:
                 authors_array.append(next_author)
         return authors_array
 
-    def _convert_csv_line_to_author(self, author_line):
-        author_death_year = author_line[4]
-        if author_line[4] == "NULL":
+    def _convert_csv_line_to_author(self, author_csv_line):
+        author_death_year = author_csv_line[4]
+        if author_csv_line[4] == "NULL":
             author_death_year = None
         else:
             author_death_year = int(author_death_year)
-        return {'id': int(author_line[0]), 'last_name': author_line[1], 'first_name': author_line[2], 'birth_year': int(author_line[3]), 'death_year': author_death_year}
+        return {'id': int(author_csv_line[0]), 'last_name': author_csv_line[1], 'first_name': author_csv_line[2], 'birth_year': int(author_csv_line[3]), 'death_year': author_death_year}
 
     def _set_up_csv_books_authors(self, books_authors_input_file):
         unix_dialect = csv.get_dialect("unix")
@@ -157,7 +155,6 @@ class BooksDataSource:
         else:
             return list_of_books_with_id[0]
 
-        
     #NOTE: I haven't error-checked for if there are multiple books with the same ID. Might be worth implementing?
     #      But if we do implement something about that, it's probably better off in the initial data input section.
     #This comment should be deleted before turn-in.
@@ -196,18 +193,27 @@ class BooksDataSource:
                           and (start_year is None or book['publication_year']>=start_year)
                           and (end_year is None or book['publication_year']<=end_year)
                           ]
-        
-        searched_books = self._sort_books_by_title(searched_books)
-
+        if sort_by == 'year':
+            searched_books.sort(key = self._book_year_sort_string)
+        else:
+            searched_books.sort(key = self._book_default_sort_string)
         return searched_books
     #NOTE/TODO: If we want an exception to be thrown for invalid author IDs in the books() method,
     #           we have to make this throw an exception manually
 
-    
+    def _book_default_sort_string(self, book):
+        publish_year_digits_under_4 = 4-len(str(book['publication_year']))
+        publish_year_padding = ""
+        for i in range(publish_year_digits_under_4):
+            publish_year_padding += " "
+        return book['title'].lower()+" "+publish_year_padding+str(book['publication_year'])
 
-    def _sort_books_by_title(self, list_of_books):
-        return list_of_books
-    #NOTE/TODO: Make this sorting method work (breaking ties appropriately), as well as another for sorting by year
+    def _book_year_sort_string(self, book):
+        publish_year_digits_under_4 = 4-len(str(book['publication_year']))
+        publish_year_padding = ""
+        for i in range(publish_year_digits_under_4):
+            publish_year_padding += " "
+        return publish_year_padding+str(book['publication_year'])+book['title'].lower()
 
     def author(self, author_id):
         ''' Returns the author with the specified ID. (See the BooksDataSource comment for a
@@ -219,7 +225,7 @@ class BooksDataSource:
 
         if type(author_id) != int:
             raise ValueError("author_id type must be an int!")
-        elif author_id < 0 or author_id > len(self.authors_list):
+        elif author_id < 0 or author_id >= len(self.authors_list):
             raise ValueError("author_id out of range")
         elif len(list_of_authors_with_id) == 0:
             raise ValueError("Author ID requested does not exist! ID requested: "+str(author_id))
@@ -251,7 +257,9 @@ class BooksDataSource:
         
             See the BooksDataSource comment for a description of how an author is represented.
         '''
-
+        if start_year is not None and start_year>datetime.datetime.now().year:
+            raise ValueError("start_year given in the future! Year given: "+str(start_year))
+        
         searched_authors = [author for author in self.authors_list if
                             (book_id is None or book_id in self._book_ids_for_author(author['id']))
                             and (search_text is None or search_text.lower() in author['first_name'].lower()
@@ -260,8 +268,27 @@ class BooksDataSource:
                                  or author['death_year'] >= start_year)
                             and (end_year is None or author['birth_year'] <= end_year)
                             ]
-        
+        if sort_by == 'birth_year':
+            searched_authors.sort(key=self._author_birth_year_sort_string)
+        else:
+            searched_authors.sort(key=self._author_default_sort_string)
+
         return searched_authors
+
+
+    def _author_default_sort_string(self, author):
+        birth_year_digits_under_4 = 4-len(str(author['birth_year']))
+        birth_year_padding = ""
+        for i in range(birth_year_digits_under_4):
+            birth_year_padding += " "
+        return author['last_name'].lower()+" "+author['first_name'].lower()+" "+birth_year_padding+str(author['birth_year'])
+
+    def _author_birth_year_sort_string(self, author):
+        birth_year_digits_under_4 = 4-len(str(author['birth_year']))
+        birth_year_padding = ""
+        for i in range(birth_year_digits_under_4):
+            birth_year_padding += " "
+        return birth_year_padding+str(author['birth_year'])+author['last_name'].lower()+" "+author['first_name'].lower()+" "
 
 
     # Note for my students: The following two methods provide no new functionality beyond
@@ -278,7 +305,7 @@ class BooksDataSource:
 
         if type(author_id) != int:
             raise ValueError("author_id type must be an int!")
-        elif author_id < 0 or author_id > len(self.authors_list):
+        elif author_id < 0 or author_id >= len(self.authors_list):
             raise ValueError("author_id out of range")
         else:
             #book_ids = self._book_ids_for_author(author_id)
@@ -294,7 +321,7 @@ class BooksDataSource:
             See the BooksDataSource comment for a description of how an author is represented. '''
         if type(book_id) != int:
             raise ValueError("book_id type must be an int!")
-        elif book_id < 0 or book_id > len(self.books_list):
+        elif book_id < 0 or book_id >= len(self.books_list):
             raise ValueError("book_id out of range")
         else:
             return self.authors(book_id=book_id)
