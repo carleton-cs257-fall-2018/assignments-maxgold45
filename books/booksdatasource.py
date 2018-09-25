@@ -182,18 +182,30 @@ class BooksDataSource:
 
             QUESTION: Should Python interfaces specify TypeError?
             Raises TypeError if author_id, start_year, or end_year is non-None but not an integer.
-            Raises TypeError if search_text or sort_by is non-None, but not a string.
+            Raises ` if search_text or sort_by is non-None, but not a string.
 
             QUESTION: How about ValueError? And if so, for which parameters?
             Raises ValueError if author_id is non-None but is not a valid author ID.
         '''
 
-        searched_books = self.books_list
+        searched_books = [book for book in self.books_list if
+                          (author_id is None or author_id in self._author_ids_for_book(book['id']))
+                          and (search_text is None or search_text.lower() in book['title'].lower())
+                          and (start_year is None or book['publication_year']>=start_year)
+                          and (end_year is None or book['publication_year']<=end_year)
+                          ]
         
-        # Algorithm: Add books to a list based on the not-None params and then fill it in.
-        
+        searched_books = self._sort_books_by_title(searched_books)
 
         return searched_books
+    #NOTE/TODO: If we want an exception to be thrown for invalid author IDs in the books() method,
+    #           we have to make this throw an exception manually
+
+    
+
+    def _sort_books_by_title(self, list_of_books):
+        return list_of_books
+    #NOTE/TODO: Make this sorting method work (breaking ties appropriately), as well as another for sorting by year
 
     def author(self, author_id):
         ''' Returns the author with the specified ID. (See the BooksDataSource comment for a
@@ -201,7 +213,7 @@ class BooksDataSource:
         
             Raises ValueError if author_id is not a valid author ID.
         '''
-        list_of_authors_with_id = [author for author in self.books_list if author['id']==author_id]
+        list_of_authors_with_id = [author for author in self.authors_list if author['id']==author_id]
         if len(list_of_authors_with_id) == 0:
             raise ValueError("Author ID requested does not exist! ID requested: "+str(author_id))
         else:
@@ -237,7 +249,18 @@ class BooksDataSource:
         
             See the BooksDataSource comment for a description of how an author is represented.
         '''
-        return []
+
+        searched_authors = [author for author in self.authors_list if
+                            (book_id is None or book_id in self._book_ids_for_author(author['id']))
+                            and (search_text is None or search_text.lower() in author['first_name'].lower()
+                                 or search_text.lower() in author['last_name'].lower())
+                            and (start_year is None or author['death_year'] is None
+                                 or author['death_year'] >= start_year)
+                            and (end_year is None or author['birth_year'] <= end_year)
+                            ]
+        
+        return searched_authors
+    
 
 
     # Note for my students: The following two methods provide no new functionality beyond
@@ -251,9 +274,21 @@ class BooksDataSource:
     def books_for_author(self, author_id):
         ''' Returns a list of all the books written by the author with the specified author ID.
             See the BooksDataSource comment for a description of how an book is represented. '''
-        return self.books(author_id=author_id)
+        book_ids = self._book_ids_for_author(author_id)
+        return [self.book(book_id) for book_id in book_ids]
+
+    def _book_ids_for_author(self, author_id):
+        return [book_author_link['book_id'] for book_author_link in self.books_authors_list
+                    if book_author_link['author_id'] == author_id]
 
     def authors_for_book(self, book_id):
         ''' Returns a list of all the authors of the book with the specified book ID.
             See the BooksDataSource comment for a description of how an author is represented. '''
-        return self.authors(book_id=book_id)
+        author_ids = self._author_ids_for_book(book_id)
+        return [self.author(author_id) for author_id in author_ids]
+
+    def _author_ids_for_book(self, book_id):
+        return [book_author_link['author_id'] for book_author_link in self.books_authors_list
+                    if book_author_link['book_id'] == book_id]    
+
+    #NOTE/TODO: The authors_for_book() and vice versa method could be simplified to call books() and authors()
