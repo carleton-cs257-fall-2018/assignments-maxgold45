@@ -150,6 +150,8 @@ class BooksDataSource:
         list_of_books_with_id = [book for book in self.books_list if book['id']==book_id]
         if type(book_id) != int:
             raise ValueError("book_id type must be an int!")
+        elif book_id < 0 or book_id > len(self.books_list):
+            raise ValueError("book_id out of range")
         elif len(list_of_books_with_id) == 0:
             raise ValueError("Book ID requested does not exist! ID requested: " + str(book_id))
         else:
@@ -160,10 +162,6 @@ class BooksDataSource:
     #      But if we do implement something about that, it's probably better off in the initial data input section.
     #This comment should be deleted before turn-in.
     
-
-    def _is_not_valid(self, book_id):
-        return (book_id < 0) or (book_id > self.max_book_id) or (not type(book_id) == type(int))
-
     def books(self, *, author_id=None, search_text=None, start_year=None, end_year=None, sort_by='title'):
         ''' Returns a list of all the books in this data source matching all of
             the specified non-None criteria.
@@ -221,15 +219,12 @@ class BooksDataSource:
 
         if type(author_id) != int:
             raise ValueError("author_id type must be an int!")
+        elif author_id < 0 or author_id > len(self.authors_list):
+            raise ValueError("author_id out of range")
         elif len(list_of_authors_with_id) == 0:
             raise ValueError("Author ID requested does not exist! ID requested: "+str(author_id))
         else:
             return list_of_authors_with_id[0]
-
-    #def _is_not_valid(self, author_id):
-    #     return (author_id < 0) or (author_id > self.max_author_id) or (not type(author_id) == type(int))
-    #NOTE: Pretty sure this method has become redundant, along with max and min author id.
-    #They, along with this method, should probably be deleted before turn-in.
 
     def authors(self, *, book_id=None, search_text=None, start_year=None, end_year=None, sort_by='birth_year'):
         ''' Returns a list of all the authors in this data source matching all of the
@@ -281,8 +276,14 @@ class BooksDataSource:
     def books_for_author(self, author_id):
         ''' Returns a list of all the books written by the author with the specified author ID.
             See the BooksDataSource comment for a description of how an book is represented. '''
-        book_ids = self._book_ids_for_author(author_id)
-        return [self.book(book_id) for book_id in book_ids]
+
+        if type(author_id) != int:
+            raise ValueError("author_id type must be an int!")
+        elif author_id < 0 or author_id > len(self.authors_list):
+            raise ValueError("author_id out of range")
+        else:
+            book_ids = self._book_ids_for_author(author_id)
+            return [self.book(book_id) for book_id in book_ids]
 
     def _book_ids_for_author(self, author_id):
         return [book_author_link['book_id'] for book_author_link in self.books_authors_list
@@ -291,8 +292,13 @@ class BooksDataSource:
     def authors_for_book(self, book_id):
         ''' Returns a list of all the authors of the book with the specified book ID.
             See the BooksDataSource comment for a description of how an author is represented. '''
-        author_ids = self._author_ids_for_book(book_id)
-        return [self.author(author_id) for author_id in author_ids]
+        if type(book_id) != int:
+            raise ValueError("book_id type must be an int!")
+        elif book_id < 0 or book_id > len(self.books_list):
+            raise ValueError("book_id out of range")
+        else:
+            author_ids = self._author_ids_for_book(book_id)
+            return [self.author(author_id) for author_id in author_ids]
 
     def _author_ids_for_book(self, book_id):
         return [book_author_link['author_id'] for book_author_link in self.books_authors_list
