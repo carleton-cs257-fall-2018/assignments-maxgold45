@@ -148,10 +148,14 @@ class BooksDataSource:
         '''
 
         list_of_books_with_id = [book for book in self.books_list if book['id']==book_id]
-        if len(list_of_books_with_id) == 0:
-            raise ValueError("Book ID requested does not exist! ID requested: "+str(book_id))
+        if type(book_id) != int:
+            raise TypeError("book_id type must be an int!")
+        elif len(list_of_books_with_id) == 0:
+            raise ValueError("Book ID requested does not exist! ID requested: " + str(book_id))
         else:
             return list_of_books_with_id[0]
+
+        
     #NOTE: I haven't error-checked for if there are multiple books with the same ID. Might be worth implementing?
     #      But if we do implement something about that, it's probably better off in the initial data input section.
     #This comment should be deleted before turn-in.
@@ -214,7 +218,10 @@ class BooksDataSource:
             Raises ValueError if author_id is not a valid author ID.
         '''
         list_of_authors_with_id = [author for author in self.authors_list if author['id']==author_id]
-        if len(list_of_authors_with_id) == 0:
+
+        if type(author_id) != int:
+            raise TypeError("author_id type must be an int!")
+        elif len(list_of_authors_with_id) == 0:
             raise ValueError("Author ID requested does not exist! ID requested: "+str(author_id))
         else:
             return list_of_authors_with_id[0]
