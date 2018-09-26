@@ -101,8 +101,6 @@ class BooksDataSource:
                     books_array.append(next_book)
         return books_array
 
-    #NOTE: Currently, I'm handling non-existent publish year by throwing out the entry
-    #This comment should be deleted before turn-in
     def _convert_csv_line_to_book(self, book_csv_line):
         return {'id': int(book_csv_line[0]), 'title': book_csv_line[1], 'publication_year': int(book_csv_line[2])}
 
@@ -188,6 +186,10 @@ class BooksDataSource:
         if author_id is not None:
             self._validate_author_id(author_id)
 
+        if start_year is not None and start_year > datetime.datetime.now().year:
+            raise ValueError("start_year is in the future! Year given: "+str(start_year))
+  
+
         searched_books = [book for book in self.books_list if
                           (author_id is None or author_id in self._author_ids_for_book(book['id']))
                           and (search_text is None or search_text.lower() in book['title'].lower())
@@ -199,8 +201,6 @@ class BooksDataSource:
         else:
             searched_books.sort(key = self._book_default_sort_string)
         return searched_books
-    #NOTE/TODO: If we want an exception to be thrown for invalid author IDs in the books() method,
-    #           we have to make this throw an exception manually
 
     def _book_default_sort_string(self, book):
         publish_year_digits_under_4 = 4-len(str(book['publication_year']))
