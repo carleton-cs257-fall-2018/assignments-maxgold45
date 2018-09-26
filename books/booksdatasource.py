@@ -150,10 +150,6 @@ class BooksDataSource:
             raise ValueError("Book ID requested does not exist! ID requested: " + str(book_id))
         else:
             return list_of_books_with_id[0]
-
-    #NOTE: I haven't error-checked for if there are multiple books with the same ID. Might be worth implementing?
-    #      But if we do implement something about that, it's probably better off in the initial data input section.
-    #This comment should be deleted before turn-in.
     
     def books(self, *, author_id=None, search_text=None, start_year=None, end_year=None, sort_by='title'):
         ''' Returns a list of all the books in this data source matching all of
