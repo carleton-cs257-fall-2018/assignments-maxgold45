@@ -54,21 +54,21 @@ def main(args):
 			print(makes)
 
 if __name__ == '__main__':
-	print('''
-This will print all makes:\n	python3 api-test.py all_makes
-This will print all subaru models: \n	python3 api-test.py models_from_make -make \"subaru\"\n''')
+	print('This will print all makes:\n	python3 api-test.py all_makes',
+		'\nThis will print all subaru models: \n	python3 api-test.py models_from_make -make \"subaru\"\n')
 
-	parser = argparse.ArgumentParser(description='Get Vehicle info from the NHTSA Vehicle API')
+	parser = argparse.ArgumentParser(description='Get Vehicle information from the NHTSA Vehicle API')
 
 	parser.add_argument('action',
                         metavar='action',
-                        help='m',
+                        help='Which method do you want to call?',
                         choices=['models_from_make', 'all_makes'])
 
 	# Added an optional argument. (It is required when using "models_from_make", but it'll tell the user)
 	parser.add_argument('-make',
 			metavar='-make',
-			help='which make to learn about- \'[return] will see all models')
+			help='which make do you want to learn about? This is required for models_from_make'
+				', and will be ignored for all_makes')
 
 	args = parser.parse_args()
 	main(args)
