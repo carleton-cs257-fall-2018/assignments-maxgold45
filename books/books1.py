@@ -82,7 +82,7 @@ with open(input_file, newline='', encoding='UTF-8') as csvfile:
             author_list.reverse() # Reverse it
         for author in author_list: # Print the authors
             print(author)
-
+            
     else: #fail statement (Should now never occur)
         print("you didn't write 'books' or 'authors'!")
 
