@@ -33,22 +33,315 @@ RESPONSE: a list of dictionaries, each of which contains all of the information 
 
 EXAMPLE: http://whatever.com/movies/topten
 
-[{
-'id':211672
-'title':'Minions',
-'cast':'[{"cast_id": 22, "character": "Scarlet Overkill (voice)", "credit_id": "54cd4a5d9251414755001dae", "gender": 1, "id": 18277, "name": "Sandra Bullock", "order": 0}, {"cast_id": 24, "character": "Herb Overkill (voice)", "credit_id": "54cd4aa9c3a3687f84001f92", "gender": 2, "id": 65717, "name": "Jon Hamm", "order": 1}, {"cast_id": 28, "character": "Walter Nelson (voice)", "credit_id": "55440dda92514119e00000d1", "gender": 2, "id": 2232, "name": "Michael Keaton", "order": 2}, {"cast_id": 29, "character": "Madge Nelson (voice)", "credit_id": "55440de3c3a3680cdf002c7f", "gender": 1, "id": 19, "name": "Allison Janney", "order": 3}, {"cast_id": 31, "character": "Professor Flux / Tower Guard (voice)", "credit_id": "55440dfcc3a3680cd5002c8a", "gender": 2, "id": 4581, "name": "Steve Coogan", "order": 4}, {"cast_id": 33, "character": "Reine Elizabeth II (voice)", "credit_id": "55440e27925141586d002aac", "gender": 1, "id": 12094, "name": "Jennifer Saunders", "order": 5}, {"cast_id": 34, "character": "Narrator (voice)", "credit_id": "559ab87bc3a3685f80004100", "gender": 2, "id": 118, "name": "Geoffrey Rush", "order": 6}, {"cast_id": 35, "character": "Gru (voice)", "credit_id": "559ab891c3a36855db0052fe", "gender": 2, "id": 4495, "name": "Steve Carell", "order": 7}, {"cast_id": 12, "character": "Stuart, Kevin and Bob (voices)", "credit_id": "5431b260c3a36831a6003d9b", "gender": 2, "id": 124747, "name": "Pierre Coffin", "order": 8}, {"cast_id": 30, "character": "Tina (voice)", "credit_id": "55440df09251414c920003be", "gender": 1, "id": 59450, "name": "Katy Mixon", "order": 9}, {"cast_id": 36, "character": "VNC Announcer / Walter Jr. (voice)", "credit_id": "559ab8b69251413d96005590", "gender": 2, "id": 73476, "name": "Michael Beattie", "order": 10}, {"cast_id": 32, "character": "Sumo (voice)", "credit_id": "55440e149251415865002c8e", "gender": 0, "id": 9195, "name": "Hiroyuki Sanada", "order": 11}, {"cast_id": 37, "character": "Fabrice (voice)", "credit_id": "559ab8c7c3a3685f8000410a", "gender": 0, "id": 1265060, "name": "Dave Rosenbaum", "order": 12}, {"cast_id": 38, "character": "Royal Advisor (voice)", "credit_id": "562cbfad92514128570073d8", "gender": 0, "id": 1526863, "name": "Alex Dowding", "order": 13}, {"cast_id": 39, "character": "News Reporter (voice)", "credit_id": "562cbfbb9251410a2200334c", "gender": 0, "id": 192922, "name": "Paul Thornley", "order": 14}, {"cast_id": 42, "character": "Additional Voices (voice)", "credit_id": "5722a97a9251413eaf000b9f", "gender": 0, "id": 8023, "name": "Kyle Balda", "order": 15}, {"cast_id": 43, "character": "Additional Voices (voice)", "credit_id": "5916d39f925141061e02700a", "gender": 1, "id": 1340664, "name": "Ava Acres", "order": 16}]',
-'crew':'[{"credit_id": "5431b2b10e0a2656e20026c7", "department": "Production", "gender": 2, "id": 5720, "job": "Producer", "name": "Christopher Meledandri"}, {"credit_id": "53ccb8edc3a368776a002323", "department": "Directing", "gender": 0, "id": 8023, "job": "Director", "name": "Kyle Balda"}, {"credit_id": "5431b2870e0a2658b200266b", "department": "Writing", "gender": 2, "id": 52360, "job": "Characters", "name": "Ken Daurio"}, {"credit_id": "5431b2990e0a265915002677", "department": "Writing", "gender": 2, "id": 52361, "job": "Characters", "name": "Cinco Paul"}, {"credit_id": "563b5dc9c3a3681b5c0264db", "department": "Sound", "gender": 2, "id": 59706, "job": "Original Music Composer", "name": "Heitor Pereira"}, {"credit_id": "5431b2a6c3a36811ef0026ed", "department": "Production", "gender": 0, "id": 65674, "job": "Producer", "name": "Janet Healy"}, {"credit_id": "53ccb8fcc3a3687775002425", "department": "Directing", "gender": 2, "id": 124747, "job": "Director", "name": "Pierre Coffin"}, {"credit_id": "5431b2bdc3a368117b002766", "department": "Production", "gender": 0, "id": 124748, "job": "Executive Producer", "name": "Chris Renaud"}, {"credit_id": "5431b28fc3a36831a6003da5", "department": "Writing", "gender": 2, "id": 1024175, "job": "Writer", "name": "Brian Lynch"}, {"credit_id": "553d5700c3a368784500d158", "department": "Crew", "gender": 0, "id": 1447310, "job": "Post Production Supervisor", "name": "Jeannine Berger"}, {"credit_id": "553ff1509251414aeb000014", "department": "Visual Effects", "gender": 0, "id": 1447388, "job": "Animation", "name": "Daniele Zannone"}, {"credit_id": "563b5e3fc3a3681b5e023403", "department": "Editing", "gender": 0, "id": 1531911, "job": "Editor", "name": "Claire Dodgson"}]',
-'budget':74000000,
-'genres':'[{"id": 10751, "name": "Family"}, {"id": 16, "name": "Animation"}, {"id": 12, "name": "Adventure"}, {"id": 35, "name": "Comedy"}]',
-'keywords':'[{"id": 3487, "name": "assistant"}, {"id": 179430, "name": "aftercreditsstinger"}, {"id": 179431, "name": "duringcreditsstinger"}, {"id": 189481, "name": "evil mastermind"}, {"id": 190999, "name": "minions"}, {"id": 209714, "name": "3d"}]',
-'language':'en',
-'overview':'Minions Stuart, Kevin and Bob are recruited by Scarlet Overkill, a super-villain who, alongside her inventor husband Herb, hatches a plot to take over the world.',
-'popularity':875,
-'release_date':'2015-06-17',
-'revenue':1156730962,
-'runtime':91,
-'tagline':'Before Gru, they had a history of bad bosses',
-},
 
-
+[
+   {
+      "movieid":211672,
+      "title":"Minions",
+      "cast":[
+         {
+            "cast_id":22,
+            "character":"Scarlet Overkill (voice)",
+            "credit_id":"54cd4a5d9251414755001dae",
+            "gender":1,
+            "id":18277,
+            "name":"Sandra Bullock",
+            "order":0
+         },
+         {
+            "cast_id":24,
+            "character":"Herb Overkill (voice)",
+            "credit_id":"54cd4aa9c3a3687f84001f92",
+            "gender":2,
+            "id":65717,
+            "name":"Jon Hamm",
+            "order":1
+         },
+         {
+            "cast_id":28,
+            "character":"Walter Nelson (voice)",
+            "credit_id":"55440dda92514119e00000d1",
+            "gender":2,
+            "id":2232,
+            "name":"Michael Keaton",
+            "order":2
+         },
+         {
+            "cast_id":29,
+            "character":"Madge Nelson (voice)",
+            "credit_id":"55440de3c3a3680cdf002c7f",
+            "gender":1,
+            "id":19,
+            "name":"Allison Janney",
+            "order":3
+         },
+         {
+            "cast_id":31,
+            "character":"Professor Flux / Tower Guard (voice)",
+            "credit_id":"55440dfcc3a3680cd5002c8a",
+            "gender":2,
+            "id":4581,
+            "name":"Steve Coogan",
+            "order":4
+         },
+         {
+            "cast_id":33,
+            "character":"Reine Elizabeth II (voice)",
+            "credit_id":"55440e27925141586d002aac",
+            "gender":1,
+            "id":12094,
+            "name":"Jennifer Saunders",
+            "order":5
+         },
+         {
+            "cast_id":34,
+            "character":"Narrator (voice)",
+            "credit_id":"559ab87bc3a3685f80004100",
+            "gender":2,
+            "id":118,
+            "name":"Geoffrey Rush",
+            "order":6
+         },
+         {
+            "cast_id":35,
+            "character":"Gru (voice)",
+            "credit_id":"559ab891c3a36855db0052fe",
+            "gender":2,
+            "id":4495,
+            "name":"Steve Carell",
+            "order":7
+         },
+         {
+            "cast_id":12,
+            "character":"Stuart, Kevin and Bob (voices)",
+            "credit_id":"5431b260c3a36831a6003d9b",
+            "gender":2,
+            "id":124747,
+            "name":"Pierre Coffin",
+            "order":8
+         },
+         {
+            "cast_id":30,
+            "character":"Tina (voice)",
+            "credit_id":"55440df09251414c920003be",
+            "gender":1,
+            "id":59450,
+            "name":"Katy Mixon",
+            "order":9
+         },
+         {
+            "cast_id":36,
+            "character":"VNC Announcer / Walter Jr. (voice)",
+            "credit_id":"559ab8b69251413d96005590",
+            "gender":2,
+            "id":73476,
+            "name":"Michael Beattie",
+            "order":10
+         },
+         {
+            "cast_id":32,
+            "character":"Sumo (voice)",
+            "credit_id":"55440e149251415865002c8e",
+            "gender":0,
+            "id":9195,
+            "name":"Hiroyuki Sanada",
+            "order":11
+         },
+         {
+            "cast_id":37,
+            "character":"Fabrice (voice)",
+            "credit_id":"559ab8c7c3a3685f8000410a",
+            "gender":0,
+            "id":1265060,
+            "name":"Dave Rosenbaum",
+            "order":12
+         },
+         {
+            "cast_id":38,
+            "character":"Royal Advisor (voice)",
+            "credit_id":"562cbfad92514128570073d8",
+            "gender":0,
+            "id":1526863,
+            "name":"Alex Dowding",
+            "order":13
+         },
+         {
+            "cast_id":39,
+            "character":"News Reporter (voice)",
+            "credit_id":"562cbfbb9251410a2200334c",
+            "gender":0,
+            "id":192922,
+            "name":"Paul Thornley",
+            "order":14
+         },
+         {
+            "cast_id":42,
+            "character":"Additional Voices (voice)",
+            "credit_id":"5722a97a9251413eaf000b9f",
+            "gender":0,
+            "id":8023,
+            "name":"Kyle Balda",
+            "order":15
+         },
+         {
+            "cast_id":43,
+            "character":"Additional Voices (voice)",
+            "credit_id":"5916d39f925141061e02700a",
+            "gender":1,
+            "id":1340664,
+            "name":"Ava Acres",
+            "order":16
+         }
+      ],
+      "crew":[
+         {
+            "credit_id":"5431b2b10e0a2656e20026c7",
+            "department":"Production",
+            "gender":2,
+            "id":5720,
+            "job":"Producer",
+            "name":"Christopher Meledandri"
+         },
+         {
+            "credit_id":"53ccb8edc3a368776a002323",
+            "department":"Directing",
+            "gender":0,
+            "id":8023,
+            "job":"Director",
+            "name":"Kyle Balda"
+         },
+         {
+            "credit_id":"5431b2870e0a2658b200266b",
+            "department":"Writing",
+            "gender":2,
+            "id":52360,
+            "job":"Characters",
+            "name":"Ken Daurio"
+         },
+         {
+            "credit_id":"5431b2990e0a265915002677",
+            "department":"Writing",
+            "gender":2,
+            "id":52361,
+            "job":"Characters",
+            "name":"Cinco Paul"
+         },
+         {
+            "credit_id":"563b5dc9c3a3681b5c0264db",
+            "department":"Sound",
+            "gender":2,
+            "id":59706,
+            "job":"Original Music Composer",
+            "name":"Heitor Pereira"
+         },
+         {
+            "credit_id":"5431b2a6c3a36811ef0026ed",
+            "department":"Production",
+            "gender":0,
+            "id":65674,
+            "job":"Producer",
+            "name":"Janet Healy"
+         },
+         {
+            "credit_id":"53ccb8fcc3a3687775002425",
+            "department":"Directing",
+            "gender":2,
+            "id":124747,
+            "job":"Director",
+            "name":"Pierre Coffin"
+         },
+         {
+            "credit_id":"5431b2bdc3a368117b002766",
+            "department":"Production",
+            "gender":0,
+            "id":124748,
+            "job":"Executive Producer",
+            "name":"Chris Renaud"
+         },
+         {
+            "credit_id":"5431b28fc3a36831a6003da5",
+            "department":"Writing",
+            "gender":2,
+            "id":1024175,
+            "job":"Writer",
+            "name":"Brian Lynch"
+         },
+         {
+            "credit_id":"553d5700c3a368784500d158",
+            "department":"Crew",
+            "gender":0,
+            "id":1447310,
+            "job":"Post Production Supervisor",
+            "name":"Jeannine Berger"
+         },
+         {
+            "credit_id":"553ff1509251414aeb000014",
+            "department":"Visual Effects",
+            "gender":0,
+            "id":1447388,
+            "job":"Animation",
+            "name":"Daniele Zannone"
+         },
+         {
+            "credit_id":"563b5e3fc3a3681b5e023403",
+            "department":"Editing",
+            "gender":0,
+            "id":1531911,
+            "job":"Editor",
+            "name":"Claire Dodgson"
+         }
+      ],
+      "budget":74000000,
+      "genres":[
+         {
+            "id":10751,
+            "name":"Family"
+         },
+         {
+            "id":16,
+            "name":"Animation"
+         },
+         {
+            "id":12,
+            "name":"Adventure"
+         },
+         {
+            "id":35,
+            "name":"Comedy"
+         }
+      ],
+      "keywords":[
+         {
+            "id":3487,
+            "name":"assistant"
+         },
+         {
+            "id":179430,
+            "name":"aftercreditsstinger"
+         },
+         {
+            "id":179431,
+            "name":"duringcreditsstinger"
+         },
+         {
+            "id":189481,
+            "name":"evil mastermind"
+         },
+         {
+            "id":190999,
+            "name":"minions"
+         },
+         {
+            "id":209714,
+            "name":"3d"
+         }
+      ],
+      "language":"en",
+      "overview":"Minions Stuart, Kevin and Bob are recruited by Scarlet Overkill, a super-villain who, alongside her inventor husband Herb, hatches a plot to take over the world.",
+      "popularity":875,
+      "release_date":"2015-06-17",
+      "revenue":1156730962,
+      "runtime":91,
+      "tagline":"Before Gru, they had a history of bad bosses"
+   }
 ]
