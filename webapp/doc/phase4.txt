@@ -16,20 +16,24 @@ CREATE TABLE movies(
 );
 
 CREATE TABLE people(
-   id INT, -- Not a serial because it has an id in the csv file.
-   roll TEXT,
-   first_name TEXT,
-   last_name TEXT,
-   character TEXT -- Null if not an actor
+    id INT, -- Not a serial because it has an id in the csv file.
+    movie_dict TEXT, -- "movie:roll, etc."
+    first_name TEXT,
+    last_name TEXT
 );
 
+CREATE TABLE movies_people)
+    movie INT,
+    person INT,
+    current_roll TEXT
+);
 
 
 SYNOPSIS: Get a list of the top ten movies by popularity
 
 QUERY (GET): /movies/topten
 
-RESPONSE: a list of dictionaries, each of which contains all of the information in the table.
+RESPONSE: a list of the top ten movies by popularity. Each movie will have all of it's information stored in dictionaries.
 
 EXAMPLE: http://whatever.com/movies/topten
 
