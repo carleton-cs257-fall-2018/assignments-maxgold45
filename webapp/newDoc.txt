@@ -1,0 +1,21 @@
+Synopsis: Get a list of an actor's most popular movies.
+Query: /movies/person/<person_id>
+
+Synopsis: Get a list of the highest budget movies.
+Query: /movies/budget
+
+GET parameters
+  title [optional]
+  person [optional]
+  genre [optional]
+  keyword [optional]
+  language [optional]
+  release_date_before [optional]
+  release_date_after [optional]
+  runtime [optional]
+
+Get parameters
+  last_name [optional]
+  first_name [optional]
+  role [optional]
+  movie [optional]
