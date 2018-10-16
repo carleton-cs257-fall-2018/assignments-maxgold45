@@ -430,8 +430,8 @@ Response: A list of dictionaries that contains the titles of the movies and its 
 
 Example: http://whatever.com/movies?release_date_before=1928&language=en
 
-[{"title":"Intolerance,"id":3059},
- {"title":"The Big Parade,"id":3060}]
+[{"title":"Intolerance","id":3059},
+ {"title":"The Big Parade","id":3060}]
 
 
 --------------------
