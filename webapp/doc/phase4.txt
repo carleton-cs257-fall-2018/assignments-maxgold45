@@ -1,3 +1,10 @@
+Max Goldberg
+Alexis Engel
+WebApp Phase 4
+
+TABLES
+------
+
 CREATE TABLE movies(
     id INT, -- Not a serial because it has an id in the csv file
     title TEXT,
@@ -29,13 +36,43 @@ CREATE TABLE movies_people)
 );
 
 
+QUERIES
+-------
+
 SYNOPSIS: Get a list of the top ten movies by popularity
 
-QUERY (GET): /movies/topten
+QUERY (GET): /movies/toptentitles
 
-RESPONSE: a list of the top ten movies by popularity. Each movie will have all of it's information stored in dictionaries.
+RESPONSE: a list of the top ten movies by popularity with at least 50 votes.
 
-EXAMPLE: http://whatever.com/movies/topten
+EXAMPLE: http://whatever.com/movies/toptentitles
+
+[
+    {
+	"title":"The Shawshank Redemption",
+	"title":"The Godfather",
+	"title":" ,
+	"title":" ,
+	"title":" ,
+	"title":" ,
+	"title":" ,
+	"title":" ,
+	"title":" ,
+	"title":" ,
+    }
+]
+
+
+
+SYNOPSIS: Get a list of the top ten movies by popularity
+
+QUERY (GET): /movies/movietitle/<movie_title>
+
+RESPONSE: a list of the top ten movies by popularity with a vote . Each movie will have all of it's information stored in dictionaries.
+
+EXAMPLE: http://whatever.com/movietitle/minions
+
+
 
 
 [
