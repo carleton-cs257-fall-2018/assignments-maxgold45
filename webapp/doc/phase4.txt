@@ -16,23 +16,24 @@ CREATE TABLE movies(
     language TEXT,
     overview TEXT,
     popularity INT,
-    release_data TEXT,
+    vote_average INT,
+    release_date TEXT,
     revenue INT,
     runtime INT,
-    tagline TEXT
+    tagline TEXT,
+    vote_count INT
 );
 
 CREATE TABLE people(
     id INT, -- Not a serial because it has an id in the csv file.
-    movie_dict TEXT, -- "movie:roll, etc."
-    first_name TEXT,
-    last_name TEXT
+    movies_roles TEXT, -- "movie:role, etc."
+    name TEXT
 );
 
 CREATE TABLE movies_people)
     movie INT,
     person INT,
-    current_roll TEXT
+    current_role TEXT
 );
 
 
@@ -43,37 +44,51 @@ SYNOPSIS: Get a list of the top ten movies by popularity
 
 QUERY (GET): /movies/toptentitles
 
-RESPONSE: a list of the top ten movies by popularity with at least 50 votes.
+RESPONSE: a list of the top ten movies' title by vote_average with a minimum of 100 vote_count.
 
 EXAMPLE: http://whatever.com/movies/toptentitles
 
-[
-    {
-	"title":"The Shawshank Redemption",
-	"title":"The Godfather",
-	"title":" ,
-	"title":" ,
-	"title":" ,
-	"title":" ,
-	"title":" ,
-	"title":" ,
-	"title":" ,
-	"title":" ,
-    }
+[{"title":"The Shawshank Redemption", "id":278},
+ {"title":"The Godfather", "id":238},
+ {"title":"Whiplash", "id":244786},
+ {"title":"Pulp Fiction", "id":680},
+ {"title":"Fight Club", "id":550},
+ {"title":"Schindler's List", "id":424},
+ {"title":"The Godfather: Part II", "id":240},
+ {"title":"Spirited Away", "id":129},
+ {"title":"Howl's Moving Castle, "id":4935},
+ {"title":"The Empire Strikes Back","id":1891}]
+
+--------------------
+
+
+Synopsis: Get one person given its id.
+
+
+Query: /person/<person_id>
+
+
+Response: All of the information about one person that matches their id.
+
+Example: http://whatever.com/person/211672
+
+["id": 37366,
+ "movies_roles":"{"Exorcist II: The Heretic":"Regan MacNeil", "The Exorcist":"Regan", "Scream":"Obnoxious Reporter"}",
+ "name": "Linda Blair"
 ]
 
+--------------------
+
+Synopsis: Get one movie given its id.
 
 
-SYNOPSIS: Get a list of the top ten movies by popularity
-
-QUERY (GET): /movies/movietitle/<movie_title>
-
-RESPONSE: a list of the top ten movies by popularity with a vote . Each movie will have all of it's information stored in dictionaries.
-
-EXAMPLE: http://whatever.com/movietitle/minions
+Query: /movie/<movie_id>
 
 
 
+Response: All of the information about one movie that matches the movie id.
+
+Example: http://whatever.com/movie/211672
 
 [
    {
@@ -386,3 +401,60 @@ EXAMPLE: http://whatever.com/movietitle/minions
       "tagline":"Before Gru, they had a history of bad bosses"
    }
 ]
+
+
+--------------------
+
+GET parameters
+
+	title [optional]
+	person [optional]
+
+	genre [optional]
+
+	keyword [optional]
+
+	language [optional]
+	release_date_before [optional]
+
+	release_date_after [optional]
+
+	runtime [optional]
+
+Synopsis: Get a list of all movies that match the given search parameters.
+
+Query: /movies
+
+
+Response: A list of dictionaries that contains the titles of the movies and its id number.
+
+Example: http://whatever.com/movies?
+
+[{"title":"id":  }
+
+]
+
+
+--------------------
+
+
+
+Get parameters
+
+	last_name [optional]
+
+	first_name [optional]
+
+	role [optional]
+
+	movie [optional]
+
+
+Query: /people
+
+Response:
+
+Example: http://whatever.com/people?
+
+
+-------------------
