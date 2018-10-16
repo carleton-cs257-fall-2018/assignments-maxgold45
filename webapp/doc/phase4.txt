@@ -428,11 +428,10 @@ Query: /movies
 
 Response: A list of dictionaries that contains the titles of the movies and its id number.
 
-Example: http://whatever.com/movies?
+Example: http://whatever.com/movies?release_date_before=1928&language=en
 
-[{"title":"id":  }
-
-]
+[{"title":"Intolerance,"id":3059},
+ {"title":"The Big Parade,"id":3060}]
 
 
 --------------------
@@ -441,20 +440,21 @@ Example: http://whatever.com/movies?
 
 Get parameters
 
-	last_name [optional]
-
-	first_name [optional]
+	name [optional]
 
 	role [optional]
 
 	movie [optional]
 
 
+Synopsis: Get a list of all the people that match the given search parameters.
+
 Query: /people
 
-Response:
+Response: A list of dictionaries that contains the name of the person and their id number.
 
-Example: http://whatever.com/people?
+Example: http://whatever.com/people?movie=Avatar&role=cast&name=david
 
-
+[{"name":"David Van Horn","id":1207236},
+ {"name":"Joel David Moore","id":59231}]
 -------------------
