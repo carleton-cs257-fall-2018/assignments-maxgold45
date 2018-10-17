@@ -13,27 +13,38 @@ CREATE TABLE movies(
     budget INT,
     genres TEXT,
     keywords TEXT,
-    language TEXT,
+    language_id INT,
     overview TEXT,
     popularity INT,
     vote_average INT,
-    release_date TEXT,
+    release_date DATE, -- YYYY-MM-DD
     revenue INT,
     runtime INT,
     tagline TEXT,
     vote_count INT
 );
 
+CREATE TABLE language(
+    id SERIAL,
+    langauge TEXT
+);
+
 CREATE TABLE people(
     id INT, -- Not a serial because it has an id in the csv file.
-    movies_roles TEXT, -- "movie:role, etc."
+    movies_role_id TEXT, -- "movie:role_id, etc."
     name TEXT
 );
 
-CREATE TABLE movies_people)
+CREATE TABLE movies_people(
     movie INT,
     person INT,
-    current_role TEXT
+    current_role_id INT
+);
+
+CREATE TABLE role(
+    id SERIAL,
+    role TEXT, -- Actor, producer, etc.
+    character TEXT -- Harry Potter, Ant-Man, NULL, etc.
 );
 
 
