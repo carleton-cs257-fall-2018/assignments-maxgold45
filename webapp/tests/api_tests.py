@@ -53,7 +53,7 @@ class webAppTester(unittest.TestCase):
                      {"title":"Schindler's List", "id":424},
                      {"title":"The Godfather: Part II", "id":240},
                      {"title":"Spirited Away", "id":129},
-                     {"title":"Howl's Moving Castle, "id":4935},
+                     {"title":"Howl's Moving Castle", "id":4935},
                      {"title":"The Empire Strikes Back","id":1891}])
 
 #movies with parameters

@@ -6,34 +6,57 @@ TABLES
 ------
 
 CREATE TABLE movies(
-    id INT, -- Not a serial because it has an id in the csv file
+    id INT,
     title TEXT,
-    cast TEXT,
-    crew TEXT,
     budget INT,
-    genres TEXT,
+    genres TEXT, 
     keywords TEXT,
-    language TEXT,
+    language_id INT,
     overview TEXT,
     popularity INT,
     vote_average INT,
-    release_date TEXT,
+    release_date DATE, -- YYYY-MM-DD
     revenue INT,
     runtime INT,
     tagline TEXT,
     vote_count INT
 );
 
-CREATE TABLE people(
-    id INT, -- Not a serial because it has an id in the csv file.
-    movies_roles TEXT, -- "movie:role, etc."
+CREATE TABLE genre(
+    id INT,
+    genre TEXT
+);
+
+CREATE TABLE language(
+    id INT,
+    langauge TEXT
+);
+
+CREATE TABLE actor(
+    id INT,
     name TEXT
 );
 
-CREATE TABLE movies_people)
-    movie INT,
-    person INT,
-    current_role TEXT
+CREATE TABLE crew(
+    id INT,
+    name TEXT
+);
+
+CREATE TABLE jobs(
+    id INT,
+    job TEXT
+);
+
+CREATE TABLE movies_crew(
+    movie_id INT,
+    crew_id INT,
+    job_id INT
+);
+
+CREATE TABLE movies_actor(
+    movie_id INT,
+    actor_id INT,
+    character_name TEXT
 );
 
 
