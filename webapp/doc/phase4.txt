@@ -8,31 +8,31 @@ TABLES
 CREATE TABLE movies(
     id INT,
     title TEXT,
-    budget INT,
-    genres TEXT, 
+    budget BIGINT,
+    genres TEXT, -- list of ids
     keywords TEXT,
-    language_id INT,
+    language_code TEXT,
     overview TEXT,
-    popularity INT,
-    vote_average INT,
-    release_date DATE, -- YYYY-MM-DD
-    revenue INT,
+    popularity DECIMAL,
+    vote_average DECIMAL,
+    release_date TEXT,
+    revenue BIGINT,
     runtime INT,
     tagline TEXT,
     vote_count INT
 );
 
-CREATE TABLE genre(
+CREATE TABLE genres(
     id INT,
     genre TEXT
 );
 
-CREATE TABLE language(
-    id INT,
+CREATE TABLE languages(
+    langauge_code TEXT,
     langauge TEXT
 );
 
-CREATE TABLE actor(
+CREATE TABLE actors(
     id INT,
     name TEXT
 );
@@ -47,16 +47,16 @@ CREATE TABLE jobs(
     job TEXT
 );
 
+CREATE TABLE movies_actors(
+    movie_id INT,
+    actor_id INT,
+    character_name TEXT
+);
+
 CREATE TABLE movies_crew(
     movie_id INT,
     crew_id INT,
     job_id INT
-);
-
-CREATE TABLE movies_actor(
-    movie_id INT,
-    actor_id INT,
-    character_name TEXT
 );
 
 
