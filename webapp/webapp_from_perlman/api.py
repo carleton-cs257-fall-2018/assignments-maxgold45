@@ -84,7 +84,7 @@ def get_actor(actor_id):
         return json.dumps(info_list)
 
 @app.route('/crew/<crew_id>')
-def get_crew(crew_id):
+def get_one_crew(crew_id):
     query = '''select movies_crew.crew_id, crew.name, job, movie_id, title from
     crew, movies, movies_crew, jobs where crew.id = %s and crew_id = crew.id
     and movies.id = movies_crew.movie_id and jobs.id = job_id;'''
@@ -143,7 +143,6 @@ def get_movies(title):
         query += 'ORDER BY popularity DESC'
     elif sort_argument == 'vote_average':
         query += 'ORDER BY vote_average DESC'
-    query += ' limit 50'
 
     movie_list = []
     connection = get_connection()
@@ -157,6 +156,40 @@ def get_movies(title):
         connection.close()
 
     return json.dumps(movie_list)
+
+@app.route('/actors/<name>')
+def get_actors(name):
+    query = 'select id, name from actors where UPPER(name) LIKE\'%%\' || UPPER(%s) || \'%%\' ORDER BY name;'
+
+    actor_list = []
+    connection = get_connection()
+    if connection is not None:
+        try:
+            for row in get_select_query_results(connection, query, (name,)):
+                actor = {'id':row[0], 'name':row[1]}
+                actor_list.append(actor)
+        except Exception as e:
+            print(e, file=sys.stderr)
+        connection.close()
+
+    return json.dumps(actor_list)
+
+@app.route('/crew/<name>/<job>')
+def get_crew(name, job):
+    query = 'SELECT DISTINCT crew.id, name from crew, jobs, movies_crew where UPPER(name) LIKE \'%%\' || UPPER(%s) || \'%%\' and UPPER(job) LIKE \'%%\' || UPPER(%s) || \'%%\' and job_id = jobs.id and crew_id = crew.id'
+
+    crew_list = []
+    connection = get_connection()
+    if connection is not None:
+        try:
+            for row in get_select_query_results(connection, query, (name, job,)):
+                crew = {'id':row[0], 'name':row[1]}
+                crew_list.append(crew)
+        except Exception as e:
+            print(e, file=sys.stderr)
+        connection.close()
+
+    return json.dumps(crew_list)
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
