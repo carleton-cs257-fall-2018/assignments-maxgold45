@@ -3,3 +3,5 @@
 *.class
 .vscode/
 config.py
+.ssh/
+workflow
