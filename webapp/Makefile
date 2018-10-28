@@ -8,9 +8,9 @@ upload:
 login:
 	ssh goldbergm@perlman.mathcs.carleton.edu;
 
-runperlman:
+runwebsite:
 	python3 api.py perlman.mathcs.carleton.edu 5110;
-	python3 website.py perlman.mathcs.carleton.edu 5210;
+	python3 website.py perlman.mathcs.carleton.edu 5210 5110;
 
 
 
