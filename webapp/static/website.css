@@ -1,3 +1,74 @@
 body {
-    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-family: Tahoma, Geneva, sans-serif;
+    text-size: 16pt !important;
+    background: url("background.png");
+}
+
+.dropbtn {
+    background-color: #3498DB;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #2980B9;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #f1f1f1;
+    min-width: 50px;
+    overflow: auto;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 5px 12px;
+    display: block;
+}
+
+.dropdown a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
+}
+
+#SearchButtons{
+    height: 30px;
+    width: 100%;
+    padding: 20px;
+    float: center;
+}
+
+#SearchBar {
+    width: 10%;
+    height: 100%;
+    float: left;
+    padding: 20px;
+}
+
+#SearchDropdowns {
+    width: 10%;
+    height: 100%;
+    float: left;
+    padding: 20px;
+}
+
+.movieLink {
+    color: #0645AD;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.titleSize {
+    font-size: 125%;
+    text-decoration: underline;
 }
