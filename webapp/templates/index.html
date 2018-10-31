@@ -9,33 +9,55 @@
 </head>
 
 <body>
+    <div id="top">
+        <h1>Cinehub</h1>
+        <h2>Welcome to Cinehub, your one stop shop for movie inquiries!</h2>
+    </div>
 
-    <h1>Cinehub</h1>
-
-    <h2>Welcome to Cinehub, your one stop shop for movie inquiries!</h2>
-    <div id = "SearchButtons">
-        <div id="SearchBar">
-            <input type="text" placeholder="Search Cinehub...">
+    <div id = "SearchBar">
+        <div id="Search">
+            <input type="text" class="bigButt" id = "searchTerm" placeholder="Search Cinehub...">
         </div>
-
-        <div id="SearchDropdowns" class="dropdown">
-        <button onclick="dropdown()" class="dropbtn">Search Category: Title </button>
-            <div id="myDropdown" class="dropdown-content">
-                <a href="#title">Title</a>
-                <a href="#actors">Actors</a>
-                <a href="#directors">Directors</a>
-                <a href="#producers">Producers</a>
-                <a href="#writers">Writers</a>
-
-           </div>
+        <div id="topicButt">
+            <select list="topics" name="Topics" class="bigButt" id="topicDrop">
+                <datalist id="topic">
+                    <option value="movies">Titles</option>
+                    <option value="actors">Actors</option>
+                    <option value="director">Directors</option>
+                    <option value="producer">Producers</option>
+                    <option value="writer">Writers</option>
+                </datalist>
+            </select>
+        </div>
+        <div id="sortByButt">
+            <select list="sortBys" name="SortBys" class="bigButt" id="sortByDrop">
+                <datalist id="sortBy">
+                    <option value="title">Alphabetical</option>
+                    <option value="popularity">Popularity (Titles)</option>
+                    <option value="vote_average">Vote Average (Titles)</option>
+                </datalist>
+            </select>
+        </div>
+        <div id="sortOrderButt">
+            <select list="sortOrders" name="SortOrders" class="bigButt" id="sortOrderDrop">
+                <datalist id="sortOrder">
+                    <option value="asc">Ascending (Titles)</option>
+                    <option value="desc">Descending (Titles)</option>
+                </datalist>
+            </select>
         </div>
     </div>
-    <p><button id="search_button">Cinehub Search</button></p>
-    <p><button id="top_ten_button">Top Ten Movies</button></p>
 
-    <p><table id="results_table" class=movieLink></table></p>
-    <p><table id="movie_title"></table></p>
-    <p><table id="movie_table"></table></p>
+    <div id="pressButts">
+        <div id="searchButt"><button id="search_button" class="bigButt">Cinehub Search</button></div>
+        <div id="topTenButt"><button id="top_ten_button" class="bigButt">Top Ten Movies</button></div>
+    </div>
+
+    <div id="information">
+        <div id="results"><p><table id="results_table" class=link></table></p></div>
+        <div id="title"><p><table id="movie_title"></table></p></div>
+        <div id="details"><p><table id="movie_table"></table></p></div>
+    </div>
 </body>
 </html>
 

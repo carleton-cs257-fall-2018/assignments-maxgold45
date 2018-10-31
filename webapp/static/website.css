@@ -1,74 +1,115 @@
 body {
     font-family: Tahoma, Geneva, sans-serif;
-    text-size: 16pt !important;
     background: url("background.png");
+    background-attachment:fixed;
+    margin: 20px;
 }
 
-.dropbtn {
-    background-color: #3498DB;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.dropbtn:hover, .dropbtn:focus {
-    background-color: #2980B9;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    background-color: #f1f1f1;
-    min-width: 50px;
-    overflow: auto;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 5px 12px;
-    display: block;
-}
-
-.dropdown a:hover {
-    background-color: #ddd;
+#top {
+    text-align:center;
 }
 
 .show {
     display: block;
 }
 
-#SearchButtons{
-    height: 30px;
+#SearchBar{
+    height: 40px;
     width: 100%;
     padding: 20px;
-    float: center;
+    text-align:left;
 }
 
-#SearchBar {
-    width: 10%;
+#Search {
+    width: 25%;
+    height: 100%;
+    float:left;
+    cursor:text;
+}
+
+#topicButt {
+    width: 25%;
+    height: 100%;
+    float:left;
+}
+
+#sortByButt {
+    width: 25%;
     height: 100%;
     float: left;
-    padding: 20px;
 }
 
-#SearchDropdowns {
-    width: 10%;
+#sortOrderButt{
+    width: 25%;
     height: 100%;
     float: left;
-    padding: 20px;
 }
 
-.movieLink {
-    color: #0645AD;
-    text-decoration: underline;
+.bigButt{
+    width: 300px;
+    height: 30px;
+    font-weight: bold;
     cursor: pointer;
+}
+
+.bigButt:hover {
+    background-color: #c0d6ea;
+}
+
+#pressButts {
+    width:300px;
+    height:80px;
+    text-align:center;
+    padding-left:20px;
+}
+
+#searchButt{
+    width: 100%;
+    height: 50%;
+    text-align:left;
+}
+
+#topTenButt{
+    width: 100%;
+    height: 50%;
+    text-align:left;
+}
+
+.link {
+    color: #0645AD;
+    cursor: pointer;
+}
+
+.link a:hover {
+    text-decoration: underline;
 }
 
 .titleSize {
     font-size: 125%;
     text-decoration: underline;
 }
+
+#information {
+    width: 100%;
+    height: 300px;
+    padding: 20px;
+}
+
+#results {
+    width: 25%;
+    height: 100%;
+    float:left;
+}
+
+#title {
+    width: 75%;
+    height: auto;
+    float: right;
+}
+
+#details {
+    width: 75%;
+    height: auto;
+    float: right;
+}
+

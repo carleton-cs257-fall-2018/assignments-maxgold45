@@ -140,9 +140,15 @@ def get_movies(title):
     if sort_argument == 'title':
         query += 'ORDER BY title'
     elif sort_argument == 'popularity':
-        query += 'ORDER BY popularity DESC'
+        query += 'ORDER BY popularity'
     elif sort_argument == 'vote_average':
-        query += 'ORDER BY vote_average DESC'
+        query += 'ORDER BY vote_average'
+
+    asc_argument = flask.request.args.get('asc')
+    if asc_argument == 'desc':
+        query += ' DESC'
+    elif sort_argument == 'asc':
+        query += ' ASC'
 
     movie_list = []
     connection = get_connection()

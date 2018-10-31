@@ -15,8 +15,10 @@ download:
 login:
 	ssh goldbergm@perlman.mathcs.carleton.edu;
 
-runwebsite:
+api:
 	python3 api.py perlman.mathcs.carleton.edu 5110;
+
+website:
 	python3 website.py perlman.mathcs.carleton.edu 5210 5110;
 
 

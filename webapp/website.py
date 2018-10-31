@@ -3,6 +3,8 @@
     website.py
     Max Goldberg and Alexis Engel
     10/30/2018
+
+    Runs Cinehub using Flask.
 '''
 import sys
 import flask
