@@ -1,0 +1,5 @@
+1. Make a blank screen where we can move around.
+2. Add obstacles that will interact with the frog, but don't let them move yet.
+3. Have obstacles move.
+4. Configure winning. Buttons: restart, pause, play again.
+5. Make it pretty.
