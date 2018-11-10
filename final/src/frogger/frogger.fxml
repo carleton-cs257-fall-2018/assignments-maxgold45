@@ -1,8 +1,26 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
-
-<?import javafx.scene.control.Button?>
+<!--
+Max Goldberg and Alexis Engel.
+-->
+<?import frogger.FroggerView?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="frogger.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane fx:controller="frogger.Controller" xmlns:fx="http://javafx.com/fxml">
+  <top>
+    <BorderPane prefHeight="35" style="-fx-background-color: #0B5091; -fx-padding: 10px, 5px, 10px, 5px" >
+      <left><Label fx:id="scoreLabel" style="-fx-font-size: 150%; -fx-text-fill: white" /></left>
+      <right><Label fx:id="messageLabel" style="-fx-font-size: 150%; -fx-text-fill: white" /></right>
+    </BorderPane>
+  </top>
+
+  <center>
+    <FroggerView fx:id="froggerView" rowCount="25" columnCount="40" />
+  </center>
+
+  <bottom>
+    <HBox prefHeight="35" style="-fx-padding: 10px, 5px, 10px, 5px; -fx-background-color: #F3B61D">
+      <Label style="-fx-font-size: 140%; -fx-text-fill: white"
+        text="Move: Arrow Keys or WASD / New game: N / Quit: J / Pause and Resume: P"/>
+    </HBox>
+  </bottom>
+</BorderPane>

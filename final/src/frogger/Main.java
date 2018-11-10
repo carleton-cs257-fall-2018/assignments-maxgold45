@@ -1,3 +1,8 @@
+/**
+ * Max Goldberg and Alexis Engel.
+ * Create the Frogger window.
+ */
+
 package frogger;
 
 import javafx.application.Application;
@@ -7,13 +12,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
-    @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("frogger.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("frogger.fxml"));
+        Parent root = loader.load();
+        primaryStage.setTitle("Frogger");
+
+        Controller controller = loader.getController();
+        root.setOnKeyPressed(controller);
+        double sceneWidth = controller.getBoardWidth() + 20.0;
+        double sceneHeight = controller.getBoardHeight() + 100.0;
+        primaryStage.setScene(new Scene(root, sceneWidth, sceneHeight));
         primaryStage.show();
+        root.requestFocus();
     }
 
 
