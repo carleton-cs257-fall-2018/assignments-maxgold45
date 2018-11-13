@@ -15,7 +15,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class FroggerView extends Group {
-  public final static double CELL_WIDTH = 20.0;
+  public final static double CELL_WIDTH = 40.0;
   @FXML private int rowCount;
   @FXML private int columnCount;
   private Rectangle[][] cellViews;
@@ -76,11 +76,43 @@ public class FroggerView extends Group {
     for (int row = 0; row < this.rowCount; row++) {
       for (int column = 0; column < this.columnCount; column++) {
         FroggerModel.CellValue cellValue = model.getCellValue(row, column);
-        if (cellValue == CellValue.FROG) {
-          Image image = new Image("/res/frogger.png");
-          this.cellViews[row][column].setFill(new ImagePattern(image));
-        }  else {
-          this.cellViews[row][column].setFill(Color.WHITE);
+        if (cellValue == CellValue.FROG || cellValue == CellValue.COMPLETE) {
+          Image img = new Image("/res/frogger.png");
+          this.cellViews[row][column].setFill(new ImagePattern(img));
+        }
+        else if(cellValue == CellValue.CAR) {
+          int car = (int)(3*Math.random());
+
+          if(car==0){
+            Image img = new Image("res/car1.png");
+            this.cellViews[row][column].setFill(new ImagePattern(img));
+          }
+          else if(car==1) {
+            Image img = new Image("res/car2.png");
+            this.cellViews[row][column].setFill(new ImagePattern(img));
+          }
+          else if(car==2) {
+            Image img = new Image("res/car3.png");
+            this.cellViews[row][column].setFill(new ImagePattern(img));
+          }
+        }
+        else if (cellValue == CellValue.ROAD){
+          Image img = new Image("res/road.png");
+          this.cellViews[row][column].setFill(new ImagePattern(img));
+        }
+        else if (cellValue == CellValue.WATER) {
+          Image img = new Image("res/water.png");
+          this.cellViews[row][column].setFill(new ImagePattern(img));
+        }
+        else if(cellValue == CellValue.LILYPAD){
+          Image lily = new Image("res/lilypad.png");
+          this.cellViews[row][column].setFill(new ImagePattern(lily));
+        }
+        else if (cellValue == CellValue.GROUND){
+          this.cellViews[row][column].setFill(Color.GREEN);
+        }
+        else {
+          this.cellViews[row][column].setFill(Color.RED);
         }
       }
     }

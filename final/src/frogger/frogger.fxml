@@ -14,7 +14,7 @@ Max Goldberg and Alexis Engel.
   </top>
 
   <center>
-    <FroggerView fx:id="froggerView" rowCount="25" columnCount="40" />
+    <FroggerView fx:id="froggerView" rowCount="13" columnCount="12" />
   </center>
 
   <bottom>

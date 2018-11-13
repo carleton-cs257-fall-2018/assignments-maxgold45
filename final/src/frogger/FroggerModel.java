@@ -8,13 +8,14 @@ package frogger;
 import javafx.application.Platform;
 import java.util.Timer;
 import java.util.TimerTask;
+import javafx.scene.control.Cell;
 
 
 public class FroggerModel {
   public enum CellValue {
-    GROUND, FROG, CAR, LOG, TURTLE, WATER, ENDPOINT
+    GROUND, ROAD, FROG, CAR, LOG, WATER, LILYPAD, COMPLETE
   };
-  final private double FRAMES_PER_SECOND = 20.0;
+  final private double FRAMES_PER_SECOND = 100.0;
 
   private boolean gameOver;
   private int score;
@@ -25,6 +26,8 @@ public class FroggerModel {
   private CellValue[][] cells;
   private int froggerRow;
   private int froggerColumn;
+  private CellValue prevValue;
+  private int lilypads = 4;
 
   public FroggerModel(int rowCount, int columnCount) {
     assert rowCount > 0 && columnCount > 0;
@@ -33,6 +36,7 @@ public class FroggerModel {
   }
 
   public void startNewGame() {
+    this.prevValue = CellValue.GROUND; // Frogger starts on ground.
     this.paused = false;
     this.gameOver = false;
     this.score = 0;
@@ -40,8 +44,24 @@ public class FroggerModel {
     this.initializeGame();
   }
 
+
   public boolean isGameOver() {
     return this.gameOver;
+  }
+
+  public boolean isGameWon() {
+    if(lilypads == 0){
+      return true;
+    }
+    return false;
+  }
+
+  public void spawnFrog(){
+    int rowCount = this.cells.length;
+    int columnCount = this.cells[0].length;
+    this.froggerRow = rowCount - 1;
+    this.froggerColumn = columnCount / 2;
+    this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;
   }
 
   /**
@@ -54,17 +74,25 @@ public class FroggerModel {
     int rowCount = this.cells.length;
     int columnCount = this.cells[0].length;
 
-    // Set all cells to ground.
+    // Set all cells to background values.
     for (int row = 0; row < rowCount; row++) {
       for (int column = 0; column < columnCount; column++) {
-        this.cells[row][column] = CellValue.GROUND;
+        if(row > rowCount/2 && row < rowCount - 1) {
+          this.cells[row][column] = CellValue.ROAD;
+        }
+        else if(row < rowCount/2){
+          this.cells[row][column] = CellValue.WATER;
+          if(row == 0 && column % 3 == 1){
+            this.cells[row][column] = CellValue.LILYPAD;
+          }
+        }
+        else {
+          this.cells[row][column] = CellValue.GROUND;
+        }
       }
     }
 
-    // Place the frog
-    this.froggerRow = rowCount - 1;
-    this.froggerColumn = columnCount / 2;
-    this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;
+    spawnFrog();
   }
 
   /**
@@ -141,11 +169,21 @@ public class FroggerModel {
       newColumn = this.getColumnCount() - 1;
     }
 
-    this.cells[this.froggerRow][this.froggerColumn] = CellValue.GROUND;
+    this.cells[this.froggerRow][this.froggerColumn] = prevValue;
 
     this.froggerRow = newRow;
     this.froggerColumn = newColumn;
+    this.prevValue = this.cells[this.froggerRow][this.froggerColumn];
+
+    if (this.prevValue == CellValue.LILYPAD){
+      this.cells[froggerRow][froggerColumn] = CellValue.COMPLETE;
+      this.prevValue = CellValue.GROUND; // Reset the prevValue
+      this.lilypads --;
+      spawnFrog();
+    }
+
     this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;
+
 
   }
 

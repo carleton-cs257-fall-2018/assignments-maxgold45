@@ -41,7 +41,11 @@ public class Controller implements EventHandler<KeyEvent> {
     this.scoreLabel.setText(String.format("Score: %d", this.froggerModel.getScore()));
     if (this.froggerModel.isGameOver()) {
       this.messageLabel.setText("Game Over. Hit J to start a new game.");
-    } else {
+    }
+    else if(this.froggerModel.isGameWon()) {
+      this.messageLabel.setText("Game Won!!!!! Hit J to start a new game.");
+    }
+    else {
       this.messageLabel.setText("Use the arrow keys to get to the other side.");
     }
   }
