@@ -8,8 +8,10 @@ package frogger;
 import frogger.FroggerModel.CellValue;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class FroggerView extends Group {
@@ -75,7 +77,8 @@ public class FroggerView extends Group {
       for (int column = 0; column < this.columnCount; column++) {
         FroggerModel.CellValue cellValue = model.getCellValue(row, column);
         if (cellValue == CellValue.FROG) {
-          this.cellViews[row][column].setFill(Color.GREEN);
+          Image image = new Image("/res/frogger.png");
+          this.cellViews[row][column].setFill(new ImagePattern(image));
         }  else {
           this.cellViews[row][column].setFill(Color.WHITE);
         }
