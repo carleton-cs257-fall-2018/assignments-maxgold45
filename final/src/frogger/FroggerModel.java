@@ -1,6 +1,6 @@
 /**
- * Max Goldberg and Alexis Engel.
- * This controls the game. It allows the objects to move and controls other back-end features.
+ * Max Goldberg and Alexis Engel. This controls the game. It allows the objects to move and controls
+ * other back-end features.
  */
 
 package frogger;
@@ -12,9 +12,12 @@ import javafx.scene.control.Cell;
 
 
 public class FroggerModel {
+
   public enum CellValue {
     GROUND, ROAD, FROG, CAR, LOG, WATER, LILYPAD, COMPLETE
-  };
+  }
+
+  ;
   final private double FRAMES_PER_SECOND = 100.0;
 
   private boolean gameOver;
@@ -44,19 +47,18 @@ public class FroggerModel {
     this.initializeGame();
   }
 
-
   public boolean isGameOver() {
     return this.gameOver;
   }
 
   public boolean isGameWon() {
-    if(lilypads == 0){
+    if (lilypads == 0) {
       return true;
     }
     return false;
   }
 
-  public void spawnFrog(){
+  public void spawnFrog() {
     int rowCount = this.cells.length;
     int columnCount = this.cells[0].length;
     this.froggerRow = rowCount - 1;
@@ -77,21 +79,18 @@ public class FroggerModel {
     // Set all cells to background values.
     for (int row = 0; row < rowCount; row++) {
       for (int column = 0; column < columnCount; column++) {
-        if(row > rowCount/2 && row < rowCount - 1) {
+        if (row > rowCount / 2 && row < rowCount - 1) {
           this.cells[row][column] = CellValue.ROAD;
-        }
-        else if(row < rowCount/2){
+        } else if (row < rowCount / 2) {
           this.cells[row][column] = CellValue.WATER;
-          if(row == 0 && column % 3 == 1){
+          if (row == 0 && column % 3 == 1) {
             this.cells[row][column] = CellValue.LILYPAD;
           }
-        }
-        else {
+        } else {
           this.cells[row][column] = CellValue.GROUND;
         }
       }
     }
-
     spawnFrog();
   }
 
@@ -110,16 +109,15 @@ public class FroggerModel {
       }
     };
 
-    long frameTimeInMilliSeconds = (long)(1000.0 / FRAMES_PER_SECOND);
+    long frameTimeInMilliSeconds = (long) (1000.0 / FRAMES_PER_SECOND);
     this.timer.schedule(timerTask, 0, frameTimeInMilliSeconds);
   }
 
   /**
    * Move the logs and cars.
    *
-   * TODO:
-   * We will have a list of logs and a list of cars. This will call their update methods, and if one
-   * goes off the screen, it will appear on the other side.
+   * TODO: We will have a list of logs and a list of cars. This will call their update methods, and
+   * if one goes off the screen, it will appear on the other side.
    */
   private void updateAnimation() {
   }
@@ -143,8 +141,8 @@ public class FroggerModel {
   }
 
   /**
-   * Moves the frog based on keyboard input from the Controller. Doesn't allow the frog to move
-   * into the walls.
+   * Moves the frog based on keyboard input from the Controller. Doesn't allow the frog to move into
+   * the walls.
    *
    * TODO: Kill the frog when it hits a car or water.
    */
@@ -175,11 +173,16 @@ public class FroggerModel {
     this.froggerColumn = newColumn;
     this.prevValue = this.cells[this.froggerRow][this.froggerColumn];
 
-    if (this.prevValue == CellValue.LILYPAD){
+    if (this.prevValue == CellValue.LILYPAD) {
       this.cells[froggerRow][froggerColumn] = CellValue.COMPLETE;
       this.prevValue = CellValue.GROUND; // Reset the prevValue
-      this.lilypads --;
-      spawnFrog();
+      this.lilypads--;
+      if (isGameWon()){
+          return; //TODO: What to do when you win.
+      }
+      else{
+        spawnFrog();
+      }
     }
 
     this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;
@@ -190,7 +193,7 @@ public class FroggerModel {
   /**
    * Pauses the game based on keyboard input from the controller.
    */
-  public void onPause(){
+  public void onPause() {
     if (this.paused) {
       this.startTimer();
     } else {
