@@ -6,6 +6,7 @@
 package frogger;
 
 import frogger.FroggerModel.CellValue;
+import java.awt.image.BufferedImage;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -77,8 +78,10 @@ public class FroggerView extends Group {
       for (int column = 0; column < this.columnCount; column++) {
         FroggerModel.CellValue cellValue = model.getCellValue(row, column);
         if (cellValue == CellValue.FROG || cellValue == CellValue.COMPLETE) {
+          this.cellViews[row][column].setFill(Color.RED);
+          /**
           Image img = new Image("/res/frogger.png");
-          this.cellViews[row][column].setFill(new ImagePattern(img));
+          this.cellViews[row][column].setFill(new ImagePattern(img));*/
         }
         else if(cellValue == CellValue.CAR) {
           int car = (int)(3*Math.random());
@@ -97,14 +100,20 @@ public class FroggerView extends Group {
           }
         }
         else if (cellValue == CellValue.ROAD){
+          this.cellViews[row][column].setFill(Color.BLACK);
+          /**
           Image img = new Image("res/road.png");
-          this.cellViews[row][column].setFill(new ImagePattern(img));
+          this.cellViews[row][column].setFill(new ImagePattern(img));*/
         }
         else if (cellValue == CellValue.WATER) {
+          this.cellViews[row][column].setFill(Color.LIGHTBLUE);
+          /**
           Image img = new Image("res/water.png");
-          this.cellViews[row][column].setFill(new ImagePattern(img));
+          this.cellViews[row][column].setFill(new ImagePattern(img));*/
         }
         else if(cellValue == CellValue.LILYPAD){
+          this.cellViews[row][column].setFill(Color.YELLOW);
+
           Image lily = new Image("res/lilypad.png");
           this.cellViews[row][column].setFill(new ImagePattern(lily));
         }

@@ -38,15 +38,14 @@ public class Controller implements EventHandler<KeyEvent> {
    */
   private void update() {
     this.froggerView.update(this.froggerModel);
-    this.scoreLabel.setText(String.format("Score: %d", this.froggerModel.getScore()));
-    if (this.froggerModel.isGameOver()) {
-      this.messageLabel.setText("Game Over. Hit J to start a new game.");
+    if (this.froggerModel.isGameLost()) {
+      this.messageLabel.setText("Game Over. Hit N to start a new game.");
     }
     else if(this.froggerModel.isGameWon()) {
-      this.messageLabel.setText("Game Won!!!!! Hit J to start a new game.");
+      this.messageLabel.setText("Game Won!!!!! Hit N to start a new game.");
     }
     else {
-      this.messageLabel.setText("Use the arrow keys to get to the other side.");
+      this.messageLabel.setText("Get to all four lilypads without dying!");
     }
   }
 
@@ -71,7 +70,10 @@ public class Controller implements EventHandler<KeyEvent> {
     } else if (code == KeyCode.DOWN || code == KeyCode.S) {
       this.froggerModel.moveFroggerBy(1, 0);
     } else if (code == KeyCode.N) {
-      this.froggerModel.startNewGame();
+      if(this.froggerModel.isGameWon()){
+        this.messageLabel.setText("Get to all four lilypads without dying!");
+        this.froggerModel.startNewGame();
+      }
     } else if (code == KeyCode.J) {
       System.exit(0);
     } else if (code == KeyCode.P) {

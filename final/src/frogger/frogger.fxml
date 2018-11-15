@@ -5,16 +5,17 @@ Max Goldberg and Alexis Engel.
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.BorderPane?>
+<?import frogger.Car?>
 <BorderPane fx:controller="frogger.Controller" xmlns:fx="http://javafx.com/fxml">
   <top>
     <BorderPane prefHeight="35" style="-fx-background-color: #0B5091; -fx-padding: 10px, 5px, 10px, 5px" >
-      <left><Label fx:id="scoreLabel" style="-fx-font-size: 150%; -fx-text-fill: white" /></left>
       <right><Label fx:id="messageLabel" style="-fx-font-size: 150%; -fx-text-fill: white" /></right>
     </BorderPane>
   </top>
 
   <center>
     <FroggerView fx:id="froggerView" rowCount="13" columnCount="12" />
+    <Car fx:id="car1" layoutX="20" layoutY="20" fill="yellow" velocity="6"/>
   </center>
 
   <bottom>

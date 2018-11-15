@@ -1,8 +1,8 @@
 Done 1. Make a blank screen where we can move around.
 Done 2. Put in the background.
 Done 3. Respawn frog at Lilypad
-4: Configure winning with Global Value of lilypads remaining.
-     - Don't spawn another frog when you win.
+Done 4. Configure winning with Global Value of lilypads remaining.
+     Done- Don't spawn another frog when you win.
 5. Add obstacles that will interact with the frog, but don't let them move yet.
 6. Have obstacles move.
 7. Restart, pause, play again, help.
@@ -10,3 +10,8 @@ Done 3. Respawn frog at Lilypad
   - have several frog images- with road/log/etc. backgrounds.
   - Add music
   - Winning screen
+
+
+Questions:
+  - Lag from png?
+  - 

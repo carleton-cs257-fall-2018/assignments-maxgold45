@@ -8,8 +8,7 @@ package frogger;
 import javafx.application.Platform;
 import java.util.Timer;
 import java.util.TimerTask;
-import javafx.scene.control.Cell;
-
+import javafx.fxml.FXML;
 
 public class FroggerModel {
 
@@ -21,8 +20,6 @@ public class FroggerModel {
   final private double FRAMES_PER_SECOND = 100.0;
 
   private boolean gameOver;
-  private int score;
-  private int level;
   private Timer timer;
   private boolean paused;
 
@@ -30,7 +27,8 @@ public class FroggerModel {
   private int froggerRow;
   private int froggerColumn;
   private CellValue prevValue;
-  private int lilypads = 4;
+  @FXML private Car car1;
+  private int lilypads;
 
   public FroggerModel(int rowCount, int columnCount) {
     assert rowCount > 0 && columnCount > 0;
@@ -39,15 +37,15 @@ public class FroggerModel {
   }
 
   public void startNewGame() {
+    this.cells = new CellValue[this.cells.length][this.cells[0].length];
+    this.lilypads = 4;
     this.prevValue = CellValue.GROUND; // Frogger starts on ground.
     this.paused = false;
     this.gameOver = false;
-    this.score = 0;
-    this.level = 1;
     this.initializeGame();
   }
 
-  public boolean isGameOver() {
+  public boolean isGameLost() {
     return this.gameOver;
   }
 
@@ -120,6 +118,7 @@ public class FroggerModel {
    * if one goes off the screen, it will appear on the other side.
    */
   private void updateAnimation() {
+      this.car1.step();
   }
 
   public int getRowCount() {
@@ -131,9 +130,6 @@ public class FroggerModel {
     return this.cells[0].length;
   }
 
-  public int getScore() {
-    return this.score;
-  }
 
   public CellValue getCellValue(int row, int column) {
     assert row >= 0 && row < this.cells.length && column >= 0 && column < this.cells[0].length;
@@ -147,47 +143,54 @@ public class FroggerModel {
    * TODO: Kill the frog when it hits a car or water.
    */
   public void moveFroggerBy(int rowChange, int columnChange) {
-    if (this.gameOver || this.paused) {
+    if (isGameWon()){
+      this.froggerRow = froggerColumn = 0;
+    }
+    else if(isGameLost()){
+      this.froggerRow = froggerColumn = 0;
+    }
+    else if (this.paused) {
       return;
     }
+    else {
 
-    int newRow = this.froggerRow + rowChange;
-    if (newRow < 0) {
-      newRow = 0;
-    }
-    if (newRow >= this.getRowCount()) {
-      newRow = this.getRowCount() - 1;
-    }
-
-    int newColumn = this.froggerColumn + columnChange;
-    if (newColumn < 0) {
-      newColumn = 0;
-    }
-    if (newColumn >= this.getColumnCount()) {
-      newColumn = this.getColumnCount() - 1;
-    }
-
-    this.cells[this.froggerRow][this.froggerColumn] = prevValue;
-
-    this.froggerRow = newRow;
-    this.froggerColumn = newColumn;
-    this.prevValue = this.cells[this.froggerRow][this.froggerColumn];
-
-    if (this.prevValue == CellValue.LILYPAD) {
-      this.cells[froggerRow][froggerColumn] = CellValue.COMPLETE;
-      this.prevValue = CellValue.GROUND; // Reset the prevValue
-      this.lilypads--;
-      if (isGameWon()){
-          return; //TODO: What to do when you win.
+      int newRow = this.froggerRow + rowChange;
+      if (newRow < 0) {
+        newRow = 0;
       }
-      else{
-        spawnFrog();
+      if (newRow >= this.getRowCount()) {
+        newRow = this.getRowCount() - 1;
       }
+
+      int newColumn = this.froggerColumn + columnChange;
+      if (newColumn < 0) {
+        newColumn = 0;
+      }
+      if (newColumn >= this.getColumnCount()) {
+        newColumn = this.getColumnCount() - 1;
+      }
+
+      this.cells[this.froggerRow][this.froggerColumn] = prevValue;
+
+      this.froggerRow = newRow;
+      this.froggerColumn = newColumn;
+      this.prevValue = this.cells[this.froggerRow][this.froggerColumn];
+
+      if (this.prevValue == CellValue.LILYPAD) {
+        this.cells[froggerRow][froggerColumn] = CellValue.COMPLETE;
+        this.prevValue = CellValue.GROUND; // Reset the prevValue
+        this.lilypads--;
+        if (lilypads > 0) {
+          spawnFrog();
+        }
+      }
+     /** else if (this.prevValue == CellValue.WATER){
+          this.gameOver = true;
+      }*/
+
+      this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;
+
     }
-
-    this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;
-
-
   }
 
   /**
