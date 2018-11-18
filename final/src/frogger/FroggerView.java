@@ -6,7 +6,6 @@
 package frogger;
 
 import frogger.FroggerModel.CellValue;
-import java.awt.image.BufferedImage;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -21,7 +20,22 @@ public class FroggerView extends Group {
   @FXML private int columnCount;
   private Rectangle[][] cellViews;
 
+  private ImagePattern froggerIMG;
+  private ImagePattern roadIMG;
+  private ImagePattern waterIMG;
+  private ImagePattern lilypadIMG;
+  private ImagePattern car1IMG;
+  private ImagePattern car2IMG;
+  private ImagePattern car3IMG;
+  private ImagePattern logIMG;
+
   public FroggerView() {
+    this.waterIMG = new ImagePattern(new Image("res/water.png"));
+    this.froggerIMG = new ImagePattern(new Image("/res/frogger.png"));
+    this.roadIMG = new ImagePattern(new Image("res/road.png"));
+    this.lilypadIMG = new ImagePattern(new Image("res/lilypad.png"));
+
+    this.logIMG = new ImagePattern(new Image("res/log.png"));
   }
 
   public int getRowCount() {
@@ -78,44 +92,32 @@ public class FroggerView extends Group {
       for (int column = 0; column < this.columnCount; column++) {
         FroggerModel.CellValue cellValue = model.getCellValue(row, column);
         if (cellValue == CellValue.FROG || cellValue == CellValue.COMPLETE) {
-          this.cellViews[row][column].setFill(Color.RED);
-          /**
-          Image img = new Image("/res/frogger.png");
-          this.cellViews[row][column].setFill(new ImagePattern(img));*/
+          this.cellViews[row][column].setFill(this.froggerIMG);
         }
         else if(cellValue == CellValue.CAR) {
           int car = (int)(3*Math.random());
 
           if(car==0){
-            Image img = new Image("res/car1.png");
-            this.cellViews[row][column].setFill(new ImagePattern(img));
+            this.cellViews[row][column].setFill(this.car1IMG);
           }
           else if(car==1) {
-            Image img = new Image("res/car2.png");
-            this.cellViews[row][column].setFill(new ImagePattern(img));
+            this.cellViews[row][column].setFill(this.car2IMG);
           }
           else if(car==2) {
-            Image img = new Image("res/car3.png");
-            this.cellViews[row][column].setFill(new ImagePattern(img));
+            this.cellViews[row][column].setFill(this.car3IMG);
           }
         }
+        else if (cellValue == CellValue.LOG) {
+          this.cellViews[row][column].setFill(this.logIMG);
+        }
         else if (cellValue == CellValue.ROAD){
-          this.cellViews[row][column].setFill(Color.BLACK);
-          /**
-          Image img = new Image("res/road.png");
-          this.cellViews[row][column].setFill(new ImagePattern(img));*/
+          this.cellViews[row][column].setFill(this.roadIMG);
         }
         else if (cellValue == CellValue.WATER) {
-          this.cellViews[row][column].setFill(Color.LIGHTBLUE);
-          /**
-          Image img = new Image("res/water.png");
-          this.cellViews[row][column].setFill(new ImagePattern(img));*/
+          this.cellViews[row][column].setFill(this.waterIMG);
         }
         else if(cellValue == CellValue.LILYPAD){
-          this.cellViews[row][column].setFill(Color.YELLOW);
-
-          Image lily = new Image("res/lilypad.png");
-          this.cellViews[row][column].setFill(new ImagePattern(lily));
+          this.cellViews[row][column].setFill(lilypadIMG);
         }
         else if (cellValue == CellValue.GROUND){
           this.cellViews[row][column].setFill(Color.GREEN);

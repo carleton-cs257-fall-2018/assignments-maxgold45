@@ -27,8 +27,10 @@ public class FroggerModel {
   private int froggerRow;
   private int froggerColumn;
   private CellValue prevValue;
-  @FXML private Car car1;
   private int lilypads;
+
+  private Car car1;
+
 
   public FroggerModel(int rowCount, int columnCount) {
     assert rowCount > 0 && columnCount > 0;
@@ -118,7 +120,15 @@ public class FroggerModel {
    * if one goes off the screen, it will appear on the other side.
    */
   private void updateAnimation() {
-      this.car1.step();
+    /**double carTop = this.car1.getY() + this.car1.getLayoutY();
+    double carLeft = this.car1.getX() + this.car1.getLayoutX();
+    double carRight = carLeft + this.car1.getWidth();
+
+    //leave one side and appear at the other (for cars and logs)
+    double carVelocity = this.car1.getVelocity();
+    //if(carRight >= this.froggerView)
+
+    this.car1.step();*/
   }
 
   public int getRowCount() {
@@ -140,7 +150,7 @@ public class FroggerModel {
    * Moves the frog based on keyboard input from the Controller. Doesn't allow the frog to move into
    * the walls.
    *
-   * TODO: Kill the frog when it hits a car or water.
+   * TODO: Kill the frog when it hits a car1 or water.
    */
   public void moveFroggerBy(int rowChange, int columnChange) {
     if (isGameWon()){
@@ -184,9 +194,9 @@ public class FroggerModel {
           spawnFrog();
         }
       }
-     /** else if (this.prevValue == CellValue.WATER){
-          this.gameOver = true;
-      }*/
+      else if (this.prevValue == CellValue.WATER){
+          //this.gameOver = true;
+      }
 
       this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;
 

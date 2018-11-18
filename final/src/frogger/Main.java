@@ -22,6 +22,7 @@ public class Main extends Application {
         double sceneWidth = controller.getBoardWidth();
         double sceneHeight = controller.getBoardHeight();
         primaryStage.setScene(new Scene(root, sceneWidth, sceneHeight));
+        primaryStage.setMaximized(true);
         primaryStage.show();
         root.requestFocus();
     }

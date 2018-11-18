@@ -12,7 +12,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class Controller implements EventHandler<KeyEvent> {
-  @FXML private Label scoreLabel;
   @FXML private Label messageLabel;
   @FXML private FroggerView froggerView;
   private FroggerModel froggerModel;
@@ -70,7 +69,7 @@ public class Controller implements EventHandler<KeyEvent> {
     } else if (code == KeyCode.DOWN || code == KeyCode.S) {
       this.froggerModel.moveFroggerBy(1, 0);
     } else if (code == KeyCode.N) {
-      if(this.froggerModel.isGameWon()){
+      if(this.froggerModel.isGameWon() || this.froggerModel.isGameLost()){
         this.messageLabel.setText("Get to all four lilypads without dying!");
         this.froggerModel.startNewGame();
       }
