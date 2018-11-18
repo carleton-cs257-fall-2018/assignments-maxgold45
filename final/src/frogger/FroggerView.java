@@ -24,9 +24,12 @@ public class FroggerView extends Group {
   private ImagePattern roadIMG;
   private ImagePattern waterIMG;
   private ImagePattern lilypadIMG;
-  private ImagePattern car1IMG;
-  private ImagePattern car2IMG;
-  private ImagePattern car3IMG;
+  private ImagePattern car1FrontIMG;
+  private ImagePattern car1BackIMG;
+  private ImagePattern car2FrontIMG;
+  private ImagePattern car2BackIMG;
+  private ImagePattern car3FrontIMG;
+  private ImagePattern car3BackIMG;
   private ImagePattern logIMG;
 
   public FroggerView() {
@@ -34,6 +37,13 @@ public class FroggerView extends Group {
     this.froggerIMG = new ImagePattern(new Image("/res/frogger.png"));
     this.roadIMG = new ImagePattern(new Image("res/road.png"));
     this.lilypadIMG = new ImagePattern(new Image("res/lilypad.png"));
+
+    this.car1FrontIMG = new ImagePattern(new Image("res/car1Front.png"));
+    this.car1BackIMG = new ImagePattern(new Image("res/car1Back.png"));
+    this.car2FrontIMG = new ImagePattern(new Image("res/car2Front.png"));
+    this.car2BackIMG = new ImagePattern(new Image("res/car2Back.png"));
+    this.car3FrontIMG = new ImagePattern(new Image("res/car3Front.png"));
+    this.car3BackIMG = new ImagePattern(new Image("res/car3Back.png"));
 
     this.logIMG = new ImagePattern(new Image("res/log.png"));
   }
@@ -94,19 +104,6 @@ public class FroggerView extends Group {
         if (cellValue == CellValue.FROG || cellValue == CellValue.COMPLETE) {
           this.cellViews[row][column].setFill(this.froggerIMG);
         }
-        else if(cellValue == CellValue.CAR) {
-          int car = (int)(3*Math.random());
-
-          if(car==0){
-            this.cellViews[row][column].setFill(this.car1IMG);
-          }
-          else if(car==1) {
-            this.cellViews[row][column].setFill(this.car2IMG);
-          }
-          else if(car==2) {
-            this.cellViews[row][column].setFill(this.car3IMG);
-          }
-        }
         else if (cellValue == CellValue.LOG) {
           this.cellViews[row][column].setFill(this.logIMG);
         }
@@ -121,6 +118,24 @@ public class FroggerView extends Group {
         }
         else if (cellValue == CellValue.GROUND){
           this.cellViews[row][column].setFill(Color.GREEN);
+        }
+        else if (cellValue == CellValue.CAR1FRONT){
+          this.cellViews[row][column].setFill(this.car1FrontIMG);
+        }
+        else if (cellValue == CellValue.CAR1BACK){
+          this.cellViews[row][column].setFill(this.car1BackIMG);
+        }
+        else if (cellValue == CellValue.CAR2FRONT){
+          this.cellViews[row][column].setFill(this.car2FrontIMG);
+        }
+        else if (cellValue == CellValue.CAR2BACK){
+          this.cellViews[row][column].setFill(this.car2BackIMG);
+        }
+        else if (cellValue == CellValue.CAR3FRONT){
+          this.cellViews[row][column].setFill(this.car3FrontIMG);
+        }
+        else if (cellValue == CellValue.CAR3BACK){
+          this.cellViews[row][column].setFill(this.car3BackIMG);
         }
         else {
           this.cellViews[row][column].setFill(Color.RED);

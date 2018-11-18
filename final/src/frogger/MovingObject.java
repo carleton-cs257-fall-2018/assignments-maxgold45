@@ -8,12 +8,12 @@ public class MovingObject {
   protected int row;
   protected int column;
   protected ImagePattern img;
+  public static final int MAX_COLUMN = 11;
 
   public MovingObject(int velocity, int row, int column) {
     this.velocity = velocity;
     this.row = row;
     this.column = column;
-
   }
 
   public int getVelocity(){
@@ -37,6 +37,12 @@ public class MovingObject {
 
   public void step(){
     this.column = this.column + this.velocity;
+    if (this.column >= this.MAX_COLUMN && this.velocity > 0){
+      this.column -= this.MAX_COLUMN;
+    }
+    else if (this.column <= 0 && this.velocity < 0){
+      this.column = this.MAX_COLUMN;
+    }
   }
 
 

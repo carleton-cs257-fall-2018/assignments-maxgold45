@@ -8,16 +8,17 @@ package frogger;
 import javafx.application.Platform;
 import java.util.Timer;
 import java.util.TimerTask;
-import javafx.fxml.FXML;
+import java.util.ArrayList;
 
 public class FroggerModel {
 
   public enum CellValue {
-    GROUND, ROAD, FROG, CAR, LOG, WATER, LILYPAD, COMPLETE
+    GROUND, ROAD, FROG, LOG, WATER, LILYPAD, COMPLETE, CAR1FRONT, CAR1BACK, CAR2FRONT, CAR2BACK,
+    CAR3FRONT, CAR3BACK
   }
 
   ;
-  final private double FRAMES_PER_SECOND = 100.0;
+  final private double FRAMES_PER_SECOND = 1;
 
   private boolean gameOver;
   private Timer timer;
@@ -29,7 +30,14 @@ public class FroggerModel {
   private CellValue prevValue;
   private int lilypads;
 
-  private Car car1;
+  private Car car1Front;
+  private Car car1Back;
+/*  private Car car2Front;
+  private Car car2Back;
+  private Car car3Front;
+  private Car car3Back;*/
+
+  private ArrayList<Car> carList;
 
 
   public FroggerModel(int rowCount, int columnCount) {
@@ -39,6 +47,20 @@ public class FroggerModel {
   }
 
   public void startNewGame() {
+
+    this.car1Front = new Car(1, 11, 1, 0);
+    this.car1Back = new Car(this.car1Front.getVelocity(), this.car1Front.getRow(),
+        this.car1Front.getColumn() - 1, 1);
+
+    carList = new ArrayList<>();
+    carList.add(car1Front);
+    carList.add(car1Back);
+    /*carList.add(car2Front);
+    carList.add(car2Back);
+    carList.add(car3Front);
+    carList.add(car3Back);*/
+
+
     this.cells = new CellValue[this.cells.length][this.cells[0].length];
     this.lilypads = 4;
     this.prevValue = CellValue.GROUND; // Frogger starts on ground.
@@ -120,15 +142,29 @@ public class FroggerModel {
    * if one goes off the screen, it will appear on the other side.
    */
   private void updateAnimation() {
-    /**double carTop = this.car1.getY() + this.car1.getLayoutY();
-    double carLeft = this.car1.getX() + this.car1.getLayoutX();
-    double carRight = carLeft + this.car1.getWidth();
+    for (int i = 0; i < carList.size(); i += 2) {
+      Car carFront = carList.get(i);
+      Car carBack = carList.get(i + 1);
+      carFront.step();
+      carBack.step();
 
-    //leave one side and appear at the other (for cars and logs)
-    double carVelocity = this.car1.getVelocity();
-    //if(carRight >= this.froggerView)
+      this.cells[carFront.getRow()][carFront.getColumn()] = CellValue.CAR1FRONT;
+      this.cells[carBack.getRow()][carBack.getColumn()] = CellValue.CAR1BACK;
 
-    this.car1.step();*/
+      // Set cells to road 2 cells behind the car.
+      int backOne, backTwo;
+      if (carBack.getColumn() == 0) {
+        backOne = MovingObject.MAX_COLUMN;
+        backTwo = backOne - 1;
+      } else {
+        backOne = carBack.getColumn() - carBack.getVelocity();
+        backTwo = backOne - 1;
+      }
+
+
+      this.cells[carBack.getRow()][backOne] = CellValue.ROAD;
+      this.cells[carBack.getRow()][backTwo] = CellValue.ROAD;
+    }
   }
 
   public int getRowCount() {
@@ -194,8 +230,12 @@ public class FroggerModel {
           spawnFrog();
         }
       }
-      else if (this.prevValue == CellValue.WATER){
-          //this.gameOver = true;
+      else if (this.prevValue == CellValue.CAR1BACK || this.prevValue == CellValue.CAR1FRONT ||
+               this.prevValue == CellValue.CAR2BACK || this.prevValue == CellValue.CAR2FRONT ||
+               this.prevValue == CellValue.CAR3BACK || this.prevValue == CellValue.CAR3FRONT ||
+               this.prevValue == CellValue.WATER){
+        this.gameOver = true;
+        this.onPause();
       }
 
       this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;

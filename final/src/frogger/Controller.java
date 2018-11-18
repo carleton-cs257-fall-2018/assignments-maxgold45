@@ -76,7 +76,9 @@ public class Controller implements EventHandler<KeyEvent> {
     } else if (code == KeyCode.J) {
       System.exit(0);
     } else if (code == KeyCode.P) {
-      this.froggerModel.onPause();
+      if(!this.froggerModel.isGameWon() && !this.froggerModel.isGameLost()) {
+        this.froggerModel.onPause();
+      }
     } else {
       keyRecognized = false;
     }
