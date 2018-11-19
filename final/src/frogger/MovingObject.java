@@ -40,9 +40,6 @@ public class MovingObject {
     if (this.column >= this.MAX_COLUMN && this.velocity > 0){
       this.column -= this.MAX_COLUMN;
     }
-    else if (this.column <= 0 && this.velocity < 0){
-      this.column += this.MAX_COLUMN;
-    }
   }
   
   public CellValue getImageValue() {

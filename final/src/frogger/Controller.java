@@ -11,11 +11,13 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class Controller implements EventHandler<KeyEvent> {
   @FXML private Label messageLabel;
+  @FXML private BorderPane topPane;
   @FXML private FroggerView froggerView;
   private FroggerModel froggerModel;
 
@@ -53,12 +55,15 @@ public class Controller implements EventHandler<KeyEvent> {
     tic++;
     if (this.froggerModel.isGameLost()) {
       this.messageLabel.setText("Game Over. Hit N to start a new game.");
+      this.topPane.setStyle("-fx-background-color: #FF2020; -fx-padding: 10px, 5px, 10px, 5px");
     }
     else if(this.froggerModel.isGameWon()) {
       this.messageLabel.setText("Game Won!!!!! Hit N to start a new game.");
+      this.topPane.setStyle("-fx-background-color: #20AF20; -fx-padding: 10px, 5px, 10px, 5px");
     }
     else {
       this.messageLabel.setText("Get to all four lilypads without dying!");
+      this.topPane.setStyle("-fx-background-color: #0B5091; -fx-padding: 10px, 5px, 10px, 5px");
     }
   }
 
@@ -98,7 +103,6 @@ public class Controller implements EventHandler<KeyEvent> {
     }
 
     if (keyRecognized) {
-      //this.froggerView.update(this.froggerModel);
       keyEvent.consume();
     }
   }

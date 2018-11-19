@@ -2,6 +2,15 @@ Max Goldberg and Alexis Engel
 
 
 
+STATUS OF PROGRAM:
+-----------------
+It currently runs with one main bug:
+  - The frog will sometimes slide along a log. 
+  - We document this in our updateLogs method in the FroggerModel class.
+What we would do if we had more time:
+  - Allow for negative velocities.
+
+
 Description:
 
 

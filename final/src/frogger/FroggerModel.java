@@ -15,10 +15,11 @@ public class FroggerModel {
   }
 
   private static final int MAX_VELOCITY = 2;
-
-  private boolean gameOver;
+  private static final int MAX_LILYPAD = 4;
 
   private CellValue[][] cells;
+  private boolean gameOver;
+
   private int froggerRow;
   private int froggerColumn;
   private CellValue prevValue;
@@ -26,7 +27,6 @@ public class FroggerModel {
 
   private ArrayList<Car> carList;
   private ArrayList<Log> logList;
-
 
   public FroggerModel(int rowCount, int columnCount) {
     assert rowCount > 0 && columnCount > 0;
@@ -36,7 +36,7 @@ public class FroggerModel {
 
   public void startNewGame() {
     this.cells = new CellValue[this.cells.length][this.cells[0].length];
-    this.lilypads = 4;
+    this.lilypads = MAX_LILYPAD;
     this.prevValue = CellValue.GROUND; // Frogger starts on ground.
     this.gameOver = false;
     this.initializeGame();
@@ -53,11 +53,6 @@ public class FroggerModel {
     return false;
   }
 
-  /**
-   * Sets up the game.
-   *
-   * TODO: Set backgrounds for everything other than ground.
-   */
   private void initializeGame() {
     int rowCount = this.cells.length;
     int columnCount = this.cells[0].length;
@@ -67,12 +62,14 @@ public class FroggerModel {
       for (int column = 0; column < columnCount; column++) {
         if (row > rowCount / 2 && row < rowCount - 1) {
           this.cells[row][column] = CellValue.ROAD;
-        } else if (row < rowCount / 2) {
+        }
+        else if (row < rowCount / 2) {
           this.cells[row][column] = CellValue.WATER;
           if (row == 0 && column % 3 == 1) {
             this.cells[row][column] = CellValue.LILYPAD;
           }
-        } else {
+        }
+        else {
           this.cells[row][column] = CellValue.GROUND;
         }
       }
@@ -85,12 +82,14 @@ public class FroggerModel {
     carList = new ArrayList<>();
     logList = new ArrayList<>();
 
+    // Make one car per row.
     makeCarPair(11);
     makeCarPair(10);
     makeCarPair(9);
     makeCarPair(8);
     makeCarPair(7);
 
+    // Make one log per row.
     makeLogSet(5, 1);
     makeLogSet(4, 2);
     makeLogSet(3, 1);
@@ -100,32 +99,32 @@ public class FroggerModel {
     spawnFrog();
   }
 
+  /**
+   * Create a car given a row.
+   * Each car on the screen will be 2 Log objects next to each other with different images.
+   *
+   * Work in progress: Making a car move backwards. We aren't currently using the backwards
+   * car images.
+   */
   private void makeCarPair(int row){
     Car carFront, carBack;
     int velocity = (int)(Math.random() * MAX_VELOCITY + 1);
     int column = (int)(Math.random() * 9) + 1;
-    int imageNum = (int)(Math.random() * (3)) * 2; // 0, 2, or 4
-    if (imageNum == 4){
-      /*carFront = new Car(velocity * -1, row, column, imageNum);
-      carBack = new Car(velocity * -1, row, column - 1, imageNum + 1);*/
-      imageNum = 2;
-      carFront = new Car(velocity, row, column, imageNum);
-      carBack = new Car(velocity, row, column - 1, imageNum + 1);
-    }
-    else {
-      carFront = new Car(velocity, row, column, imageNum);
-      carBack = new Car(velocity, row, column - 1, imageNum + 1);
-    }
+    int imageNum = (int)(Math.random() * (2)) * 2; // 0 or 2
+
+    carFront = new Car(velocity, row, column, imageNum);
+    carBack = new Car(velocity, row, column - 1, imageNum + 1);
+
     carList.add(carFront);
     carList.add(carBack);
   }
 
   /**
-   * Make two logs per row. Each log will be length 2-4.
+   * Create a log given a row.
+   * Each log on the screen will be 3 Log objects next to each other.
    */
   private void makeLogSet(int row, int velocity) {
     Log log1, log2, log3;
-    //int velocity = 1;//(int)(Math.random() * MAX_VELOCITY + 1);
     int column = (int)(Math.random() * 8) + 1;
     log1 = new Log(velocity, row, column);
     log2 = new Log(velocity, row, column + 1);
@@ -145,15 +144,15 @@ public class FroggerModel {
   }
   /**
    * Move the logs and cars.
-   *
-   * TODO: We will have a list of logs and a list of cars. This will call their update methods, and
-   * if one goes off the screen, it will appear on the other side.
    */
   public void updateAnimation() {
     updateCars();
     updateLogs();
   }
 
+  /**
+   * This will move the cars according to the timer. It will also kill the frog if it's run over.
+   */
   private void updateCars() {
     for (int i = 0; i < carList.size(); i += 2) {
       Car carFront = carList.get(i);
@@ -182,6 +181,17 @@ public class FroggerModel {
     }
   }
 
+  /**
+   * This method updates the logs according to the timer, and also moves the frog
+   * when it is on a log.
+   *
+   * This code is crazy because it had bugs until the last minute.
+   * We are so sorry about the layout and chaos of this method.
+   * Please forgive us
+   *
+   * There is a small bug that makes the frog slide across the log if it jumps on a certain
+   * spot, however, the game still works and is still winnable and FUN!
+   */
   private void updateLogs() {
     for (int i = 0; i < logList.size(); i += 3) {
       Log logLeft = logList.get(i);
@@ -191,11 +201,41 @@ public class FroggerModel {
       int prevLeftCol = logLeft.getColumn();
       int prevMiddCol = logMidd.getColumn();
       int prevRightCol = logRight.getColumn();
+      boolean hasFrog = false;
 
       logRight.step();
+      this.cells[logRight.getRow()][logRight.getColumn()] = logRight.getImageValue();
+
+      // Show the frog if it's on the log.
+      if (logRight.contains(froggerRow, froggerColumn)){
+        this.cells[logRight.getRow()][logRight.getColumn()] = CellValue.FROG;
+        hasFrog = true;
+      }
+      if(logLeft.contains(froggerRow,froggerColumn)){
+        this.cells[logLeft.getRow()][logLeft.getColumn()] = CellValue.FROG;
+        hasFrog = true;
+      }
+      if (logMidd.contains(froggerRow, froggerColumn)){
+        this.cells[logMidd.getRow()][logMidd.getColumn()] = CellValue.FROG;
+        hasFrog = true;
+      }
+
       logMidd.step();
       logLeft.step();
 
+      this.cells[logLeft.getRow()][logLeft.getColumn()] = logLeft.getImageValue();
+      this.cells[logMidd.getRow()][logMidd.getColumn()] = logMidd.getImageValue();
+
+      if(logLeft.contains(froggerRow,froggerColumn)){
+        this.cells[logLeft.getRow()][logLeft.getColumn()] = CellValue.FROG;
+      }
+      if(logMidd.contains(froggerRow,froggerColumn)){
+        this.cells[logMidd.getRow()][logMidd.getColumn()] = CellValue.FROG;
+      }
+
+      if (hasFrog) {
+        moveFroggerBy(0, logMidd.getVelocity());
+      }
 
       this.cells[logLeft.getRow()][prevLeftCol] = CellValue.WATER;
       if (logLeft.getVelocity() > 1) {
@@ -205,23 +245,7 @@ public class FroggerModel {
         this.cells[logRight.getRow()][prevRightCol] = CellValue.WATER;
       }
 
-      this.cells[logLeft.getRow()][logLeft.getColumn()] = logLeft.getImageValue();
-      this.cells[logMidd.getRow()][logMidd.getColumn()] = logMidd.getImageValue();
-      this.cells[logRight.getRow()][logRight.getColumn()] = logRight.getImageValue();
 
-      // Show the frog if it's on the log.
-      if(logLeft.contains(froggerRow,froggerColumn)){
-        this.cells[logLeft.getRow()][logLeft.getColumn()] = CellValue.FROG;
-        moveFroggerBy(0, logLeft.getVelocity());
-      }
-      else if (logMidd.contains(froggerRow, froggerColumn)){
-        this.cells[logMidd.getRow()][logMidd.getColumn()] = CellValue.FROG;
-        moveFroggerBy(0, logMidd.getVelocity());
-      }
-      else if (logRight.contains(froggerRow, froggerColumn)){
-        this.cells[logRight.getRow()][logRight.getColumn()] = CellValue.FROG;
-        moveFroggerBy(0, logRight.getVelocity());
-      }
     }
   }
 
@@ -242,8 +266,6 @@ public class FroggerModel {
   /**
    * Moves the frog based on keyboard input from the Controller. Doesn't allow the frog to move into
    * the walls.
-   *
-   * TODO: Kill the frog when it hits a car1 or water.
    */
   public void moveFroggerBy(int rowChange, int columnChange) {
     if (isGameWon() || isGameLost()){
@@ -260,10 +282,10 @@ public class FroggerModel {
 
       int newColumn = this.froggerColumn + columnChange;
       if (newColumn < 0) {
-        newColumn = MovingObject.MAX_COLUMN - 1;
+        newColumn += MovingObject.MAX_COLUMN;
       }
       if (newColumn >= this.getColumnCount()) {
-        newColumn = 0;
+        newColumn -= MovingObject.MAX_COLUMN;
       }
 
       this.cells[this.froggerRow][this.froggerColumn] = prevValue;
@@ -288,10 +310,6 @@ public class FroggerModel {
       }
 
       this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;
-
     }
   }
-
-
-
 }

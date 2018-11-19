@@ -8,8 +8,8 @@ Max Goldberg and Alexis Engel.
 
 <BorderPane fx:controller="frogger.Controller" xmlns:fx="http://javafx.com/fxml">
   <top>
-    <BorderPane prefHeight="35" style="-fx-background-color: #0B5091; -fx-padding: 10px, 5px, 10px, 5px" >
-      <right><Label fx:id="messageLabel" style="-fx-font-size: 150%; -fx-text-fill: white" /></right>
+    <BorderPane fx:id="topPane" prefHeight="35" style="-fx-background-color: #0B5091; -fx-padding: 10px, 5px, 10px, 5px" >
+      <center><Label fx:id="messageLabel" style="-fx-font-size: 150%; -fx-text-fill: white" /></center>
     </BorderPane>
   </top>
   <center>
@@ -17,10 +17,11 @@ Max Goldberg and Alexis Engel.
     <FroggerView fx:id="froggerView" rowCount="13" columnCount="12" />
   </center>
 
+
   <bottom>
-    <HBox prefHeight="35" style="-fx-padding: 10px, 5px, 10px, 5px; -fx-background-color: #F3B61D">
-      <Label style="-fx-font-size: 140%; -fx-text-fill: white"
-        text="Move: Arrow Keys or WASD / Pause and Resume: P / Quit: J"/>
-    </HBox>
+    <BorderPane fx:id="bottomPane" prefHeight="35" style="-fx-padding: 10px, 5px, 10px, 5px; -fx-background-color: #F3B61D">
+      <center><Label style="-fx-font-size: 140%; -fx-text-fill: white"
+        text="Move: Arrow Keys or WASD / Pause and Resume: P / Quit: J"/></center>
+    </BorderPane>
   </bottom>
 </BorderPane>

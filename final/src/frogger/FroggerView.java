@@ -9,7 +9,6 @@ import frogger.FroggerModel.CellValue;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -68,8 +67,6 @@ public class FroggerView extends Group {
 
   /**
    * Sets the background of the game.
-   *
-   * TODO: Change the background to have water, ground, and road.
    */
   private void initializeGrid() {
     if (this.rowCount > 0 && this.columnCount > 0) {
@@ -90,9 +87,6 @@ public class FroggerView extends Group {
 
   /**
    * Moves the frog on the game board given the key inputs from the Controller.
-   *
-   * TODO: Make it so that the frog will die.
-   * TODO: Move logs and cars.
    */
   public void update(FroggerModel model) {
     assert model.getRowCount() == this.rowCount && model.getColumnCount() == this.columnCount;
