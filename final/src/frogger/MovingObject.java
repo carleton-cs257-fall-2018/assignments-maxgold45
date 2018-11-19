@@ -1,5 +1,6 @@
 package frogger;
 
+import frogger.FroggerModel.CellValue;
 import javafx.scene.paint.ImagePattern;
 
 
@@ -7,8 +8,8 @@ public class MovingObject {
   protected int velocity; // Positive is right, negative is left.
   protected int row;
   protected int column;
-  protected ImagePattern img;
-  public static final int MAX_COLUMN = 11;
+  protected CellValue imageValue;
+  public static final int MAX_COLUMN = 12;
 
   public MovingObject(int velocity, int row, int column) {
     this.velocity = velocity;
@@ -41,7 +42,7 @@ public class MovingObject {
       this.column -= this.MAX_COLUMN;
     }
     else if (this.column <= 0 && this.velocity < 0){
-      this.column = this.MAX_COLUMN;
+      this.column += this.MAX_COLUMN;
     }
   }
 

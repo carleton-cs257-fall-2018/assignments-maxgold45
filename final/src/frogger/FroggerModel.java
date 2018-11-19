@@ -17,8 +17,9 @@ public class FroggerModel {
     CAR3FRONT, CAR3BACK
   }
 
-  ;
-  final private double FRAMES_PER_SECOND = 1;
+
+  private final double FRAMES_PER_SECOND = 1;
+  private static final int MAX_VELOCITY = 3;
 
   private boolean gameOver;
   private Timer timer;
@@ -30,13 +31,6 @@ public class FroggerModel {
   private CellValue prevValue;
   private int lilypads;
 
-  private Car car1Front;
-  private Car car1Back;
-/*  private Car car2Front;
-  private Car car2Back;
-  private Car car3Front;
-  private Car car3Back;*/
-
   private ArrayList<Car> carList;
 
 
@@ -47,20 +41,6 @@ public class FroggerModel {
   }
 
   public void startNewGame() {
-
-    this.car1Front = new Car(1, 11, 1, 0);
-    this.car1Back = new Car(this.car1Front.getVelocity(), this.car1Front.getRow(),
-        this.car1Front.getColumn() - 1, 1);
-
-    carList = new ArrayList<>();
-    carList.add(car1Front);
-    carList.add(car1Back);
-    /*carList.add(car2Front);
-    carList.add(car2Back);
-    carList.add(car3Front);
-    carList.add(car3Back);*/
-
-
     this.cells = new CellValue[this.cells.length][this.cells[0].length];
     this.lilypads = 4;
     this.prevValue = CellValue.GROUND; // Frogger starts on ground.
@@ -113,7 +93,39 @@ public class FroggerModel {
         }
       }
     }
+    setUpCars();
     spawnFrog();
+  }
+
+  private void setUpCars(){
+    carList = new ArrayList<>();
+
+    makeCarPair(11);
+    makeCarPair(10);
+    makeCarPair(9);
+    makeCarPair(8);
+    makeCarPair(7);
+
+  }
+
+  private void makeCarPair(int row){
+    Car carFront, carBack;
+    int velocity = (int)(Math.random() * MAX_VELOCITY + 1);
+    int column = (int)(Math.random() * 9) + 1;
+    int imageNum = (int)(Math.random() * (3)) * 2; // 0, 2, or 4
+    if (imageNum == 4){
+      /*carFront = new Car(velocity * -1, row, column, imageNum);
+      carBack = new Car(velocity * -1, row, column - 1, imageNum + 1);*/
+      imageNum = 2;
+      carFront = new Car(velocity, row, column, imageNum);
+      carBack = new Car(velocity, row, column - 1, imageNum + 1);
+    }
+    else {
+      carFront = new Car(velocity, row, column, imageNum);
+      carBack = new Car(velocity, row, column - 1, imageNum + 1);
+    }
+    carList.add(carFront);
+    carList.add(carBack);
   }
 
   /**
@@ -145,27 +157,24 @@ public class FroggerModel {
     for (int i = 0; i < carList.size(); i += 2) {
       Car carFront = carList.get(i);
       Car carBack = carList.get(i + 1);
+
+      int prevFrontCol = carFront.getColumn();
+      int prevBackCol = carBack.getColumn();
+
       carFront.step();
       carBack.step();
 
-      this.cells[carFront.getRow()][carFront.getColumn()] = CellValue.CAR1FRONT;
-      this.cells[carBack.getRow()][carBack.getColumn()] = CellValue.CAR1BACK;
+      this.cells[carFront.getRow()][carFront.getColumn()] = carFront.getImageValue();
+      this.cells[carBack.getRow()][carBack.getColumn()] = carBack.getImageValue();
 
-      // Set cells to road 2 cells behind the car.
-      int backOne, backTwo;
-      if (carBack.getColumn() == 0) {
-        backOne = MovingObject.MAX_COLUMN;
-        backTwo = backOne - 1;
-      } else {
-        backOne = carBack.getColumn() - carBack.getVelocity();
-        backTwo = backOne - 1;
+      this.cells[carBack.getRow()][prevBackCol] = CellValue.ROAD;
+      if (carBack.getVelocity() > 1) {
+        this.cells[carFront.getRow()][prevFrontCol] = CellValue.ROAD;
       }
-
-
-      this.cells[carBack.getRow()][backOne] = CellValue.ROAD;
-      this.cells[carBack.getRow()][backTwo] = CellValue.ROAD;
     }
   }
+
+
 
   public int getRowCount() {
     return this.cells.length;

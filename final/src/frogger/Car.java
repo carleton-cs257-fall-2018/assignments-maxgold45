@@ -5,25 +5,49 @@
 package frogger;
 
 
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
+import frogger.FroggerModel.CellValue;
+import javafx.scene.control.Cell;
 
 public class Car extends MovingObject{
 
+  private CellValue imageValue;
+  private CellValue oppositeImageValue;
+
   Car(int velocity, int row, int column, int imageNum){
     super(velocity, row, column);
-    if (imageNum == 0){
-      this.img = new ImagePattern(new Image("res/car1Front.png"));
-    } else if (imageNum == 1){
-      this.img = new ImagePattern(new Image("res/car1Back.png"));
-    } else if (imageNum == 2){
-      this.img = new ImagePattern(new Image("res/car2Front.png"));
-    }else if (imageNum == 3){
-      this.img = new ImagePattern(new Image("res/car2Back.png"));
-    } else if (imageNum == 4){
-      this.img = new ImagePattern(new Image("res/car3Front.png"));
-    }else if (imageNum == 5){
-      this.img = new ImagePattern(new Image("res/car2Back.png"));
+    switch (imageNum){
+      case 0:
+        this.imageValue = CellValue.CAR1FRONT;
+        this.oppositeImageValue = CellValue.CAR1BACK;
+        break;
+      case 1:
+        this.imageValue = CellValue.CAR1BACK;
+        this.oppositeImageValue = CellValue.CAR1FRONT;
+        break;
+      case 2:
+        this.imageValue = CellValue.CAR2FRONT;
+        this.oppositeImageValue = CellValue.CAR2BACK;
+        break;
+      case 3:
+        this.imageValue = CellValue.CAR2BACK;
+        this.oppositeImageValue = CellValue.CAR2FRONT;
+        break;
+      case 4:
+        this.imageValue = CellValue.CAR3FRONT;
+        this.oppositeImageValue = CellValue.CAR3BACK;
+        break;
+      case 5:
+        this.imageValue = CellValue.CAR3BACK;
+        this.oppositeImageValue = CellValue.CAR3FRONT;
+        break;
     }
+  }
+
+  public CellValue getImageValue() {
+    return imageValue;
+  }
+
+  public CellValue getOppositeImageValue() {
+    return oppositeImageValue;
   }
 }
