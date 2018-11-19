@@ -35,7 +35,7 @@ public class Controller implements EventHandler<KeyEvent> {
   /**
    * Adds text to the screen.
    */
-  private void update() {
+  public void update() {
     this.froggerView.update(this.froggerModel);
     if (this.froggerModel.isGameLost()) {
       this.messageLabel.setText("Game Over. Hit N to start a new game.");
@@ -88,5 +88,6 @@ public class Controller implements EventHandler<KeyEvent> {
       keyEvent.consume();
     }
   }
+
 
 }

@@ -174,8 +174,6 @@ public class FroggerModel {
     }
   }
 
-
-
   public int getRowCount() {
     return this.cells.length;
   }
@@ -184,7 +182,6 @@ public class FroggerModel {
     assert this.cells.length > 0;
     return this.cells[0].length;
   }
-
 
   public CellValue getCellValue(int row, int column) {
     assert row >= 0 && row < this.cells.length && column >= 0 && column < this.cells[0].length;
@@ -198,17 +195,13 @@ public class FroggerModel {
    * TODO: Kill the frog when it hits a car1 or water.
    */
   public void moveFroggerBy(int rowChange, int columnChange) {
-    if (isGameWon()){
-      this.froggerRow = froggerColumn = 0;
-    }
-    else if(isGameLost()){
+    if (isGameWon() || isGameLost()){
       this.froggerRow = froggerColumn = 0;
     }
     else if (this.paused) {
       return;
     }
     else {
-
       int newRow = this.froggerRow + rowChange;
       if (newRow < 0) {
         newRow = 0;
