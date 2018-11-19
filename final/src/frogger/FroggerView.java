@@ -95,8 +95,6 @@ public class FroggerView extends Group {
    * TODO: Move logs and cars.
    */
   public void update(FroggerModel model) {
-    ImageView im = new ImageView();
-
     assert model.getRowCount() == this.rowCount && model.getColumnCount() == this.columnCount;
     for (int row = 0; row < this.rowCount; row++) {
       for (int column = 0; column < this.columnCount; column++) {

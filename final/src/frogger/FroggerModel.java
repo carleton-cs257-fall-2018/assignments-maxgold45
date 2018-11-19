@@ -5,9 +5,6 @@
 
 package frogger;
 
-import javafx.application.Platform;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.ArrayList;
 
 public class FroggerModel {
@@ -17,13 +14,9 @@ public class FroggerModel {
     CAR3FRONT, CAR3BACK
   }
 
-
-  private final double FRAMES_PER_SECOND = 1;
-  private static final int MAX_VELOCITY = 3;
+  private static final int MAX_VELOCITY = 2;
 
   private boolean gameOver;
-  private Timer timer;
-  private boolean paused;
 
   private CellValue[][] cells;
   private int froggerRow;
@@ -32,6 +25,7 @@ public class FroggerModel {
   private int lilypads;
 
   private ArrayList<Car> carList;
+  private ArrayList<Log> logList;
 
 
   public FroggerModel(int rowCount, int columnCount) {
@@ -44,7 +38,6 @@ public class FroggerModel {
     this.cells = new CellValue[this.cells.length][this.cells[0].length];
     this.lilypads = 4;
     this.prevValue = CellValue.GROUND; // Frogger starts on ground.
-    this.paused = false;
     this.gameOver = false;
     this.initializeGame();
   }
@@ -60,21 +53,12 @@ public class FroggerModel {
     return false;
   }
 
-  public void spawnFrog() {
-    int rowCount = this.cells.length;
-    int columnCount = this.cells[0].length;
-    this.froggerRow = rowCount - 1;
-    this.froggerColumn = columnCount / 2;
-    this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;
-  }
-
   /**
    * Sets up the game.
    *
    * TODO: Set backgrounds for everything other than ground.
    */
   private void initializeGame() {
-    this.startTimer();
     int rowCount = this.cells.length;
     int columnCount = this.cells[0].length;
 
@@ -93,12 +77,13 @@ public class FroggerModel {
         }
       }
     }
-    setUpCars();
-    spawnFrog();
+    setUpObjects();
+    updateAnimation();
   }
 
-  private void setUpCars(){
+  private void setUpObjects(){
     carList = new ArrayList<>();
+    logList = new ArrayList<>();
 
     makeCarPair(11);
     makeCarPair(10);
@@ -106,6 +91,13 @@ public class FroggerModel {
     makeCarPair(8);
     makeCarPair(7);
 
+    makeLogSet(5, 1);
+    makeLogSet(4, 2);
+    makeLogSet(3, 1);
+    makeLogSet(2, 2);
+    makeLogSet(1, 1);
+
+    spawnFrog();
   }
 
   private void makeCarPair(int row){
@@ -129,37 +121,53 @@ public class FroggerModel {
   }
 
   /**
-   * Allows for pausing and is used to update the cars and logs.
+   * Make two logs per row. Each log will be length 2-4.
    */
-  private void startTimer() {
-    this.timer = new java.util.Timer();
-    TimerTask timerTask = new TimerTask() {
-      public void run() {
-        Platform.runLater(new Runnable() {
-          public void run() {
-            updateAnimation();
-          }
-        });
-      }
-    };
+  private void makeLogSet(int row, int velocity) {
+    Log log1, log2, log3;
+    //int velocity = 1;//(int)(Math.random() * MAX_VELOCITY + 1);
+    int column = (int)(Math.random() * 8) + 1;
+    log1 = new Log(velocity, row, column);
+    log2 = new Log(velocity, row, column + 1);
+    log3 = new Log(velocity, row, column + 2);
 
-    long frameTimeInMilliSeconds = (long) (1000.0 / FRAMES_PER_SECOND);
-    this.timer.schedule(timerTask, 0, frameTimeInMilliSeconds);
+    logList.add(log1);
+    logList.add(log2);
+    logList.add(log3);
   }
 
+  private void spawnFrog() {
+    int rowCount = this.cells.length;
+    int columnCount = this.cells[0].length;
+    this.froggerRow = rowCount - 1;
+    this.froggerColumn = columnCount / 2;
+    this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;
+  }
   /**
    * Move the logs and cars.
    *
    * TODO: We will have a list of logs and a list of cars. This will call their update methods, and
    * if one goes off the screen, it will appear on the other side.
    */
-  private void updateAnimation() {
+  public void updateAnimation() {
+    updateCars();
+    updateLogs();
+  }
+
+  private void updateCars() {
     for (int i = 0; i < carList.size(); i += 2) {
       Car carFront = carList.get(i);
       Car carBack = carList.get(i + 1);
 
       int prevFrontCol = carFront.getColumn();
       int prevBackCol = carBack.getColumn();
+
+      // If the car ran over the frog, end the game.
+      if (carFront.contains(froggerRow, froggerColumn) ||
+          carBack.contains(froggerRow, froggerColumn) ||
+          (carBack.getVelocity() == 2 && carBack.contains(froggerRow, froggerColumn - 1))){
+        this.gameOver = true;
+      }
 
       carFront.step();
       carBack.step();
@@ -170,6 +178,49 @@ public class FroggerModel {
       this.cells[carBack.getRow()][prevBackCol] = CellValue.ROAD;
       if (carBack.getVelocity() > 1) {
         this.cells[carFront.getRow()][prevFrontCol] = CellValue.ROAD;
+      }
+    }
+  }
+
+  private void updateLogs() {
+    for (int i = 0; i < logList.size(); i += 3) {
+      Log logLeft = logList.get(i);
+      Log logMidd = logList.get(i+1);
+      Log logRight = logList.get(i+2);
+
+      int prevLeftCol = logLeft.getColumn();
+      int prevMiddCol = logMidd.getColumn();
+      int prevRightCol = logRight.getColumn();
+
+      logRight.step();
+      logMidd.step();
+      logLeft.step();
+
+
+      this.cells[logLeft.getRow()][prevLeftCol] = CellValue.WATER;
+      if (logLeft.getVelocity() > 1) {
+        this.cells[logMidd.getRow()][prevMiddCol] = CellValue.WATER;
+      }
+      if (logLeft.getVelocity() > 2) {
+        this.cells[logRight.getRow()][prevRightCol] = CellValue.WATER;
+      }
+
+      this.cells[logLeft.getRow()][logLeft.getColumn()] = logLeft.getImageValue();
+      this.cells[logMidd.getRow()][logMidd.getColumn()] = logMidd.getImageValue();
+      this.cells[logRight.getRow()][logRight.getColumn()] = logRight.getImageValue();
+
+      // Show the frog if it's on the log.
+      if(logLeft.contains(froggerRow,froggerColumn)){
+        this.cells[logLeft.getRow()][logLeft.getColumn()] = CellValue.FROG;
+        moveFroggerBy(0, logLeft.getVelocity());
+      }
+      else if (logMidd.contains(froggerRow, froggerColumn)){
+        this.cells[logMidd.getRow()][logMidd.getColumn()] = CellValue.FROG;
+        moveFroggerBy(0, logMidd.getVelocity());
+      }
+      else if (logRight.contains(froggerRow, froggerColumn)){
+        this.cells[logRight.getRow()][logRight.getColumn()] = CellValue.FROG;
+        moveFroggerBy(0, logRight.getVelocity());
       }
     }
   }
@@ -198,9 +249,6 @@ public class FroggerModel {
     if (isGameWon() || isGameLost()){
       this.froggerRow = froggerColumn = 0;
     }
-    else if (this.paused) {
-      return;
-    }
     else {
       int newRow = this.froggerRow + rowChange;
       if (newRow < 0) {
@@ -212,10 +260,10 @@ public class FroggerModel {
 
       int newColumn = this.froggerColumn + columnChange;
       if (newColumn < 0) {
-        newColumn = 0;
+        newColumn = MovingObject.MAX_COLUMN - 1;
       }
       if (newColumn >= this.getColumnCount()) {
-        newColumn = this.getColumnCount() - 1;
+        newColumn = 0;
       }
 
       this.cells[this.froggerRow][this.froggerColumn] = prevValue;
@@ -237,7 +285,6 @@ public class FroggerModel {
                this.prevValue == CellValue.CAR3BACK || this.prevValue == CellValue.CAR3FRONT ||
                this.prevValue == CellValue.WATER){
         this.gameOver = true;
-        this.onPause();
       }
 
       this.cells[this.froggerRow][this.froggerColumn] = CellValue.FROG;
@@ -245,16 +292,6 @@ public class FroggerModel {
     }
   }
 
-  /**
-   * Pauses the game based on keyboard input from the controller.
-   */
-  public void onPause() {
-    if (this.paused) {
-      this.startTimer();
-    } else {
-      this.timer.cancel();
-    }
-    this.paused = !this.paused;
-  }
+
 
 }

@@ -5,6 +5,9 @@
 
 package frogger;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -16,10 +19,17 @@ public class Controller implements EventHandler<KeyEvent> {
   @FXML private FroggerView froggerView;
   private FroggerModel froggerModel;
 
+  private Timer timer;
+  private boolean paused;
+  private final double FRAMES_PER_SECOND = 60;
+  private int tic = 0;
+
   public Controller() {
   }
 
   public void initialize() {
+    this.paused = false;
+    this.startTimer();
     this.froggerModel = new FroggerModel(this.froggerView.getRowCount(), this.froggerView.getColumnCount());
     this.update();
   }
@@ -37,6 +47,10 @@ public class Controller implements EventHandler<KeyEvent> {
    */
   public void update() {
     this.froggerView.update(this.froggerModel);
+    if (tic%15 == 0) {
+      this.froggerModel.updateAnimation();
+    }
+    tic++;
     if (this.froggerModel.isGameLost()) {
       this.messageLabel.setText("Game Over. Hit N to start a new game.");
     }
@@ -77,16 +91,48 @@ public class Controller implements EventHandler<KeyEvent> {
       System.exit(0);
     } else if (code == KeyCode.P) {
       if(!this.froggerModel.isGameWon() && !this.froggerModel.isGameLost()) {
-        this.froggerModel.onPause();
+        this.onPause();
       }
     } else {
       keyRecognized = false;
     }
 
     if (keyRecognized) {
-      this.update();
+      //this.froggerView.update(this.froggerModel);
       keyEvent.consume();
     }
+  }
+
+  /**
+   * Allows for pausing and is used to update the cars and logs.
+   */
+  private void startTimer() {
+    this.timer = new java.util.Timer();
+    TimerTask timerTask = new TimerTask() {
+      public void run() {
+        Platform.runLater(new Runnable() {
+          public void run() {
+            update();
+
+          }
+        });
+      }
+    };
+
+    long frameTimeInMilliSeconds = (long) (1000.0 / FRAMES_PER_SECOND);
+    this.timer.schedule(timerTask, 0, frameTimeInMilliSeconds);
+  }
+
+  /**
+   * Pauses the game based on keyboard input from the controller.
+   */
+  public void onPause() {
+    if (this.paused) {
+      this.startTimer();
+    } else {
+      this.timer.cancel();
+    }
+    this.paused = !this.paused;
   }
 
 

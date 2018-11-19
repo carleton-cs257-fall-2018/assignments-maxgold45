@@ -6,11 +6,9 @@ package frogger;
 
 
 import frogger.FroggerModel.CellValue;
-import javafx.scene.control.Cell;
 
 public class Car extends MovingObject{
 
-  private CellValue imageValue;
   private CellValue oppositeImageValue;
 
   Car(int velocity, int row, int column, int imageNum){
@@ -43,11 +41,4 @@ public class Car extends MovingObject{
     }
   }
 
-  public CellValue getImageValue() {
-    return imageValue;
-  }
-
-  public CellValue getOppositeImageValue() {
-    return oppositeImageValue;
-  }
 }

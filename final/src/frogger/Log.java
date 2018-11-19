@@ -4,19 +4,13 @@
 
 package frogger;
 
-public class Log {
-    private int length;
-    private double velocity; // Positive is right, negative is left.
+import frogger.FroggerModel.CellValue;
 
-    public Log(int length, double velocity) {
-        this.length = length;
-        this.velocity = velocity;
-    }
 
-    /**
-    * Update the log's location.
-    */
-    public void step() {
+public class Log extends MovingObject {
 
+    public Log(int velocity, int row, int column) {
+      super(velocity, row, column);
+      this.imageValue = CellValue.LOG;
     }
 }
