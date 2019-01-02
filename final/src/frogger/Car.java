@@ -31,12 +31,12 @@ public class Car extends MovingObject{
         this.oppositeImageValue = CellValue.CAR2FRONT;
         break;
       case 4:
-        this.imageValue = CellValue.CAR3FRONT;
-        this.oppositeImageValue = CellValue.CAR3BACK;
-        break;
-      case 5:
         this.imageValue = CellValue.CAR3BACK;
         this.oppositeImageValue = CellValue.CAR3FRONT;
+        break;
+      case 5:
+        this.imageValue = CellValue.CAR3FRONT;
+        this.oppositeImageValue = CellValue.CAR3BACK;
         break;
     }
   }

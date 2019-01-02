@@ -114,6 +114,9 @@ public class FroggerModel {
     }
     int column = (int) (Math.random() * 9) + 1;
     int imageNum = (int) (Math.random() * (2)) * 2; // 0 or 2
+    if (velocity < 0){
+      imageNum = 4;
+    }
 
     carFront = new Car(velocity, row, column, imageNum);
     carBack = new Car(velocity, row, column - 1, imageNum + 1);
