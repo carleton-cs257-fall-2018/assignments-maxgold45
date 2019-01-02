@@ -184,13 +184,6 @@ public class FroggerModel {
   /**
    * This method updates the logs according to the timer, and also moves the frog
    * when it is on a log.
-   *
-   * This code is crazy because it had bugs until the last minute.
-   * We are so sorry about the layout and chaos of this method.
-   * Please forgive us
-   *
-   * There is a small bug that makes the frog slide across the log if it jumps on a certain
-   * spot, however, the game still works and is still winnable and FUN!
    */
   private void updateLogs() {
     for (int i = 0; i < logList.size(); i += 3) {
@@ -203,8 +196,6 @@ public class FroggerModel {
       int prevRightCol = logRight.getColumn();
       boolean hasFrog = false;
 
-      logRight.step();
-      this.cells[logRight.getRow()][logRight.getColumn()] = logRight.getImageValue();
 
       // Show the frog if it's on the log.
       if (logRight.contains(froggerRow, froggerColumn)){
@@ -220,11 +211,14 @@ public class FroggerModel {
         hasFrog = true;
       }
 
+      logRight.step();
       logMidd.step();
       logLeft.step();
 
-      this.cells[logLeft.getRow()][logLeft.getColumn()] = logLeft.getImageValue();
+      this.cells[logRight.getRow()][logRight.getColumn()] = logRight.getImageValue();
       this.cells[logMidd.getRow()][logMidd.getColumn()] = logMidd.getImageValue();
+      this.cells[logLeft.getRow()][logLeft.getColumn()] = logLeft.getImageValue();
+
 
       if(logLeft.contains(froggerRow,froggerColumn)){
         this.cells[logLeft.getRow()][logLeft.getColumn()] = CellValue.FROG;
@@ -244,7 +238,6 @@ public class FroggerModel {
       if (logLeft.getVelocity() > 2) {
         this.cells[logRight.getRow()][prevRightCol] = CellValue.WATER;
       }
-
 
     }
   }
