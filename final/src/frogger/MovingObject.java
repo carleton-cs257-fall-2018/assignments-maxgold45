@@ -36,9 +36,17 @@ public class MovingObject {
   }
 
   public void step(){
-    this.column = this.column + this.velocity;
-    if (this.column >= this.MAX_COLUMN && this.velocity > 0){
-      this.column -= this.MAX_COLUMN;
+    this.column += this.velocity;
+
+    if (this.velocity > 0){
+      if (this.column >= this.MAX_COLUMN){
+        this.column -= this.MAX_COLUMN;
+      }
+    }
+    else {
+      if (this.column < 0){
+        this.column += this.MAX_COLUMN;
+      }
     }
   }
   

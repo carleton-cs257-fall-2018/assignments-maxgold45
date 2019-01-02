@@ -90,11 +90,11 @@ public class FroggerModel {
     makeCarPair(7);
 
     // Make one log per row.
-    makeLogSet(5, 1);
-    makeLogSet(4, 2);
-    makeLogSet(3, 1);
-    makeLogSet(2, 2);
-    makeLogSet(1, 1);
+    makeLogSet(5, -1);
+    makeLogSet(4, 1);
+    makeLogSet(3, -1);
+    makeLogSet(2, 1);
+    makeLogSet(1, -1);
 
     spawnFrog();
   }
@@ -106,17 +106,27 @@ public class FroggerModel {
    * Work in progress: Making a car move backwards. We aren't currently using the backwards
    * car images.
    */
-  private void makeCarPair(int row){
+  private void makeCarPair(int row) {
     Car carFront, carBack;
     int velocity = (int)(Math.random() * MAX_VELOCITY + 1);
-    int column = (int)(Math.random() * 9) + 1;
-    int imageNum = (int)(Math.random() * (2)) * 2; // 0 or 2
+    if((int)(Math.random() * 2) == 0){
+      velocity *= -1;
+    }
+    int column = (int) (Math.random() * 9) + 1;
+    int imageNum = (int) (Math.random() * (2)) * 2; // 0 or 2
 
     carFront = new Car(velocity, row, column, imageNum);
     carBack = new Car(velocity, row, column - 1, imageNum + 1);
 
-    carList.add(carFront);
-    carList.add(carBack);
+    if (carFront.getVelocity() > 0) {
+      carList.add(carFront);
+      carList.add(carBack);
+    }
+    else{
+      carList.add(carBack);
+      carList.add(carFront);
+    }
+
   }
 
   /**
@@ -126,13 +136,22 @@ public class FroggerModel {
   private void makeLogSet(int row, int velocity) {
     Log log1, log2, log3;
     int column = (int)(Math.random() * 8) + 1;
+
     log1 = new Log(velocity, row, column);
     log2 = new Log(velocity, row, column + 1);
     log3 = new Log(velocity, row, column + 2);
 
-    logList.add(log1);
-    logList.add(log2);
-    logList.add(log3);
+    if (velocity > 0) {
+      logList.add(log1);
+      logList.add(log2);
+      logList.add(log3);
+    }
+    else{
+      logList.add(log3);
+      logList.add(log2);
+      logList.add(log1);
+    }
+
   }
 
   private void spawnFrog() {
@@ -161,21 +180,21 @@ public class FroggerModel {
       int prevFrontCol = carFront.getColumn();
       int prevBackCol = carBack.getColumn();
 
-      // If the car ran over the frog, end the game.
-      if (carFront.contains(froggerRow, froggerColumn) ||
-          carBack.contains(froggerRow, froggerColumn) ||
-          (carBack.getVelocity() == 2 && carBack.contains(froggerRow, froggerColumn - 1))){
-        this.gameOver = true;
-      }
 
       carFront.step();
       carBack.step();
+
+      // If the car ran over the frog, end the game.
+      if (carBack.contains(froggerRow, froggerColumn) ||
+          carFront.contains(froggerRow, froggerColumn)){// || (carBack.getVelocity() == 2 && carBack.contains(froggerRow, froggerColumn - 1))){
+        this.gameOver = true;
+      }
 
       this.cells[carFront.getRow()][carFront.getColumn()] = carFront.getImageValue();
       this.cells[carBack.getRow()][carBack.getColumn()] = carBack.getImageValue();
 
       this.cells[carBack.getRow()][prevBackCol] = CellValue.ROAD;
-      if (carBack.getVelocity() > 1) {
+      if (carBack.getVelocity() > 1 || carBack.getVelocity() < -1) {
         this.cells[carFront.getRow()][prevFrontCol] = CellValue.ROAD;
       }
     }
@@ -187,60 +206,52 @@ public class FroggerModel {
    */
   private void updateLogs() {
     for (int i = 0; i < logList.size(); i += 3) {
-      Log logLeft = logList.get(i);
+      Log logBack = logList.get(i);
       Log logMidd = logList.get(i+1);
-      Log logRight = logList.get(i+2);
+      Log logFront = logList.get(i+2);
 
-      int prevLeftCol = logLeft.getColumn();
+      int prevBackCol = logBack.getColumn();
       int prevMiddCol = logMidd.getColumn();
-      int prevRightCol = logRight.getColumn();
+      int prevFrontCol = logFront.getColumn();
       boolean hasFrog = false;
 
-
       // Show the frog if it's on the log.
-      if (logRight.contains(froggerRow, froggerColumn)){
-        this.cells[logRight.getRow()][logRight.getColumn()] = CellValue.FROG;
+      if (logFront.contains(froggerRow, froggerColumn)){
+        this.cells[logFront.getRow()][logFront.getColumn()] = CellValue.FROG;
         hasFrog = true;
       }
-      if(logLeft.contains(froggerRow,froggerColumn)){
-        this.cells[logLeft.getRow()][logLeft.getColumn()] = CellValue.FROG;
-        hasFrog = true;
-      }
-      if (logMidd.contains(froggerRow, froggerColumn)){
+      else if (logMidd.contains(froggerRow, froggerColumn)){
         this.cells[logMidd.getRow()][logMidd.getColumn()] = CellValue.FROG;
         hasFrog = true;
       }
+      else if(logBack.contains(froggerRow,froggerColumn)){
+        this.cells[logBack.getRow()][logBack.getColumn()] = CellValue.FROG;
+        hasFrog = true;
+      }
 
-      logRight.step();
+
+      logFront.step();
       logMidd.step();
-      logLeft.step();
+      logBack.step();
 
-      this.cells[logRight.getRow()][logRight.getColumn()] = logRight.getImageValue();
+      this.cells[logFront.getRow()][logFront.getColumn()] = logFront.getImageValue();
       this.cells[logMidd.getRow()][logMidd.getColumn()] = logMidd.getImageValue();
-      this.cells[logLeft.getRow()][logLeft.getColumn()] = logLeft.getImageValue();
-
-
-      if(logLeft.contains(froggerRow,froggerColumn)){
-        this.cells[logLeft.getRow()][logLeft.getColumn()] = CellValue.FROG;
-      }
-      if(logMidd.contains(froggerRow,froggerColumn)){
-        this.cells[logMidd.getRow()][logMidd.getColumn()] = CellValue.FROG;
-      }
+      this.cells[logBack.getRow()][logBack.getColumn()] = logBack.getImageValue();
 
       if (hasFrog) {
         moveFroggerBy(0, logMidd.getVelocity());
       }
 
-      this.cells[logLeft.getRow()][prevLeftCol] = CellValue.WATER;
-      if (logLeft.getVelocity() > 1) {
+      this.cells[logBack.getRow()][prevBackCol] = CellValue.WATER;
+      if (logBack.getVelocity() > 1) {
         this.cells[logMidd.getRow()][prevMiddCol] = CellValue.WATER;
       }
-      if (logLeft.getVelocity() > 2) {
-        this.cells[logRight.getRow()][prevRightCol] = CellValue.WATER;
+      if (logBack.getVelocity() > 2) {
+        this.cells[logFront.getRow()][prevFrontCol] = CellValue.WATER;
       }
-
     }
   }
+
 
   public int getRowCount() {
     return this.cells.length;

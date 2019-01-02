@@ -86,7 +86,7 @@ public class FroggerView extends Group {
   }
 
   /**
-   * Moves the frog on the game board given the key inputs from the Controller.
+   * Updates the background images.
    */
   public void update(FroggerModel model) {
     assert model.getRowCount() == this.rowCount && model.getColumnCount() == this.columnCount;

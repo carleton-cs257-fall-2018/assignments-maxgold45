@@ -23,8 +23,8 @@ public class Controller implements EventHandler<KeyEvent> {
 
   private Timer timer;
   private boolean paused;
-  private final double FRAMES_PER_SECOND = 60;
-  private int tic = 0;
+  private final double FRAMES_PER_SECOND = 45;
+  private int tick = 0;
 
   public Controller() {
   }
@@ -49,10 +49,10 @@ public class Controller implements EventHandler<KeyEvent> {
    */
   public void update() {
     this.froggerView.update(this.froggerModel);
-    if (tic%15 == 0) {
+    if (tick % 15 == 0) {
       this.froggerModel.updateAnimation();
     }
-    tic++;
+    tick++;
     if (this.froggerModel.isGameLost()) {
       this.messageLabel.setText("Game Over. Hit N to start a new game.");
       this.topPane.setStyle("-fx-background-color: #FF2020; -fx-padding: 10px, 5px, 10px, 5px");
